@@ -8,9 +8,9 @@ const templateService = require('./template');
 
 const _public = {};
 
-_public.init = onComplete => {
+_public.init = (onComplete, { silent } = {}) => {
   const { sourceDirectory, outputDirectory } = configService.get();
-  console.log('Building files...');
+  if(!silent) console.log('Building files...');
   identifyMarkdownFilepaths(sourceDirectory, filepaths => {
     handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComplete);
   });
@@ -44,7 +44,7 @@ function createDemoPost(sourceDirectory, outputDirectory, onComplete){
   const template = templateService.getByFilename('post.md');
   const data = template.replace('{date}', dateService.buildTodayISODate());
   fileService.write(path.join(sourceDirectory, 'hello-world.md'), data, () => {
-    _public.init(onComplete);
+    _public.init(onComplete, { silent: true });
   });
 }
 
