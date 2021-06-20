@@ -10,6 +10,7 @@ const _public = {};
 
 _public.init = onComplete => {
   const { sourceDirectory, outputDirectory } = configService.get();
+  console.log('Building files...');
   identifyMarkdownFilepaths(sourceDirectory, filepaths => {
     handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComplete);
   });
@@ -35,6 +36,7 @@ function convertMarkdownFilesToHTML(filepaths, outputDirectory, onComplete){
     fileService.write(path.join(outputDirectory, filename), domService.minifyHTML(article));
     summaries.push(summary);
   });
+  console.log('Files successfully built!');
   onComplete && onComplete();
 }
 

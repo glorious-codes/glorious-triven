@@ -25,8 +25,10 @@ describe('Build Service', () => {
     const date = dateService.buildTodayISODate();
     const { sourceDirectory } = configService.get();
     buildService.init(() => {
+      expect(console.log).toHaveBeenCalledWith('Building files...');
       expect(fileService.collect).toHaveBeenCalledWith(`${sourceDirectory}/**/*.md`, expect.any(Function));
       expect(fileService.write).toHaveBeenCalledWith(`${sourceDirectory}/hello-world.md`, post.replace('{date}', date), expect.any(Function));
+      expect(console.log).toHaveBeenCalledWith('Files successfully built!');
       done();
     });
   });
