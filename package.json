@@ -4,6 +4,7 @@
   "description": "A markdown-based minimal blog",
   "main": "src/index.js",
   "scripts": {
+    "format": "eslint ./src/**/*.js",
     "test": "jest"
   },
   "repository": {
@@ -22,6 +23,9 @@
   },
   "homepage": "https://github.com/glorious-codes/glorious-triven#readme",
   "devDependencies": {
+    "@babel/plugin-proposal-throw-expressions": "^7.14.5",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.29.0",
     "jest": "^27.0.4"
   },
   "dependencies": {

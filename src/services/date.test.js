@@ -2,7 +2,7 @@ const dateService = require('./date');
 
 describe('Date Service', () => {
   it('should build today ISO date', () => {
-    const dateMock = new Date(2021, 5, 25)
+    const dateMock = new Date(2021, 5, 25);
     Date = jest.fn(() => dateMock);
     expect(dateService.buildTodayISODate()).toEqual('2021-06-25');
   });
@@ -17,4 +17,4 @@ describe('Date Service', () => {
     const lang = 'en-US';
     expect(dateService.format(date, lang)).toEqual('6/18/2021');
   });
-})
+});

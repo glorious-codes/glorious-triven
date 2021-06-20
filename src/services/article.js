@@ -4,7 +4,7 @@ const domService = require('./dom');
 const { fileService } = require('./file');
 const summaryService = require('./summary');
 
-const _public = {}
+const _public = {};
 
 _public.build = (filepath, template) => {
   const markdown = fileService.readSync(filepath);
