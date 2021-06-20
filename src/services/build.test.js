@@ -1,16 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 const { fileService } = require('./file');
+const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
 const buildService = require('./build');
 
 describe('Build Service', () => {
   function buildPathToMarkdownMock(){
-    return path.join(__dirname, `../mocks/new-year.md`);
+    return path.join(__dirname, '../mocks/new-year.md');
   }
 
-  beforeAll(() => {
+  beforeEach(() => {
+    console.log = jest.fn();
     fileService.write = jest.fn((path, data, onSuccess) => onSuccess && onSuccess());
   });
 
@@ -18,14 +20,13 @@ describe('Build Service', () => {
     fileService.collect = jest.fn((pattern, onSuccess) => {
       const filepaths = fileService.collect.mock.calls.length === 1 ? [] : [buildPathToMarkdownMock()];
       onSuccess(filepaths);
-    })
+    });
     const post = fs.readFileSync(path.join(__dirname, '../templates/post.md'), 'utf-8');
-    const date = dateService.buildTodayISODate()
-    const srcDirectory = __dirname;
-    const distDirectory = '';
-    buildService.init(srcDirectory, distDirectory, () => {
-      expect(fileService.collect).toHaveBeenCalledWith(`${__dirname}/**/*.md`, expect.any(Function));
-      expect(fileService.write).toHaveBeenCalledWith(`${__dirname}/hello-world.md`, post.replace('{date}', date), expect.any(Function));
+    const date = dateService.buildTodayISODate();
+    const { sourceDirectory } = configService.get();
+    buildService.init(() => {
+      expect(fileService.collect).toHaveBeenCalledWith(`${sourceDirectory}/**/*.md`, expect.any(Function));
+      expect(fileService.write).toHaveBeenCalledWith(`${sourceDirectory}/hello-world.md`, post.replace('{date}', date), expect.any(Function));
       done();
     });
   });
@@ -56,11 +57,10 @@ describe('Build Service', () => {
   </body>
 </html>
 `.trim());
-    const srcDirectory = 'some/src/dir';
-    const distDirectory = 'some/dist/dir';
-    buildService.init(srcDirectory, distDirectory, () => {
-      expect(fileService.write).not.toHaveBeenCalledWith(`${srcDirectory}/hello-world.md`, expect.any(String));
-      expect(fileService.write).toHaveBeenCalledWith(`${distDirectory}/new-year.html`, data);
+    const { sourceDirectory, outputDirectory } = configService.get();
+    buildService.init(() => {
+      expect(fileService.write).not.toHaveBeenCalledWith(`${sourceDirectory}/hello-world.md`, expect.any(String));
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year.html`, data);
       done();
     });
   });

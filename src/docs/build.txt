@@ -1,0 +1,9 @@
+Usage: triven build <args>
+
+  Processes markdown files and builds a blog
+
+Example:
+  $ triven build
+
+Options:
+  -h   --help            Display software help and usage details

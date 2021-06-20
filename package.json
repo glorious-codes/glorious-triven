@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "A markdown-based minimal blog",
   "main": "src/index.js",
+  "bin": {
+    "triven": "src/index.js"
+  },
   "scripts": {
     "format": "eslint ./src/**/*.js",
     "test": "jest"
