@@ -38,10 +38,14 @@ class FileService {
 
   write(filepath, data, onSuccess, onError){
     this.fileSystem.writeFile(filepath, data, err => {
-      if(err) return onError ? onError(err) : console.log(`Failed to write ${filepath}`, err);
-      onSuccess();
+      if(err) return handleWriteError(err, filepath, onError);
+      onSuccess && onSuccess();
     });
   }
+}
+
+function handleWriteError(err, filepath, onError){
+  return onError ? onError(err) : console.log(`Failed to write ${filepath}`, err);
 }
 
 function getDependency(dependencies, dependencyName, rawDependency){
