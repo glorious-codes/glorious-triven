@@ -7,6 +7,11 @@ class FileService {
     this.fs = getDependency(dependencies, 'fs', fs);
     this.glob = getDependency(dependencies, 'glob', glob);
     this.fileSystem = getDependency(dependencies, 'fileSystem', fileSystem);
+    this.req = getDependency(dependencies, 'req', require);
+  }
+
+  require(filepath){
+    return this.req(filepath);
   }
 
   read(filepath, onSuccess){

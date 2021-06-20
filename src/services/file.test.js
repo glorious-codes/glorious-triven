@@ -13,6 +13,21 @@ describe('File Service', () => {
     expect(fileService.fs).toEqual(fs);
   });
 
+  it('should use raw require if no require has been given', () => {
+    const fileService = new FileService();
+    expect(fileService.req.cache).toEqual(require.cache);
+  });
+
+  it('should require a file', () => {
+    const requireMock = jest.fn();
+    const filepath = './test.json';
+    const fileService = new FileService({
+      req: requireMock
+    });
+    fileService.require(filepath);
+    expect(requireMock).toHaveBeenCalledWith(filepath);
+  });
+
   it('should use raw glob if no glob has been given', () => {
     const fileService = new FileService();
     expect(fileService.glob).toEqual(glob);
