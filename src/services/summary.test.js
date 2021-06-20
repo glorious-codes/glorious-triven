@@ -1,15 +1,23 @@
 const summaryService = require('./summary');
 
 describe('Summary Service', () => {
-  function buildMarkdownFileMock({ title, date, description, keywords, externalUrl, summary, lang }){
+  function buildMarkdownFileMock({
+    title = '',
+    date = '',
+    description = '',
+    keywords = '',
+    externalUrl = '',
+    summary = '',
+    lang = ''
+  }){
     return `
-title: ${title || ''}
-date: ${date || ''}
-description: ${description || ''}
-keywords: ${keywords || ''}
-externalUrl: ${externalUrl || ''}
-summary: ${summary || ''}
-lang: ${lang || ''}
+title: ${title}
+date: ${date}
+description: ${description}
+keywords: ${keywords}
+externalUrl: ${externalUrl}
+summary: ${summary}
+lang: ${lang}
 
 ---
 

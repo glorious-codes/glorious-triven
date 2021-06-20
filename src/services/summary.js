@@ -9,15 +9,18 @@ function buildCustomSummary(lines){
   const customSummary = {};
   for (var i = 0; i < lines.length; i++) {
     if(lines[i].trim() === '---') break;
-    const { key, value } = buildCustomSummaryItem(lines[i]);
-    if(key && value) customSummary[key] = value;
+    handleCustomSummaryItem(lines[i], customSummary);
   }
   return customSummary;
 }
 
+function handleCustomSummaryItem(line, customSummary){
+  const { key, value } = buildCustomSummaryItem(line);
+  if(key && value) customSummary[key] = value;
+}
+
 function buildCustomSummaryItem(line){
   const dividerIndex = line.indexOf(':');
-  const item = {}
   const key = getCustomSummaryItemCrumb(line, 0, dividerIndex);
   const value = getCustomSummaryItemCrumb(line, dividerIndex+1);
   return value ? { key, value } : { key };
