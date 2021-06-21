@@ -8,13 +8,15 @@ const _public = {};
 
 _public.init = () => {
   const args = argsService.getCliArgs();
-  const commandName = args[0];
+  const commandName = getCommandName(args[0]);
   if(commandName)
     return handleCommand(commandName, args);
   return console.log(`No command given. ${HELPER_TEXT}`);
 };
 
 function getCommandName(arg){
+  if(isFlagArg(arg, 'help'))
+    return 'help';
   if(isFlagArg(arg, 'version'))
     return 'version';
   return arg;
