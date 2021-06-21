@@ -14,7 +14,17 @@ describe('CLI Index', () => {
     console.log = jest.fn();
     argsService.getCliArgs = jest.fn(() => []);
     commands.build.exec = jest.fn();
+    commands.version.exec = jest.fn();
     cli = require('./index');
+  });
+
+  it('should exec version command', () => {
+    stubGetCLIArgs(['-v']);
+    cli.init();
+    expect(commands.version.exec.mock.calls.length).toEqual(1);
+    stubGetCLIArgs(['--version']);
+    cli.init();
+    expect(commands.version.exec.mock.calls.length).toEqual(2);
   });
 
   it('should exec build command', () => {

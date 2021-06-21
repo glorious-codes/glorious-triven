@@ -14,6 +14,17 @@ _public.init = () => {
   return console.log(`No command given. ${HELPER_TEXT}`);
 };
 
+function getCommandName(arg){
+  if(isFlagArg(arg, 'version'))
+    return 'version';
+  return arg;
+}
+
+function isFlagArg(arg, flag){
+  const letter = flag[0];
+  return arg == `-${letter}` || arg == `--${flag}`;
+}
+
 function handleCommand(commandName, args){
   const command = commands[commandName];
   if(command)
