@@ -126,4 +126,11 @@ describe('Page Service', () => {
     expect(page).toContain(`<a href="${expectedHref}"><h2>${first.title}</h2></a>`);
     expect(page).toContain(`<a href="${expectedHref}">Read more</a>`);
   });
+
+  it('should build apropriate external post href on pages other than the first one', () => {
+    const second = postsMock[1];
+    const page = pageService.build([second], { page: 2, total: 2 });
+    expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank"><h2>${second.title}</h2></a>`);
+    expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank">Read more</a>`);
+  });
 });

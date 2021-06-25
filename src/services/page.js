@@ -65,7 +65,7 @@ function handleLinkAttrs({ external }){
 }
 
 function buildPostHref(href, page){
-  const prefix = page > 1 ? '../' : '';
+  const prefix = page > 1 && !href.includes('http') ? '../' : '';
   return `${prefix}${href.replace('.html', '')}`;
 }
 
