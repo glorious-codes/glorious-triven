@@ -27,6 +27,7 @@ describe('Config Service', () => {
   it('should get default config if no config file has been found', () => {
     stubRequire();
     expect(configService.get()).toEqual({
+      title: 'Demo Blog',
       sourceDirectory: process.cwd(),
       outputDirectory: `${process.cwd()}/triven`
     });
@@ -39,6 +40,7 @@ describe('Config Service', () => {
     const config = configService.get();
     expect(console.log).toHaveBeenCalledWith('Config file not found. Using default config.');
     expect(config).toEqual({
+      title: 'Demo Blog',
       sourceDirectory: process.cwd(),
       outputDirectory: `${process.cwd()}/triven`
     });

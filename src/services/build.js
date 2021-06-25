@@ -4,6 +4,7 @@ const articleService = require('./article');
 const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
+const homepageService = require('./homepage');
 const templateService = require('./template');
 
 const _public = {};
@@ -29,23 +30,37 @@ function handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComp
 
 function convertMarkdownFilesToHTML(filepaths, outputDirectory, onComplete){
   const summaries = [];
-  const template = templateService.getByFilename('article.html');
   filepaths.forEach(filepath => {
-    const { summary, article } = articleService.build(filepath, template);
-    const filename = path.basename(filepath).replace('.md', '.html');
-    fileService.write(path.join(outputDirectory, filename), domService.minifyHTML(article));
+    const { summary, article } = articleService.build(filepath);
+    if(!summary.external) {
+      fileService.write(
+        buildArticleFilename(outputDirectory, filepath),
+        domService.minifyHTML(article)
+      );
+    }
     summaries.push(summary);
   });
-  console.log('Files successfully built!');
-  onComplete && onComplete();
+  homepageService.build(summaries, outputDirectory);
+  fileService.write(`${outputDirectory}/posts.json`, JSON.stringify(summaries));
+  handleCompletion(onComplete);
+}
+
+function buildArticleFilename(outputDirectory, filepath){
+  const filename = path.basename(filepath).replace('.md', '.html');
+  return path.join(outputDirectory, filename);
 }
 
 function createDemoPost(sourceDirectory, outputDirectory, onComplete){
-  const template = templateService.getByFilename('post.md');
+  const template = templateService.getDemoPostTemplate();
   const data = template.replace('{date}', dateService.buildTodayISODate());
   fileService.write(path.join(sourceDirectory, 'hello-world.md'), data, () => {
     _public.init(onComplete, { silent: true });
   });
+}
+
+function handleCompletion(onComplete){
+  console.log('Files successfully built!');
+  onComplete && onComplete();
 }
 
 module.exports = _public;

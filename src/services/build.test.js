@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const articleService = require('./article');
 const { fileService } = require('./file');
 const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
+const homepageService = require('./homepage');
 const buildService = require('./build');
 
 describe('Build Service', () => {
@@ -14,6 +16,7 @@ describe('Build Service', () => {
   beforeEach(() => {
     console.log = jest.fn();
     fileService.write = jest.fn((path, data, onSuccess) => onSuccess && onSuccess());
+    homepageService.build = jest.fn();
   });
 
   it('should create a demo post if no markdown files have been found on source directory', done => {
@@ -47,6 +50,8 @@ describe('Build Service', () => {
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
     <title>New year!</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <article>
@@ -55,6 +60,10 @@ describe('Build Service', () => {
         <p>1/1/2022</p>
       </header>
       <p>Happy new year!</p>
+      <h2>What to do next</h2>
+      <p>I don't know</p>
+      <h3>Really?</h3>
+      <p>Yes.</p>
     </article>
   </body>
 </html>
@@ -63,6 +72,35 @@ describe('Build Service', () => {
     buildService.init(() => {
       expect(fileService.write).not.toHaveBeenCalledWith(`${sourceDirectory}/hello-world.md`, expect.any(String));
       expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year.html`, data);
+      done();
+    });
+  });
+
+  it('should not save an html file to article if it is an external article', done => {
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([path.join(__dirname, '../mocks/external-article.md')]));
+    const { outputDirectory } = configService.get();
+    buildService.init(() => {
+      expect(fileService.write).not.toHaveBeenCalledWith(`${outputDirectory}/external-article.html`, expect.any(String));
+      done();
+    });
+  });
+
+  it('should build homepage', done => {
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock()]));
+    const { outputDirectory } = configService.get();
+    const { summary } = articleService.build(path.join(__dirname, '../mocks/new-year.md'));
+    buildService.init(() => {
+      expect(homepageService.build).toHaveBeenCalledWith([summary], outputDirectory);
+      done();
+    });
+  });
+
+  it('should save a JSON containing all post summaries', done => {
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock()]));
+    const { outputDirectory } = configService.get();
+    const { summary } = articleService.build(path.join(__dirname, '../mocks/new-year.md'));
+    buildService.init(() => {
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/posts.json`, JSON.stringify([summary]));
       done();
     });
   });

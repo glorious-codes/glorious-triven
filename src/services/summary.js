@@ -1,8 +1,11 @@
+const path = require('path');
+
 const _public = {};
 
-_public.build = fileContent => {
+_public.build = (fileContent, filepath) => {
   const baseSummary = { title: 'Untitled', lang: 'en-US' };
-  return { ...baseSummary, ...buildCustomSummary(fileContent.split('\n')) };
+  const customSummary = buildCustomSummary(fileContent.split('\n'));
+  return handleUrl({ ...baseSummary, ...customSummary }, filepath);
 };
 
 function buildCustomSummary(lines){
@@ -29,6 +32,15 @@ function buildCustomSummaryItem(line){
 function getCustomSummaryItemCrumb(line, startIndex, endIndex){
   const crumb = line.substring(startIndex, endIndex).trim();
   if(crumb) return crumb;
+}
+
+function handleUrl({ externalUrl, ...rest }, filepath){
+  return { ...buildUrl(externalUrl, filepath), ...rest };
+}
+
+function buildUrl(externalUrl, filepath){
+  if(externalUrl) return { url: externalUrl, external: true };
+  return { url: path.basename(filepath).replace('.md', '.html') };
 }
 
 module.exports = _public;

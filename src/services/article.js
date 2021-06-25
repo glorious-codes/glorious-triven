@@ -1,48 +1,54 @@
 const marked = require('marked');
 const dateService = require('./date');
 const domService = require('./dom');
+const excerptService = require('./excerpt');
 const { fileService } = require('./file');
 const summaryService = require('./summary');
+const templateService = require('./template');
 
 const _public = {};
 
-_public.build = (filepath, template) => {
-  const markdown = fileService.readSync(filepath);
-  const summary = summaryService.build(markdown);
-  const article = marked(removeMetadataLines(markdown.split('\n')));
-  return { summary, article: fillTemplate(template, summary, article) };
+_public.build = filepath => {
+  const markdownText = fileService.readSync(filepath);
+  const article = marked(removeMetadataLines(markdownText), { headerIds: false });
+  const summary = summaryService.build(markdownText, filepath);
+  return {
+    summary: { ...summary, excerpt: excerptService.extract(article, summary) },
+    article: fillTemplate(
+      templateService.getArticleTemplate(summary),
+      article,
+      summary,
+    )
+  };
 };
 
 function removeMetadataLines(markdownLines){
-  const summaryDividerIndex = markdownLines.indexOf('---');
-  return markdownLines.slice(summaryDividerIndex+1).join('').trim();
+  return markdownLines.split('---')[1];
 }
 
-function fillTemplate(template, summary, article){
-  const $ = parseHTMLString(template.replace('{article}', wrapArticle(summary, article)));
+function fillTemplate(template, article, summary){
+  const $ = parseHTMLString(template.replace('{{article}}', wrapArticle(summary, article)));
   $('html').attr('lang', summary.lang);
-  $('head').prepend(`<title>${summary.title}</title>`);
-  $('head').prepend(buildBaseMetaTags());
+  $('head').append(`<title>${summary.title}</title>`).append(buildMetaTags(summary));
   return $.html();
 }
 
 function wrapArticle({ title, date, lang }, article){
-  const header = `<header><h1>${title}</h1></header>`;
-  const $ = parseHTMLString(`<article>${header}</article>`);
-  date && $('header').append(`<p>${dateService.format(date, lang)}</p>`);
-  $('article').append(article);
-  return $.html();
+  return `
+    <article>
+      <header>
+        <h1>${title}</h1>
+        <p>${dateService.format(date, lang)}</p>
+      </header>
+      ${article}
+    </article>
+  `;
 }
 
-function buildBaseMetaTags(){
+function buildMetaTags({ description = '', keywords = '' }){
   return `
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="cache-control" content="max-age=0">
-    <meta http-equiv="expires" content="0">
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
-    <meta http-equiv="pragma" content="no-cache">
+    <meta name="description" content="${description}" />
+    <meta name="keywords" content="${keywords}" />
   `;
 }
 
