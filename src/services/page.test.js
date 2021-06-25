@@ -1,6 +1,5 @@
 const postsMock = require('../mocks/posts');
 const configService = require('./config');
-const dateService = require('./date');
 const domService = require('./dom');
 const pageService = require('./page');
 
@@ -11,8 +10,8 @@ describe('Page Service', () => {
 
   it('should build a page containing given posts', () => {
     configService.get = jest.fn(() => ({ title: 'Test Blog' }));
-    const [first, second] = postsMock;
-    expect(pageService.build([first, second], 1)).toEqual(domService.minifyHTML(`
+    const [first, second, third] = postsMock;
+    expect(pageService.build([first, second, third], 1)).toEqual(domService.minifyHTML(`
       <!DOCTYPE html>
       <html lang="en-US" dir="ltr">
         <head>
@@ -31,13 +30,13 @@ describe('Page Service', () => {
               <li>
                 <section>
                   <header>
-                    <a href="${parsePostHref(first.url)}">
-                      <h2>${first.title}</h2>
+                    <a href="new-year">
+                      <h2>New year!</h2>
                     </a>
-                    <p>${dateService.format(first.date, first.lang)}</p>
+                    <p>1/1/2020</p>
                   </header>
-                  <p>${first.excerpt}</p>
-                  <a href="${parsePostHref(first.url)}">
+                  <p>This is an excerpt for the first post</p>
+                  <a href="new-year">
                     Read more
                   </a>
                 </section>
@@ -45,13 +44,27 @@ describe('Page Service', () => {
               <li>
                 <section>
                   <header>
-                    <a href="${parsePostHref(second.url)}" rel="noopener noreferrer" target="_blank">
-                      <h2>${second.title}</h2>
+                    <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank">
+                      <h2>The pearl and the mussels</h2>
                     </a>
-                    <p>${dateService.format(second.date, second.lang)}</p>
+                    <p>6/21/2021</p>
                   </header>
-                  <p>${second.excerpt}</p>
-                  <a href="${parsePostHref(second.url)}" rel="noopener noreferrer" target="_blank">
+                  <p>This is an excerpt for the second post</p>
+                  <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank">
+                    Read more
+                  </a>
+                </section>
+              </li>
+              <li>
+                <section>
+                  <header>
+                    <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
+                      <h2>Incondicional Inhotim</h2>
+                    </a>
+                    <p>28/06/2020</p>
+                  </header>
+                  <p>Esse é um excerto para o terceiro artigo.</p>
+                  <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
                     Read more
                   </a>
                 </section>
