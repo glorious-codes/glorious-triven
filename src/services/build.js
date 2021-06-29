@@ -5,12 +5,14 @@ const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
 const homepageService = require('./homepage');
+const stylesService = require('./styles');
 const templateService = require('./template');
 
 const _public = {};
 
 _public.init = (onComplete, { silent } = {}) => {
   const { sourceDirectory, outputDirectory } = configService.get();
+  stylesService.buildBaseStyle(outputDirectory);
   if(!silent) console.log('Building files...');
   identifyMarkdownFilepaths(sourceDirectory, filepaths => {
     handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComplete);

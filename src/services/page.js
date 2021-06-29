@@ -1,13 +1,13 @@
 const dateService = require('./date');
 const domService = require('./dom');
+const stylesService = require('./styles');
 const templateService = require('./template');
 
 const _public = {};
 
 _public.build = (posts, { page, total }) => {
-  const template = templateService.getHomepageTemplate();
-  const body = buildPage(buildPostList(posts, page), page, total);
-  return domService.minifyHTML(template.replace('{{posts}}', body));
+  const body = buildPageBody(buildPostList(posts, page), page, total);
+  return domService.minifyHTML(buildPage(body, page));
 };
 
 function buildPostList(posts, page){
@@ -33,7 +33,7 @@ function buildPostList(posts, page){
   return `<ul>${items}</ul>`;
 }
 
-function buildPage(postList, page, total){
+function buildPageBody(postList, page, total){
   return `<main>${postList}</main>${buildFooter(page, total)}`;
 }
 
@@ -67,6 +67,18 @@ function handleLinkAttrs({ external }){
 function buildPostHref(href, page){
   const prefix = page > 1 && !href.includes('http') ? '../' : '';
   return `${prefix}${href.replace('.html', '')}`;
+}
+
+function buildPage(body, pageNumber){
+  const template = templateService.getHomepageTemplate();
+  const hrefPrefix = getAssetsHrefPrefix(pageNumber);
+  return stylesService.appendBaseStylesheet(template.replace('{{posts}}', body), {
+    hrefPrefix
+  });
+}
+
+function getAssetsHrefPrefix(pageNumber){
+  return pageNumber > 1 ? '../' : '';
 }
 
 module.exports = _public;

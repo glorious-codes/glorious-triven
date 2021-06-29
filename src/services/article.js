@@ -3,6 +3,7 @@ const dateService = require('./date');
 const domService = require('./dom');
 const excerptService = require('./excerpt');
 const { fileService } = require('./file');
+const stylesService = require('./styles');
 const summaryService = require('./summary');
 const templateService = require('./template');
 
@@ -30,7 +31,7 @@ function fillTemplate(template, article, summary){
   const $ = parseHTMLString(template.replace('{{article}}', wrapArticle(summary, article)));
   $('html').attr('lang', summary.lang);
   $('head').append(`<title>${summary.title}</title>`).append(buildMetaTags(summary));
-  return $.html();
+  return stylesService.appendBaseStylesheet($.html());
 }
 
 function wrapArticle({ title, date, lang }, article){

@@ -11,7 +11,7 @@ describe('Page Service', () => {
   it('should build a page containing given posts', () => {
     configService.get = jest.fn(() => ({ title: 'Test Blog' }));
     const [first, second, third] = postsMock;
-    expect(pageService.build([first, second, third], 1)).toEqual(domService.minifyHTML(`
+    expect(pageService.build([first, second, third], { page: 1, total: 1 })).toEqual(domService.minifyHTML(`
       <!DOCTYPE html>
       <html lang="en-US" dir="ltr">
         <head>
@@ -23,6 +23,7 @@ describe('Page Service', () => {
           <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
           <meta http-equiv="pragma" content="no-cache">
           <title>Test Blog</title>
+          <link rel="stylesheet" href="assets/triven.css">
         </head>
         <body>
           <main>
@@ -73,6 +74,13 @@ describe('Page Service', () => {
           </main>
         </body>
       </html>
+    `));
+  });
+
+  it('should contain a prefixed base stylesheet linked in the html head if page is greater than one', () => {
+    const page = pageService.build(postsMock, { page: 2, total: 2 });
+    expect(page).toContain(domService.minifyHTML(`
+      <link rel="stylesheet" href="../assets/triven.css">
     `));
   });
 
