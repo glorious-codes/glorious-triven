@@ -31,9 +31,7 @@ describe('Page Service', () => {
               <li>
                 <section>
                   <header>
-                    <a href="new-year">
-                      <h2>New year!</h2>
-                    </a>
+                    <h2><a href="new-year">New year!</a></h2>
                     <p>1/1/2020</p>
                   </header>
                   <p>This is an excerpt for the first post</p>
@@ -45,9 +43,11 @@ describe('Page Service', () => {
               <li>
                 <section>
                   <header>
-                    <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank">
-                      <h2>The pearl and the mussels</h2>
-                    </a>
+                    <h2>
+                      <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank">
+                        The pearl and the mussels
+                      </a>
+                    </h2>
                     <p>6/21/2021</p>
                   </header>
                   <p>This is an excerpt for the second post</p>
@@ -59,9 +59,11 @@ describe('Page Service', () => {
               <li>
                 <section>
                   <header>
-                    <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
-                      <h2>Incondicional Inhotim</h2>
-                    </a>
+                    <h2>
+                      <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
+                        Incondicional Inhotim
+                      </a>
+                    </h2>
                     <p>28/06/2020</p>
                   </header>
                   <p>Esse é um excerto para o terceiro artigo.</p>
@@ -131,14 +133,14 @@ describe('Page Service', () => {
     const [first] = postsMock;
     const page = pageService.build([first], { page: 2, total: 2 });
     const expectedHref = `../${parsePostHref(first.url)}`;
-    expect(page).toContain(`<a href="${expectedHref}"><h2>${first.title}</h2></a>`);
+    expect(page).toContain(`<h2><a href="${expectedHref}">${first.title}</a></h2>`);
     expect(page).toContain(`<a href="${expectedHref}">Read more</a>`);
   });
 
   it('should build apropriate external post href on pages other than the first one', () => {
     const second = postsMock[1];
     const page = pageService.build([second], { page: 2, total: 2 });
-    expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank"><h2>${second.title}</h2></a>`);
+    expect(page).toContain(`<h2><a href="${second.url}" rel="noopener noreferrer" target="_blank">${second.title}</a></h2>`);
     expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank">Read more</a>`);
   });
 });

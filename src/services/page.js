@@ -17,9 +17,9 @@ function buildPostList(posts, page){
       <li>
         <section>
           <header>
-            <a href="${href}" ${handleLinkAttrs(post)}>
-              <h2>${post.title}</h2>
-            </a>
+            <h2>
+              <a href="${href}" ${handleLinkAttrs(post)}>${post.title}</a>
+            </h2>
             <p>${dateService.format(post.date, post.lang)}</p>
           </header>
           <p>${post.excerpt}</p>
