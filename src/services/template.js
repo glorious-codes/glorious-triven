@@ -14,7 +14,7 @@ _public.getHomepageTemplate = () => {
   return $.html();
 };
 
-_public.getDemoPostTemplate = () => getByFilename('post.md');
+_public.getDemoPostTemplate = () => getByFilename('introducing-triven.md');
 
 function getTemplate(filename){
   const $ = parseHTMLString(getByFilename(filename));

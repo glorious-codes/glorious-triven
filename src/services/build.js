@@ -55,7 +55,7 @@ function buildArticleFilename(outputDirectory, filepath){
 function createDemoPost(sourceDirectory, outputDirectory, onComplete){
   const template = templateService.getDemoPostTemplate();
   const data = template.replace('{date}', dateService.buildTodayISODate());
-  fileService.write(path.join(sourceDirectory, 'hello-world.md'), data, () => {
+  fileService.write(path.join(sourceDirectory, 'introducing-triven.md'), data, () => {
     _public.init(onComplete, { silent: true });
   });
 }

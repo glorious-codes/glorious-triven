@@ -1,10 +1,10 @@
 # Triven
-> A markdown-based minimal blog
+> A markdown-based blog generator
 
 ## Installation
 
 ```
-$ npm install -D @glorious/triven
+npm install -D @glorious/triven
 ```
 
 ## Usage
