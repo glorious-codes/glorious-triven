@@ -6,9 +6,18 @@ const templateService = require('./template');
 const _public = {};
 
 _public.build = (posts, { page, total }) => {
-  const body = buildPageBody(buildPostList(posts, page), page, total);
+  const body = buildPageBody(posts, page, total);
   return domService.minifyHTML(buildPage(body, page));
 };
+
+function buildPageBody(posts, page, total){
+  return `
+    <main class="tn-main">
+      ${buildPostList(posts, page)}
+      ${buildFooter(page, total)}
+    </main>
+  `;
+}
 
 function buildPostList(posts, page){
   const items = posts.map(post => {
@@ -16,35 +25,33 @@ function buildPostList(posts, page){
     return `
       <li>
         <section>
-          <header>
-            <h2>
+          <header class="tn-header">
+            <h2 class="tn-post-title">
               <a href="${href}" ${handleLinkAttrs(post)}>${post.title}</a>
             </h2>
-            <p>${dateService.format(post.date, post.lang)}</p>
+            <p class="tn-date">${dateService.format(post.date, post.lang)}</p>
           </header>
           <p>${post.excerpt}</p>
-          <a href="${href}" ${handleLinkAttrs(post)}>
-            Read more
-          </a>
+          <footer class="tn-footer">
+            <a href="${href}" ${handleLinkAttrs(post)} class="tn-read-more-link">
+              Read more
+            </a>
+          </footer>
         </section>
       </li>
     `;
   }).join('');
-  return `<ul>${items}</ul>`;
-}
-
-function buildPageBody(postList, page, total){
-  return `<main>${postList}</main>${buildFooter(page, total)}`;
+  return `<ul class="tn-post-list">${items}</ul>`;
 }
 
 function buildFooter(page, total){
   const prevLink = buildPreviousPageLink(page);
   const nextLink = buildNextPageLink(page, total);
-  return prevLink || nextLink ? `<footer><nav>${prevLink}${nextLink}</nav></footer>` : '';
+  return prevLink || nextLink ? `<footer class="tn-footer"><nav>${prevLink}${nextLink}</nav></footer>` : '';
 }
 
 function buildPreviousPageLink(page){
-  return page > 1 ? `<a href="${buildPreviousPageLinkHref(page)}">Previous</a>` : '';
+  return page > 1 ? `<a href="${buildPreviousPageLinkHref(page)}" class="tn-newer-link">Newer</a>` : '';
 }
 
 function buildPreviousPageLinkHref(page){
@@ -52,7 +59,7 @@ function buildPreviousPageLinkHref(page){
 }
 
 function buildNextPageLink(page, total){
-  return page !== total ? `<a href="${buildNextPageLinkHref(page)}">Next</a>` : '';
+  return page !== total ? `<a href="${buildNextPageLinkHref(page)}" class="tn-older-link">Older</a>` : '';
 }
 
 function buildNextPageLinkHref(page){

@@ -57,17 +57,22 @@ describe('Build Service', () => {
     <link rel="stylesheet" href="assets/triven.css">
   </head>
   <body>
-    <article>
-      <header>
-        <h1>New year!</h1>
-        <p>1/1/2022</p>
-      </header>
-      <p>Happy new year!</p>
-      <h2>What to do next</h2>
-      <p>I don't know</p>
-      <h3>Really?</h3>
-      <p>Yes.</p>
-    </article>
+    <main class="tn-main">
+      <article class="tn-article">
+        <header class="tn-header">
+          <h1 class="tn-post-title">New year!</h1>
+          <p class="tn-date">1/1/2022</p>
+        </header>
+        <p>Happy new year!</p>
+        <h2>What to do next</h2>
+        <p>I don't know</p>
+        <h3>Really?</h3>
+        <p>Yes.</p>
+        <footer class="tn-footer">
+          <a href=".">See all posts</a>
+        </footer>
+      </article>
+    </main>
   </body>
 </html>
 `.trim());

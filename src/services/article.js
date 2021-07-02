@@ -36,13 +36,18 @@ function fillTemplate(template, article, summary){
 
 function wrapArticle({ title, date, lang }, article){
   return `
-    <article>
-      <header>
-        <h1>${title}</h1>
-        <p>${dateService.format(date, lang)}</p>
-      </header>
-      ${article}
-    </article>
+    <main class="tn-main">
+      <article class="tn-article">
+        <header class="tn-header">
+          <h1 class="tn-post-title">${title}</h1>
+          <p class="tn-date">${dateService.format(date, lang)}</p>
+        </header>
+        ${article}
+        <footer class="tn-footer">
+          <a href=".">See all posts</a>
+        </footer>
+      </article>
+    </main>
   `;
 }
 

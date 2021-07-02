@@ -1,3 +1,97 @@
+$color-grey-dark  = #627380
+$color-grey       = #C4CDD5
+$color-blue       = #3377FF
+$color-darkest    = #231C33
+
 html,
 body
-  font-size 16px
+  margin 0
+  padding 0
+  font-size 18px
+  font-family Helvetica, Arial, sans-serif
+  color $color-darkest
+  line-height 1.4
+
+h1, h2, h3, h4, h5, h6
+  margin 0
+  + p:not(.tn-date)
+    margin-top 30px
+
+p
+  margin 0
+  + p
+   margin-top 30px
+
+a
+ display inline-block
+ color $color-blue
+ border-bottom 1px solid alpha($color-blue, .75)
+ text-decoration none
+ white-space nowrap
+
+blockquote
+  margin 60px 0
+  padding-left 30px
+  font-family Georgia, serif
+  font-style italic
+  border-left 1px solid $color-grey
+  box-sizing border-box
+
+.tn-main
+  margin 100px auto
+  padding 0 60px
+  max-width 720px
+  box-sizing border-box
+
+.tn-article
+  h2, h3, h4, h5, h6
+    margin-top 60px
+  img
+    margin-left -60px
+    width calc(100% + 120px)
+
+.tn-post-list
+  margin 0
+  padding 0
+  list-style-type none
+  > li:not(:first-child)
+    margin-top 100px
+  .tn-post-title
+    font-size 1.777777777777778rem
+  .tn-footer
+    margin-top 30px
+  .tn-read-more-link
+    font-size 0.888888888888889rem
+  & + .tn-footer
+    nav
+      display flex
+    .tn-older-link
+      margin-left auto
+
+.tn-header
+  margin-bottom 35px
+
+.tn-footer
+  margin-top 100px
+  text-align center
+
+.tn-post-title
+  font-size 2.333333333333333rem
+  letter-spacing -1px
+  a
+    color $color-darkest
+    text-decoration none
+    border-bottom 0
+    &:hover,
+    &:focus,
+    &:active,
+    &:visited
+      color $color-darkest
+
+.tn-date
+  margin-top 10px
+  color $color-grey-dark
+  font-size 0.833333333333333rem
+
+.tn-post-title, .tn-date
+  text-align center

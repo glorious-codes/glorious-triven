@@ -26,50 +26,56 @@ describe('Page Service', () => {
           <link rel="stylesheet" href="assets/triven.css">
         </head>
         <body>
-          <main>
-            <ul>
+          <main class="tn-main">
+            <ul class="tn-post-list">
               <li>
                 <section>
-                  <header>
-                    <h2><a href="new-year">New year!</a></h2>
-                    <p>1/1/2020</p>
+                  <header class="tn-header">
+                    <h2 class="tn-post-title"><a href="new-year">New year!</a></h2>
+                    <p class="tn-date">1/1/2020</p>
                   </header>
                   <p>This is an excerpt for the first post</p>
-                  <a href="new-year">
-                    Read more
-                  </a>
+                  <footer class="tn-footer">
+                    <a href="new-year" class="tn-read-more-link">
+                      Read more
+                    </a>
+                  </footer>
                 </section>
               </li>
               <li>
                 <section>
-                  <header>
-                    <h2>
+                  <header class="tn-header">
+                    <h2 class="tn-post-title">
                       <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank">
                         The pearl and the mussels
                       </a>
                     </h2>
-                    <p>6/21/2021</p>
+                    <p class="tn-date">6/21/2021</p>
                   </header>
                   <p>This is an excerpt for the second post</p>
-                  <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank">
+                  <footer class="tn-footer">
+                  <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
                     Read more
                   </a>
+                  </footer>
                 </section>
               </li>
               <li>
                 <section>
-                  <header>
-                    <h2>
+                  <header class="tn-header">
+                    <h2 class="tn-post-title">
                       <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
                         Incondicional Inhotim
                       </a>
                     </h2>
-                    <p>28/06/2020</p>
+                    <p class="tn-date">28/06/2020</p>
                   </header>
                   <p>Esse é um excerto para o terceiro artigo.</p>
-                  <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
-                    Read more
-                  </a>
+                  <footer class="tn-footer">
+                    <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
+                      Read more
+                    </a>
+                  </footer>
                 </section>
               </li>
             </ul>
@@ -90,9 +96,9 @@ describe('Page Service', () => {
     const [first, second] = postsMock;
     const page = pageService.build([first, second], { page: 2, total: 2 });
     expect(page).toContain(domService.minifyHTML(`
-      <footer>
+      <footer class="tn-footer">
         <nav>
-          <a href="../">Previous</a>
+          <a href="../" class="tn-newer-link">Newer</a>
         </nav>
       </footer>
     `));
@@ -102,9 +108,9 @@ describe('Page Service', () => {
     const [first, second] = postsMock;
     const page = pageService.build([first, second], { page: 3, total: 3 });
     expect(page).toContain(domService.minifyHTML(`
-      <footer>
+      <footer class="tn-footer">
         <nav>
-          <a href="2">Previous</a>
+          <a href="2" class="tn-newer-link">Newer</a>
         </nav>
       </footer>
     `));
@@ -114,9 +120,9 @@ describe('Page Service', () => {
     const [first, second] = postsMock;
     const page = pageService.build([first, second], { page: 1, total: 2 });
     expect(page).toContain(domService.minifyHTML(`
-      <footer>
+      <footer class="tn-footer">
         <nav>
-          <a href="p/2">Next</a>
+          <a href="p/2" class="tn-older-link">Older</a>
         </nav>
       </footer>
     `));
@@ -125,22 +131,22 @@ describe('Page Service', () => {
   it('should contain a link to newer and older posts if page is between the first and last one', () => {
     const [first, second] = postsMock;
     const page = pageService.build([first, second], { page: 3, total: 6 });
-    expect(page).toContain('<a href="2">Previous</a>');
-    expect(page).toContain('<a href="4">Next</a>');
+    expect(page).toContain('<a href="2" class="tn-newer-link">Newer</a>');
+    expect(page).toContain('<a href="4" class="tn-older-link">Older</a>');
   });
 
   it('should build apropriate post href on pages other than the first one', () => {
     const [first] = postsMock;
     const page = pageService.build([first], { page: 2, total: 2 });
     const expectedHref = `../${parsePostHref(first.url)}`;
-    expect(page).toContain(`<h2><a href="${expectedHref}">${first.title}</a></h2>`);
-    expect(page).toContain(`<a href="${expectedHref}">Read more</a>`);
+    expect(page).toContain(`<h2 class="tn-post-title"><a href="${expectedHref}">${first.title}</a></h2>`);
+    expect(page).toContain(`<a href="${expectedHref}" class="tn-read-more-link">Read more</a>`);
   });
 
   it('should build apropriate external post href on pages other than the first one', () => {
     const second = postsMock[1];
     const page = pageService.build([second], { page: 2, total: 2 });
-    expect(page).toContain(`<h2><a href="${second.url}" rel="noopener noreferrer" target="_blank">${second.title}</a></h2>`);
-    expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank">Read more</a>`);
+    expect(page).toContain(`<h2 class="tn-post-title"><a href="${second.url}" rel="noopener noreferrer" target="_blank">${second.title}</a></h2>`);
+    expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">Read more</a>`);
   });
 });
