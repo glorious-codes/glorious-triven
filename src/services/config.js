@@ -42,7 +42,7 @@ function getCustomConfigPath(customConfig, attribute){
 function buildDefaultConfig(){
   const rootDirectory = process.cwd();
   return {
-    title: 'Demo Blog',
+    title: 'Triven',
     sourceDirectory: rootDirectory,
     outputDirectory: `${rootDirectory}/triven`
   };
