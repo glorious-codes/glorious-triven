@@ -1,4 +1,4 @@
-const marked = require('marked');
+const markdownService = require('./markdown');
 const dateService = require('./date');
 const domService = require('./dom');
 const excerptService = require('./excerpt');
@@ -11,7 +11,7 @@ const _public = {};
 
 _public.build = filepath => {
   const markdownText = fileService.readSync(filepath);
-  const article = marked(removeMetadataLines(markdownText), { headerIds: false });
+  const article = markdownService.convert(removeMetadataLines(markdownText));
   const summary = summaryService.build(markdownText, filepath);
   return {
     summary: { ...summary, excerpt: excerptService.extract(article, summary) },

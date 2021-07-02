@@ -1,4 +1,5 @@
 $color-grey-lighter = #f6f8fA
+$color-grey-light   = #DFE3E8
 $color-grey         = #C4CDD5
 $color-grey-dark    = #627380
 $color-blue         = #3377FF
@@ -38,12 +39,21 @@ blockquote
   border-left 1px solid $color-grey
   box-sizing border-box
 
+pre,
+p > code
+  background-color $color-grey-lighter
+  font-size 0.777777777777778rem
+  border-radius 6px
+
 pre
   padding 16px
-  background-color $color-grey-lighter
-  font-size 0.888888888888889rem
-  border-radius 6px
   overflow auto
+
+p > code
+  position relative
+  top -1px
+  padding 3px 6px
+  border 1px solid $color-grey-light
 
 .tn-main
   margin 100px auto
