@@ -6,7 +6,7 @@ const { fileService } = require('./file');
 const _public = {};
 
 _public.buildBaseStyle = (outputDirectory, onComplete) => {
-  const hljsStyles = fileService.readSync(path.join(__dirname, '../../node_modules/highlight.js/styles/github.css'));
+  const hljsStyles = fileService.readSync(path.join(__dirname, '../styles/hljs.css'));
   const styles = fileService.readSync(path.join(__dirname, '../styles/base.styl'));
   stylus(styles).render((err, css) => {
     fileService.write(`${outputDirectory}/${getBaseFilename()}`, `${hljsStyles}\n${css}`);
