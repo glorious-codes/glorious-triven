@@ -1,5 +1,5 @@
 {
-  "name": "glorious-triven",
+  "name": "@glorious/triven",
   "version": "0.1.0",
   "description": "A markdown-based blog generator",
   "main": "src/index.js",
