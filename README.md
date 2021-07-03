@@ -1,6 +1,9 @@
 # Triven
 > A markdown-based blog generator
 
+[![CircleCI](https://circleci.com/gh/glorious-codes/glorious-triven/tree/master.svg?style=svg)](https://circleci.com/gh/glorious-codes/glorious-triven/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/glorious-codes/glorious-triven/badge.svg?branch=master)](https://coveralls.io/github/glorious-codes/glorious-triven?branch=master)
+
 ## Installation
 
 ```
