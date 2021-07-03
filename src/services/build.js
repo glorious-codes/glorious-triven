@@ -20,7 +20,7 @@ _public.init = (onComplete, { silent } = {}) => {
 };
 
 function identifyMarkdownFilepaths(sourceDirectory, onSuccess){
-  fileService.collect(`${sourceDirectory}/**/*.md`, onSuccess);
+  fileService.collect(`${sourceDirectory}/!(node_modules)/**/*.md`, onSuccess);
 }
 
 function handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComplete){
