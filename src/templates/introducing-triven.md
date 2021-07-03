@@ -4,29 +4,29 @@ date: {date}
 
 ---
 
-Triven is markdown-based blog generator. It differs from well know solutions like Jekyll, Hugo or Gatsby because it was designed not to create a website, but a minimal blog. By *minimal* it means almost zero features. Tailored to highlight the content, not the form, it offers no themes, no menus, no any other thing that could take the readers' eyes away from your words.
+Triven is a Markdown-based blog generator. It's different from well-known solutions like Jekyll, Hugo, or Gatsby. It was designed to build a minimal blog, not to create an entire website. By *minimal*, it means almost zero features. Tailored to highlight the content, not the form, it offers no themes, no menus, no any other thing that could take the readers' eyes away from your words.
 
 ## Getting started
 
 If you landed here, chances are you're familiar with coding and, therefore, well versed with JavaScript.
 
-Before getting start with Triven, you need install it in your project as follows:
+Before getting started with Triven, you need to install it in your project as follows:
 
 ```
 npm install -D @glorious/triven
 ```
 
-After installing it, you just need to run the following command at the root directory of your project to get started with Triven:
+After installing it, you need to run the following command at the root directory of your project to get started with Triven:
 
 ```
 npx triven build
 ```
 
-When the command is done, a directory called `triven` and a demo post - yes, this post you're reading exactly now - will be created.
+When the command finishes, a directory called `triven` and a demo post - yes, this post you're reading exactly now - will be created.
 
 ## Setup
 
-To override the default values used to build your blog, you can write a file called `triven.config.js` in the root directory of your project passing the following options:
+To override the default values used to build your blog, you can write a file called `triven.config.js` in the root directory of your project containing the following options:
 
 ``` javascript
 // triven.config.js
@@ -45,4 +45,4 @@ module.exports = {
 
 ## Contributing
 
-If you want contribute with this project, follow this [instructions](https://github.com/glorious-codes/glorious-triven/blob/master/CONTRIBUTING.md).
+If you want to contribute to this project, follow these [instructions](https://github.com/glorious-codes/glorious-triven/blob/master/CONTRIBUTING.md).

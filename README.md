@@ -12,7 +12,7 @@ npm install -D @glorious/triven
 
 ## Usage
 
-To get started with Triven, you just need to run the following command at the root directory of your project:
+To get started with Triven, you need to run the following command at the root directory of your project:
 
 ```
 npx triven build
@@ -22,7 +22,7 @@ After running this command, a directory called `triven` and a demo post will be 
 
 ### Setup
 
-To override the default values used to build your blog, you can write a file called `triven.config.js` in the root directory of your project passing the following options:
+To override the default values used to build your blog, you can write a file called `triven.config.js` in the root directory of your project containing the following options:
 
 ``` javascript
 // triven.config.js
@@ -41,4 +41,4 @@ module.exports = {
 
 ## Contributing
 
-If you want contribute with this project, follow [this instructions](CONTRIBUTING.md).
+If you want to contribute to this project, follow [these instructions](CONTRIBUTING.md).
