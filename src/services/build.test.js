@@ -31,7 +31,7 @@ describe('Build Service', () => {
     const { sourceDirectory } = configService.get();
     buildService.init(() => {
       expect(console.log).toHaveBeenCalledWith('Building files...');
-      expect(fileService.collect).toHaveBeenCalledWith(`${sourceDirectory}/!(node_modules)/**/*.md`, expect.any(Function));
+      expect(fileService.collect).toHaveBeenCalledWith(`${sourceDirectory}/**/*.md`, expect.any(Function));
       expect(fileService.write).toHaveBeenCalledWith(`${sourceDirectory}/introducing-triven.md`, post.replace('{date}', date), expect.any(Function));
       expect(console.log).toHaveBeenCalledWith('Files successfully built!');
       done();
