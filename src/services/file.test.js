@@ -28,6 +28,14 @@ describe('File Service', () => {
     expect(requireMock).toHaveBeenCalledWith(filepath);
   });
 
+  it('should get file info by filepath', () => {
+    const filepath = 'some/path/to/file.js';
+    expect(fileService.getFileInfoByFilepath(filepath)).toEqual({
+      name: 'file',
+      extension: 'js'
+    });
+  });
+
   it('should use raw glob if no glob has been given', () => {
     const fileService = new FileService();
     expect(fileService.glob).toEqual(glob);

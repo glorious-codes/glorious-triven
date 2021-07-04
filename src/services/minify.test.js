@@ -34,4 +34,11 @@ describe('Minify Service', () => {
     expect(minifyService.minifyByFilepath(cssFilepath)).toEqual('body,html{margin:0}');
     expect(minifyService.minifyByFilepath(htmlFilepath)).toEqual('<p>This is a paragraph.</p>');
   });
+
+  it('should warn if a filepath for a non-minifiable has been given', () => {
+    const nonMinifiableFile = 'some/path/to/markdown.md';
+    console.log = jest.fn();
+    minifyService.minifyByFilepath(nonMinifiableFile)
+    expect(console.log).toHaveBeenCalledWith(`markdown cannot be minified`);
+  });
 });

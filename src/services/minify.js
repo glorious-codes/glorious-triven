@@ -7,11 +7,9 @@ const { fileService } = require('./file');
 const _public = {};
 
 _public.minifyByFilepath = filepath => {
-  const file = fileService.readSync(filepath);
-  const filename = path.basename(filepath);
-  const extension = path.extname(filepath);
+  const { name, extension } = fileService.getFileInfoByFilepath(filepath);
   const minify = getMinifierByFileExtension(extension);
-  return minify ? minify(file) : console.log(`${filename} cannot be minified`);
+  return minify ? minify(fileService.readSync(filepath)) : console.log(`${name} cannot be minified`);
 };
 
 _public.minifyHTML = htmlString => {
@@ -33,7 +31,7 @@ function getMinifierByFileExtension(extension){
     css: minifyCSS,
     html: minifyHTML,
     js: minifyJS
-  }[extension.replace('.','')];
+  }[extension];
 }
 
 module.exports = _public;

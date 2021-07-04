@@ -1,3 +1,4 @@
+const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
 const fileSystem = require('file-system');
@@ -27,6 +28,12 @@ class FileService {
 
   readJSONSync(filepath){
     return JSON.parse(this.readSync(filepath));
+  }
+
+  getFileInfoByFilepath(filepath){
+    const extension = path.extname(filepath);
+    const name = path.basename(filepath, extension);
+    return { name, extension: extension.replace('.','') };
   }
 
   collect(pattern, onSuccess, onError){
