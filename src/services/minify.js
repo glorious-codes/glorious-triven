@@ -1,4 +1,3 @@
-const path = require('path');
 const htmlMinifier = require('html-minifier');
 const CleanCSS = require('clean-css');
 const UglifyJS = require('uglify-js');
@@ -7,9 +6,10 @@ const { fileService } = require('./file');
 const _public = {};
 
 _public.minifyByFilepath = filepath => {
-  const { name, extension } = fileService.getFileInfoByFilepath(filepath);
+  const { extension } = fileService.getFileInfoByFilepath(filepath);
   const minify = getMinifierByFileExtension(extension);
-  return minify ? minify(fileService.readSync(filepath)) : console.log(`${name} cannot be minified`);
+  const file = fileService.readSync(filepath);
+  return minify ? minify(file) : file;
 };
 
 _public.minifyHTML = htmlString => {
