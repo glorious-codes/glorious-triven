@@ -15,12 +15,14 @@ _public.init = (onComplete, { silent } = {}) => {
   stylesService.buildBaseStyle(outputDirectory);
   if(!silent) console.log('Building files...');
   identifyMarkdownFilepaths(sourceDirectory, filepaths => {
-    handleMarkdownFiles(removePathContaingNodeModules(filepaths), sourceDirectory, outputDirectory, onComplete);
+    handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComplete);
   });
 };
 
 function identifyMarkdownFilepaths(sourceDirectory, onSuccess){
-  fileService.collect(`${sourceDirectory}/**/*.md`, onSuccess);
+  fileService.collect(`${sourceDirectory}/**/*.md`, filepaths => {
+    onSuccess(removePathContaingNodeModules(filepaths));
+  });
 }
 
 function removePathContaingNodeModules(filepaths){

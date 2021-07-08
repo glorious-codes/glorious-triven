@@ -17,4 +17,8 @@ describe('Date Service', () => {
     const lang = 'en-US';
     expect(dateService.format(date, lang)).toEqual('6/18/2021');
   });
+
+  it('should return date as empty string if no ISO date string has been given', () => {
+    expect(dateService.format()).toEqual('');
+  });
 });

@@ -24,7 +24,15 @@ _public.build = filepath => {
 };
 
 function removeMetadataLines(markdownLines){
-  return markdownLines.split('---')[1];
+  return articleHasMetadata(markdownLines) ? splitArticle(markdownLines)[1] : markdownLines;
+}
+
+function articleHasMetadata(markdownLines){
+  return splitArticle(markdownLines).length > 1;
+}
+
+function splitArticle(markdownLines){
+  return markdownLines.split('---');
 }
 
 function fillTemplate(template, article, summary){

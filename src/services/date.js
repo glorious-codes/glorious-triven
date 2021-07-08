@@ -6,6 +6,7 @@ _public.buildTodayISODate = () => {
 };
 
 _public.format = (isoDateString, lang) => {
+  if(!isoDateString) return '';
   const [year, month, day] = isoDateString.split('-');
   return lang == 'en-US' ? `${parseInt(month)}/${parseInt(day)}/${year}` : `${day}/${month}/${year}`;
 };
