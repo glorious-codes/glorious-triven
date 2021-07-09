@@ -15,6 +15,10 @@ class FileService {
     return this.req(filepath);
   }
 
+  copySync(srcFilepath, destFilepath){
+    this.fileSystem.copyFileSync(srcFilepath, destFilepath);
+  }
+
   read(filepath, onSuccess){
     this.fs.readFile(filepath, (err, data) => {
       if(err) return console.log(`Failed to read ${filepath}`, err);

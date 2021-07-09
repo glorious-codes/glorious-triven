@@ -28,6 +28,17 @@ describe('File Service', () => {
     expect(requireMock).toHaveBeenCalledWith(filepath);
   });
 
+  it('should copy file synchronously', () => {
+    const source = 'some/dir/file.jpg';
+    const destination = 'other/dir/file.jpg';
+    const fileSystemMock = { copyFileSync: jest.fn() };
+    const fileService = new FileService({
+      fileSystem: fileSystemMock
+    });
+    fileService.copySync(source, destination);
+    expect(fileSystemMock.copyFileSync).toHaveBeenCalledWith(source, destination);
+  });
+
   it('should get file info by filepath', () => {
     const filepath = 'some/path/to/file.js';
     expect(fileService.getFileInfoByFilepath(filepath)).toEqual({
