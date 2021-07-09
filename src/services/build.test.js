@@ -6,7 +6,6 @@ const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
 const homepageService = require('./homepage');
-const stylesService = require('./styles');
 const buildService = require('./build');
 
 describe('Build Service', () => {
@@ -18,7 +17,6 @@ describe('Build Service', () => {
     console.log = jest.fn();
     fileService.write = jest.fn((path, data, onSuccess) => onSuccess && onSuccess());
     homepageService.build = jest.fn();
-    stylesService.buildBaseStyle = jest.fn();
   });
 
   it('should create a demo post if no markdown files have been found on source directory', done => {
@@ -54,7 +52,7 @@ describe('Build Service', () => {
     <title>New year!</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link rel="stylesheet" href="assets/triven.css">
+    <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
   </head>
   <body>
     <main class="tn-main">
@@ -100,7 +98,7 @@ describe('Build Service', () => {
     <title>Untitled</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link rel="stylesheet" href="assets/triven.css">
+    <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
   </head>
   <body>
     <main class="tn-main">
@@ -150,14 +148,6 @@ describe('Build Service', () => {
     const { summary } = articleService.build(path.join(__dirname, '../mocks/new-year.md'));
     buildService.init(() => {
       expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/posts.json`, JSON.stringify([summary]));
-      done();
-    });
-  });
-
-  it('should build base styles', done => {
-    const { outputDirectory } = configService.get();
-    buildService.init(() => {
-      expect(stylesService.buildBaseStyle).toHaveBeenCalledWith(outputDirectory);
       done();
     });
   });

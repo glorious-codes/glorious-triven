@@ -17,7 +17,7 @@ _public.minifyHTML = htmlString => {
 };
 
 _public.minifyCSS = cssString => {
-  const cssMinifier = new CleanCSS();
+  const cssMinifier = new CleanCSS({ level: { 1: { specialComments: 0 } } });
   return cssMinifier.minify(cssString).styles;
 };
 

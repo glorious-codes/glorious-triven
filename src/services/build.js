@@ -12,10 +12,11 @@ const _public = {};
 
 _public.init = (onComplete, { silent } = {}) => {
   const { sourceDirectory, outputDirectory } = configService.get();
-  stylesService.buildBaseStyle(outputDirectory);
-  if(!silent) console.log('Building files...');
-  identifyMarkdownFilepaths(sourceDirectory, filepaths => {
-    handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComplete);
+  stylesService.buildBaseStyle(outputDirectory, () => {
+    if(!silent) console.log('Building files...');
+    identifyMarkdownFilepaths(sourceDirectory, filepaths => {
+      handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComplete);
+    });
   });
 };
 
