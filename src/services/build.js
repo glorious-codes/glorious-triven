@@ -38,19 +38,17 @@ function handleMarkdownFiles(filepaths, sourceDirectory, outputDirectory, onComp
 
 function convertMarkdownFilesToHTML(filepaths, outputDirectory, onComplete){
   const summaries = [];
-  filepaths.forEach(filepath => {
-    const { summary, article } = articleService.build(filepath);
-    if(!summary.external) {
-      fileService.write(
-        buildArticleFilename(outputDirectory, filepath),
-        domService.minifyHTML(article)
-      );
-    }
-    summaries.push(summary);
-  });
+  filepaths.forEach(filepath => buildArticle(filepath, outputDirectory, summary => summaries.push(summary)));
   homepageService.build(summaries, outputDirectory);
   fileService.write(`${outputDirectory}/posts.json`, JSON.stringify(summaries));
   handleCompletion(onComplete);
+}
+
+function buildArticle(filepath, outputDirectory, onComplete){
+  const { summary, article } = articleService.build(filepath);
+  const filename = buildArticleFilename(outputDirectory, filepath);
+  if(!summary.external) fileService.write(filename, domService.minifyHTML(article));
+  onComplete(summary);
 }
 
 function buildArticleFilename(outputDirectory, filepath){
@@ -60,10 +58,10 @@ function buildArticleFilename(outputDirectory, filepath){
 
 function createDemoPost(sourceDirectory, outputDirectory, onComplete){
   const template = templateService.getDemoPostTemplate();
+  const filename = path.join(sourceDirectory, 'introducing-triven.md');
   const data = template.replace('{date}', dateService.buildTodayISODate());
-  fileService.write(path.join(sourceDirectory, 'introducing-triven.md'), data, () => {
-    _public.init(onComplete, { silent: true });
-  });
+  const onWriteSuccess = () => _public.init(onComplete, { silent: true });
+  fileService.write(filename, data, onWriteSuccess);
 }
 
 function handleCompletion(onComplete){
