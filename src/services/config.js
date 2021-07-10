@@ -11,6 +11,13 @@ _public.getCustomTemplateFilepath = type => {
   return templates && templates[type] && buildAbsoluteFilepath(templates[type]);
 };
 
+_public.getCustomTemplateVars = () => {
+  const { templates } = getConfig();
+  return templates && templates.vars && Object.keys(templates.vars).map(variable => {
+    return { key: variable, value: templates.vars[variable] };
+  });
+};
+
 _public.flush = () => {
   config = null;
 };

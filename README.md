@@ -34,9 +34,21 @@ module.exports = {
   sourceDirectory: './posts',
   // Directory where triven will look for markdown files.
   // Default: Root directory of your project ('./').
-  outputDirectory: './dist'
+  outputDirectory: './dist',
   // Directory where the final files will be saved.
   // Default: './triven'.
+  templates: {
+    article: './some/path/to/article/template.html',
+    // You can optionally set an HTML file as template for articles
+    homepage: './some/path/to/homepage/template.html',
+    // You can optionally set an HTML file as template for homepage
+    vars: {
+      // You can optionally set variables in your templates
+      // to be replaced with custom values in build time:
+      someVar: 'someValue',
+      anotherVar: 'anotherValue'
+    }
+  }
 }
 ```
 
@@ -73,6 +85,59 @@ We all can recognize beauty at the right moment we stand before it. That was the
 
 ...
 ```
+
+### Custom Templates
+
+You can define your own HTML to be used as template for homepage and article. Just make sure that your HTML contain at least the following markup:
+
+#### Homepage
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>{{ triven:posts }}</body>
+</html>
+```
+
+#### Article
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>{{ triven:article }}</body>
+</html>
+```
+
+You can optionally set variables in your templates to be replaced in build time. To do so, you need define them as key/value pairs in your `triven.config.js`, and reference them in your template HTML file as follow:
+
+``` javascript
+// triven.config.js
+
+const date = new Date();
+
+module.exports = {
+  ...
+  template: {
+    ...
+    vars: {
+      copywrite: `©${date.getFullYear()} Triven`
+    }
+  }
+}
+```
+
+``` html
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>{{ triven:posts }}</body>
+  <footer>{{ copywrite }}</footer>
+</html>
+```
+
+**Note:** Variable notation in templates are *space insensitive*. You can write them as `{{copywrite}}` or `{{ copywrite }}`.
 
 ## Contributing
 

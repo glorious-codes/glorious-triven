@@ -37,7 +37,7 @@ function splitArticle(markdownLines){
 }
 
 function fillTemplate(template, article, summary){
-  const $ = parseHTMLString(template.replace('{{article}}', wrapArticle(summary, article)));
+  const $ = parseHTMLString(templateService.replaceVar(template, 'triven:article', wrapArticle(summary, article)));
   $('html').attr('lang', summary.lang);
   $('head').append(`<title>${summary.title}</title>`).append(buildMetaTags(summary));
   return stylesService.appendBaseStylesheet(assetsService.handleRelativeImages($.html()));

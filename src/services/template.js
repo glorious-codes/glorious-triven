@@ -9,22 +9,37 @@ _public.getArticleTemplate = () => getTemplateByName('article');
 
 _public.getHomepageTemplate = () => {
   const { title } = configService.get();
-  const template = getTemplateByName('homepage');
-  const $ = parseHTMLString(template);
+  const $ = parseHTMLString(getTemplateByName('homepage'));
   title && $('head').append(`<title>${title}</title>`);
   return $.html();
 };
 
 _public.getDemoPostTemplate = () => getByFilename('introducing-triven.md');
 
+_public.replaceVar = (htmlString, key, value) => {
+  const regex = new RegExp(`\\{\\{(\\s+)?${key}(\\s+)?\\}\\}`, 'g');
+  return htmlString.replace(regex, value);
+};
+
 function getTemplateByName(name){
   const filepath = configService.getCustomTemplateFilepath(name);
   const template = filepath ? fileService.readSync(filepath) : getByFilename(`${name}.html`);
-  return buildBaseMetaTags(template);
+  return buildBaseMetaTags(handleCustomVars(template));
 }
 
 function getByFilename(filename){
   return fileService.readSync(path.join(__dirname, `../templates/${filename}`));
+}
+
+function handleCustomVars(template){
+  const vars = configService.getCustomTemplateVars();
+  return vars ? replaceTemplateVars(template, vars) : template;
+}
+
+function replaceTemplateVars(template, vars){
+  const { key, value } = vars.shift();
+  if(vars.length) return replaceTemplateVars(_public.replaceVar(template, key, value), vars);
+  return _public.replaceVar(template, key, value);
 }
 
 function buildBaseMetaTags(htmlString){

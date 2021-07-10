@@ -79,7 +79,7 @@ function buildPostHref(href, page){
 function buildPage(body, pageNumber){
   const template = templateService.getHomepageTemplate();
   const hrefPrefix = getAssetsHrefPrefix(pageNumber);
-  return stylesService.appendBaseStylesheet(template.replace('{{posts}}', body), {
+  return stylesService.appendBaseStylesheet(templateService.replaceVar(template, 'triven:posts', body), {
     hrefPrefix
   });
 }
