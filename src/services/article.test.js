@@ -15,6 +15,7 @@ describe('Articles Service', () => {
 
   beforeEach(() => {
     fileService.copySync = jest.fn();
+    console.log = jest.fn();
   });
 
   it('should copy relative images to assets directory and update its source in markup', () => {

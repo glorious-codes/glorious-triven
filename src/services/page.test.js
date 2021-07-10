@@ -23,6 +23,7 @@ describe('Page Service', () => {
 
   beforeEach(() => {
     fileService.write = jest.fn();
+    console.log = jest.fn();
   });
 
   it('should build a page containing given posts', done => {
