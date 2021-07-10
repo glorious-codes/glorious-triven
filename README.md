@@ -29,7 +29,7 @@ To override the default values used to build your blog, you can write a file cal
 
 module.exports = {
   title: 'Your Blog Title',
-  // Used as browser window title.
+  // Used as browser window title on homepage.
   // Default: Triven.
   sourceDirectory: './posts',
   // Directory where triven will look for markdown files.
