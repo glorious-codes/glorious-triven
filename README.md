@@ -137,7 +137,7 @@ module.exports = {
 </html>
 ```
 
-**Note:** Variable notation in templates are *space insensitive*. You can write them as `{{copywrite}}` or `{{ copywrite }}`.
+**Note:** Variables in templates are *space insensitive*. You can write them as `{{copywrite}}` or `{{ copywrite }}`.
 
 ## Contributing
 
