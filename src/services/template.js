@@ -28,7 +28,7 @@ function getTemplateByName(name, pageNumber){
   const assetsDirPrefix = pageNumber > 1 ? '../' : '';
   const filepath = configService.getCustomTemplateFilepath(name);
   const template = filepath ?
-    parseTemplate(fileService.readSync(filepath), path.dirname(filepath), assetsDirPrefix) :
+    buildBaseMetaTags(parseTemplate(fileService.readSync(filepath), path.dirname(filepath), assetsDirPrefix)) :
     buildBaseMetaTags(getByFilename(`${name}.html`));
   return includeBaseStylesheet(template, assetsDirPrefix);
 }
@@ -54,15 +54,8 @@ function replaceTemplateVars(template, vars){
 
 function buildBaseMetaTags(htmlString){
   const $ = parseHTMLString(htmlString);
-  $('head').prepend(`
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="cache-control" content="max-age=0">
-    <meta http-equiv="expires" content="0">
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
-    <meta http-equiv="pragma" content="no-cache">
-  `);
+  if(!$('meta[name="viewport"]').length) $('head').prepend('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">');
+  if(!$('meta[charset]').length) $('head').prepend('<meta charset="utf-8">');
   return $.html();
 }
 

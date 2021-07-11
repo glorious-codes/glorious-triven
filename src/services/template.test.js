@@ -25,11 +25,6 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <meta http-equiv="cache-control" content="no-cache">
-          <meta http-equiv="cache-control" content="max-age=0">
-          <meta http-equiv="expires" content="0">
-          <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
-          <meta http-equiv="pragma" content="no-cache">
           <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
         </head>
         <body>{{ triven:article }}</body>
@@ -48,15 +43,60 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <meta http-equiv="cache-control" content="no-cache">
-          <meta http-equiv="cache-control" content="max-age=0">
-          <meta http-equiv="expires" content="0">
-          <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
-          <meta http-equiv="pragma" content="no-cache">
           <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
           <title>Triven</title>
         </head>
         <body>{{ triven:posts }}</body>
+      </html>
+    `);
+    mount(() => {
+      expect(domService.minifyHTML(templateService.getHomepageTemplate())).toEqual(expectedMarkup);
+      done();
+    });
+  });
+
+  it('should not include charset and viewport meta tags if they are present in custom article template', done => {
+    mockCustomTemplates({
+      templates: {
+        article: './src/templates/custom-article-meta-tags.html'
+      }
+    });
+    const expectedMarkup = domService.minifyHTML(`
+      <!DOCTYPE html>
+      <html dir="ltr">
+        <head>
+          <meta charset="ISO-8859-1">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
+        </head>
+        <body>
+          {{ triven:article }}
+        </body>
+      </html>
+    `);
+    mount(() => {
+      expect(domService.minifyHTML(templateService.getArticleTemplate())).toEqual(expectedMarkup);
+      done();
+    });
+  });
+
+  it('should not include charset and viewport meta tags if they are present in custom homepage template', done => {
+    mockCustomTemplates({
+      templates: {
+        homepage: './src/templates/custom-homepage-meta-tags.html'
+      }
+    });
+    const expectedMarkup = domService.minifyHTML(`
+      <!DOCTYPE html>
+      <html dir="ltr">
+        <head>
+          <meta charset="ISO-8859-1">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
+        </head>
+        <body>
+          {{ triven:posts }}
+        </body>
       </html>
     `);
     mount(() => {
@@ -71,6 +111,8 @@ describe('Template Service', () => {
       <!DOCTYPE html>
       <html dir="ltr">
         <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
           <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
         </head>
         <body>
@@ -91,6 +133,8 @@ describe('Template Service', () => {
       <!DOCTYPE html>
       <html lang="en-US" dir="ltr">
         <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
           <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
         </head>
         <body>

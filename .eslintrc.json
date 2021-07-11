@@ -30,7 +30,7 @@
       "files": [ "src/**/*.test.js" ],
       "rules": {
         "no-global-assign": 0,
-        "max-lines": ["error", { "max": 220 }],
+        "max-lines": ["error", { "max": 260 }],
         "max-statements": ["error", { "max": 10 },
           { "ignoreTopLevelFunctions": true }
         ]
