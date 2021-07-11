@@ -1,4 +1,5 @@
 const path = require('path');
+const assetsService = require('./assets');
 const configService = require('./config');
 const domService = require('./dom');
 const { fileService } = require('./file');
@@ -7,9 +8,10 @@ const _public = {};
 
 _public.getArticleTemplate = () => getTemplateByName('article');
 
-_public.getHomepageTemplate = () => {
+_public.getHomepageTemplate = ({ pageNumber } = {}) => {
   const { title } = configService.get();
-  const $ = parseHTMLString(getTemplateByName('homepage'));
+  const template = getTemplateByName('homepage', pageNumber);
+  const $ = parseHTMLString(template);
   title && $('head').append(`<title>${title}</title>`);
   return $.html();
 };
@@ -21,10 +23,15 @@ _public.replaceVar = (htmlString, key, value) => {
   return htmlString.replace(regex, value);
 };
 
-function getTemplateByName(name){
+function getTemplateByName(name, pageNumber){
   const filepath = configService.getCustomTemplateFilepath(name);
-  const template = filepath ? fileService.readSync(filepath) : getByFilename(`${name}.html`);
-  return buildBaseMetaTags(handleCustomVars(template));
+  if (filepath) return parseTemplate(fileService.readSync(filepath), path.dirname(filepath), pageNumber);
+  return buildBaseMetaTags(getByFilename(`${name}.html`));
+}
+
+function parseTemplate(htmlString, baseDir, pageNumber){
+  const assetsDirPrefix = pageNumber > 1 ? '../' : '';
+  return assetsService.handleRelativeAssets(handleCustomVars(htmlString), { baseDir, assetsDirPrefix });
 }
 
 function getByFilename(filename){

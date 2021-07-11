@@ -16,6 +16,7 @@ describe('Build Service', () => {
   beforeEach(() => {
     console.log = jest.fn();
     fileService.write = jest.fn((path, data, onSuccess) => onSuccess && onSuccess());
+    fileService.copySync = jest.fn();
     homepageService.build = jest.fn();
   });
 

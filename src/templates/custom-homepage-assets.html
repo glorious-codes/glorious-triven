@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <link href="../mocks/sample.css" rel="stylesheet" />
+    <link href="/root.css" rel="stylesheet" />
+    <link href="https://external.com/sample.css" rel="stylesheet" />
+    <link href="../mocks/favicon.png" rel="icon" type="image/x-icon" />
+    <link href="../mocks/apple-favicon.png" rel="apple-touch-icon" />
+    <meta content="../mocks/logo.png" property="og:image" />
+  </head>
+  <body>
+    <img src="/root.svg" />
+    <img src="../mocks/varejao.jpeg" />
+    {{ triven:posts }}
+    <script src="../mocks/sample.js" charset="utf-8"></script>
+    <script src="/root.js" charset="utf-8"></script>
+    <script src="https://external.com/sample.js" charset="utf-8"></script>
+    <script>
+      (function(){
+        function sum(a, b){
+          return a + b;
+        }
+        sum(2,2);
+      }());
+    </script>
+  </body>
+</html>

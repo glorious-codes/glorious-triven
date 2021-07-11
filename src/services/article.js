@@ -1,3 +1,4 @@
+const path = require('path');
 const assetsService = require('./assets');
 const dateService = require('./date');
 const domService = require('./dom');
@@ -12,12 +13,15 @@ const _public = {};
 
 _public.build = filepath => {
   const markdownText = fileService.readSync(filepath);
-  const article = markdownService.convert(removeMetadataLines(markdownText));
+  const article = assetsService.handleRelativeAssets(
+    markdownService.convert(removeMetadataLines(markdownText)),
+    { baseDir: path.dirname(filepath) }
+  );
   const summary = summaryService.build(markdownText, filepath);
   return {
     summary: { ...summary, excerpt: excerptService.extract(article, summary) },
     article: fillTemplate(
-      templateService.getArticleTemplate(summary),
+      templateService.getArticleTemplate(),
       article,
       summary,
     )
@@ -40,7 +44,7 @@ function fillTemplate(template, article, summary){
   const $ = parseHTMLString(templateService.replaceVar(template, 'triven:article', wrapArticle(summary, article)));
   $('html').attr('lang', summary.lang);
   $('head').append(`<title>${summary.title}</title>`).append(buildMetaTags(summary));
-  return stylesService.appendBaseStylesheet(assetsService.handleRelativeImages($.html()));
+  return stylesService.appendBaseStylesheet($.html());
 }
 
 function wrapArticle({ title, date, lang }, article){

@@ -10,6 +10,7 @@ describe('Homepage Service', () => {
 
   beforeEach(() => {
     fileService.write = jest.fn();
+    fileService.copySync = jest.fn();
     pageService.build = jest.fn();
   });
 

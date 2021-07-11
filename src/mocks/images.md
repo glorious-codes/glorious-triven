@@ -1,4 +1,4 @@
-![Adriana Varejão Gallery](../images/varejao.jpeg)
+![Adriana Varejão Gallery](./varejao.jpeg)
 
 _Adriana Varejão Gallery_
 
@@ -9,3 +9,5 @@ _Valeska Soares Gallery_
 ![Sonic Pavillion](https://www.inhotim.org.br/wp-content/webp-express/webp-images/uploads/2021/02/CAPA_02042021DSC07311Joao_Kehl_.jpg.webp)
 
 _Sonic Pavillion_
+
+![Root image](/root.jpg)

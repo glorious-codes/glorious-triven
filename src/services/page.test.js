@@ -23,6 +23,7 @@ describe('Page Service', () => {
 
   beforeEach(() => {
     fileService.write = jest.fn();
+    fileService.copySync = jest.fn();
     console.log = jest.fn();
   });
 
