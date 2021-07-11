@@ -8,40 +8,21 @@ Triven is a Markdown-based blog generator. It's different from well-known soluti
 
 ## Getting started
 
-If you landed here, chances are you're familiar with coding and, therefore, well versed with JavaScript.
-
+If you landed here, chances are you're familiar with coding and, therefore, well versed with JavaScript.  
 Before getting started with Triven, you need to install it in your project as follows:
 
 ```
 npm install -D @glorious/triven
 ```
 
-After installing it, you need to run the following command at the root directory of your project to get started with Triven:
-
+After installing it, you can see Triven in action just running:
 ```
 npx triven build
 ```
+It will create a blog ready to be published in a directory called `triven` in the root of your project.
+You can optionally customize some build details as the source directory for Markdown files, the output directory for the final files generated, among other things.
 
-When the command finishes, a directory called `triven` and a demo post - yes, this post you're reading exactly now - will be created.
-
-## Setup
-
-To override the default values used to build your blog, you can write a file called `triven.config.js` in the root directory of your project containing the following options:
-
-``` javascript
-// triven.config.js
-
-module.exports = {
-  title: 'Your Blog Title',
-  // Used as browser window title.
-  // Default: Triven.
-  sourceDirectory: './posts',
-  // Directory where triven will look for markdown files.
-  // Default: Root directory of your project.
-  outputDirectory: './dist'
-  // Directory where the final files will be saved.
-}
-```
+Refer to [Triven's Docmentation](https://github.com/glorious-codes/glorious-triven#triven) to learn more.
 
 ## Contributing
 
