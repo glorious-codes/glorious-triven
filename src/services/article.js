@@ -5,7 +5,6 @@ const domService = require('./dom');
 const excerptService = require('./excerpt');
 const { fileService } = require('./file');
 const markdownService = require('./markdown');
-const stylesService = require('./styles');
 const summaryService = require('./summary');
 const templateService = require('./template');
 
@@ -44,7 +43,7 @@ function fillTemplate(template, article, summary){
   const $ = parseHTMLString(templateService.replaceVar(template, 'triven:article', wrapArticle(summary, article)));
   $('html').attr('lang', summary.lang);
   $('head').append(`<title>${summary.title}</title>`).append(buildMetaTags(summary));
-  return stylesService.appendBaseStylesheet($.html());
+  return $.html();
 }
 
 function wrapArticle({ title, date, lang }, article){

@@ -50,10 +50,10 @@ describe('Build Service', () => {
     <meta http-equiv="expires" content="0">
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
+    <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
     <title>New year!</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
   </head>
   <body>
     <main class="tn-main">
@@ -96,10 +96,10 @@ describe('Build Service', () => {
     <meta http-equiv="expires" content="0">
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
     <meta http-equiv="pragma" content="no-cache">
+    <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
     <title>Untitled</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link rel="stylesheet" href="assets/triven-967ef52e0a47578986ae49cff68b82ad.css">
   </head>
   <body>
     <main class="tn-main">

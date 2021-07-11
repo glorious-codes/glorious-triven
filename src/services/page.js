@@ -1,6 +1,5 @@
 const dateService = require('./date');
 const domService = require('./dom');
-const stylesService = require('./styles');
 const templateService = require('./template');
 
 const _public = {};
@@ -78,14 +77,7 @@ function buildPostHref(href, page){
 
 function buildPage(body, pageNumber){
   const template = templateService.getHomepageTemplate({ pageNumber });
-  const hrefPrefix = getAssetsHrefPrefix(pageNumber);
-  return stylesService.appendBaseStylesheet(templateService.replaceVar(template, 'triven:posts', body), {
-    hrefPrefix
-  });
-}
-
-function getAssetsHrefPrefix(pageNumber){
-  return pageNumber > 1 ? '../' : '';
+  return templateService.replaceVar(template, 'triven:posts', body);
 }
 
 module.exports = _public;

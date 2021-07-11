@@ -3,6 +3,7 @@ const assetsService = require('./assets');
 const configService = require('./config');
 const domService = require('./dom');
 const { fileService } = require('./file');
+const stylesService = require('./styles');
 
 const _public = {};
 
@@ -24,13 +25,15 @@ _public.replaceVar = (htmlString, key, value) => {
 };
 
 function getTemplateByName(name, pageNumber){
+  const assetsDirPrefix = pageNumber > 1 ? '../' : '';
   const filepath = configService.getCustomTemplateFilepath(name);
-  if (filepath) return parseTemplate(fileService.readSync(filepath), path.dirname(filepath), pageNumber);
-  return buildBaseMetaTags(getByFilename(`${name}.html`));
+  const template = filepath ?
+    parseTemplate(fileService.readSync(filepath), path.dirname(filepath), assetsDirPrefix) :
+    buildBaseMetaTags(getByFilename(`${name}.html`));
+  return includeBaseStylesheet(template, assetsDirPrefix);
 }
 
-function parseTemplate(htmlString, baseDir, pageNumber){
-  const assetsDirPrefix = pageNumber > 1 ? '../' : '';
+function parseTemplate(htmlString, baseDir, assetsDirPrefix){
   return assetsService.handleRelativeAssets(handleCustomVars(htmlString), { baseDir, assetsDirPrefix });
 }
 
@@ -65,6 +68,10 @@ function buildBaseMetaTags(htmlString){
 
 function parseHTMLString(htmlString){
   return domService.parseHTMLString(htmlString);
+}
+
+function includeBaseStylesheet(htmlString, hrefPrefix){
+  return stylesService.includeBaseStylesheet(htmlString, { hrefPrefix });
 }
 
 module.exports = _public;

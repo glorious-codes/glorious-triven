@@ -19,12 +19,21 @@ _public.buildBaseStyle = (outputDirectory, onComplete) => {
   });
 };
 
-_public.appendBaseStylesheet = (htmlString, { hrefPrefix = '' } = {}) => {
+_public.includeBaseStylesheet = (htmlString, { hrefPrefix = '' } = {}) => {
   const $ = domService.parseHTMLString(htmlString);
-  const href = hrefPrefix ? `${hrefPrefix}${baseFilename}` : baseFilename;
-  $('head').append(`<link rel="stylesheet" href="${href}">`);
+  const exisitingStylesheets = $('link[rel="stylesheet"]');
+  if(exisitingStylesheets.length) $($(exisitingStylesheets).eq(0)).before(buildBaseStylesheetLinkTag(hrefPrefix));
+  else $('head').append(buildBaseStylesheetLinkTag(hrefPrefix));
   return $.html();
 };
+
+function buildBaseStylesheetLinkTag(hrefPrefix){
+  return `<link rel="stylesheet" href="${buildStylesheetHref(hrefPrefix)}">`;
+}
+
+function buildStylesheetHref(hrefPrefix){
+  return hrefPrefix ? `${hrefPrefix}${baseFilename}` : baseFilename;
+}
 
 function buildBaseFilename(baseStylesheet){
   baseFilename = `assets/triven-${md5(baseStylesheet)}.css`;
