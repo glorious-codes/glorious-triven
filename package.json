@@ -1,6 +1,6 @@
 {
   "name": "@glorious/triven",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A markdown-based blog generator",
   "main": "src/index.js",
   "bin": {
