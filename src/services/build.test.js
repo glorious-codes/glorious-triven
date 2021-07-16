@@ -45,7 +45,7 @@ describe('Build Service', () => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+    <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
     <title>New year!</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -63,7 +63,7 @@ describe('Build Service', () => {
         <h3>Really?</h3>
         <p>Yes.</p>
         <footer class="tn-footer">
-          <a href=".">See all posts</a>
+          <a href="../">See all posts</a>
         </footer>
       </article>
     </main>
@@ -73,7 +73,7 @@ describe('Build Service', () => {
     const { sourceDirectory, outputDirectory } = configService.get();
     buildService.init(() => {
       expect(fileService.write).not.toHaveBeenCalledWith(`${sourceDirectory}/hello-world.md`, expect.any(String));
-      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year.html`, data);
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year/index.html`, data);
       done();
     });
   });
@@ -86,7 +86,7 @@ describe('Build Service', () => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+    <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
     <title>Untitled</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -100,7 +100,7 @@ describe('Build Service', () => {
         </header>
         <p>This is a paragraph.</p>
         <footer class="tn-footer">
-          <a href=".">See all posts</a>
+          <a href="../">See all posts</a>
         </footer>
       </article>
     </main>
@@ -109,7 +109,7 @@ describe('Build Service', () => {
 `.trim());
     const { outputDirectory } = configService.get();
     buildService.init(() => {
-      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/no-metadata.html`, data);
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/no-metadata/index.html`, data);
       done();
     });
   });
@@ -118,7 +118,7 @@ describe('Build Service', () => {
     fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([path.join(__dirname, '../mocks/external-article.md')]));
     const { outputDirectory } = configService.get();
     buildService.init(() => {
-      expect(fileService.write).not.toHaveBeenCalledWith(`${outputDirectory}/external-article.html`, expect.any(String));
+      expect(fileService.write).not.toHaveBeenCalledWith(`${outputDirectory}/external-article/index.html`, expect.any(String));
       done();
     });
   });

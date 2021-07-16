@@ -37,7 +37,7 @@ describe('Homepage Service', () => {
     const pageMock = 'some article html';
     stubPageBuild(pageMock);
     homepageService.build(postsMock.fill({ some: 'postSummary' }), outputDirectory);
-    expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/2.html`, pageMock);
-    expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/3.html`, pageMock);
+    expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/2/index.html`, pageMock);
+    expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/3/index.html`, pageMock);
   });
 });

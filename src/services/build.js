@@ -53,8 +53,8 @@ function buildArticle(filepath, outputDirectory, onComplete){
 }
 
 function buildArticleFilename(outputDirectory, filepath){
-  const filename = path.basename(filepath).replace('.md', '.html');
-  return path.join(outputDirectory, filename);
+  const filename = path.basename(filepath).replace(/.md$/, '');
+  return path.join(outputDirectory, `./${filename}/index.html`);
 }
 
 function createDemoPost(sourceDirectory, outputDirectory, onComplete){

@@ -7,11 +7,11 @@ const stylesService = require('./styles');
 
 const _public = {};
 
-_public.getArticleTemplate = () => getTemplateByName('article');
+_public.getArticleTemplate = () => getTemplateByName('article', '../');
 
 _public.getHomepageTemplate = ({ pageNumber } = {}) => {
   const { title } = configService.get();
-  const template = getTemplateByName('homepage', pageNumber);
+  const template = getTemplateByName('homepage', buildHomepageAssetsDirectoryPrefix(pageNumber));
   const $ = parseHTMLString(template);
   title && $('head').append(`<title>${title}</title>`);
   return $.html();
@@ -24,13 +24,16 @@ _public.replaceVar = (htmlString, key, value) => {
   return htmlString.replace(regex, value);
 };
 
-function getTemplateByName(name, pageNumber){
-  const assetsDirPrefix = pageNumber > 1 ? '../' : '';
+function getTemplateByName(name, assetsDirPrefix){
   const filepath = configService.getCustomTemplateFilepath(name);
   const template = filepath ?
     buildBaseMetaTags(parseTemplate(fileService.readSync(filepath), path.dirname(filepath), assetsDirPrefix)) :
     buildBaseMetaTags(getByFilename(`${name}.html`));
   return includeBaseStylesheet(template, assetsDirPrefix);
+}
+
+function buildHomepageAssetsDirectoryPrefix(pageNumber){
+  return pageNumber > 1 ? '../../' : '';
 }
 
 function parseTemplate(htmlString, baseDir, assetsDirPrefix){

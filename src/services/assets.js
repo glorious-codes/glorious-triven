@@ -13,7 +13,7 @@ _public.save = filepath => handle(filepath, () => saveAsset(filepath));
 
 _public.copy = filepath => handle(filepath, () => copyAsset(filepath));
 
-_public.handleRelativeAssets = (htmlString, { baseDir, assetsDirPrefix = '' }) => {
+_public.handleRelativeAssets = (htmlString, { baseDir, assetsDirPrefix }) => {
   const markupData =  getAssetsMarkupData();
   const $ = domService.parseHTMLString(htmlString);
   markupData.forEach(({ selector, attr }) => {

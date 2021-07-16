@@ -105,7 +105,7 @@ describe('Page Service', () => {
   it('should contain a prefixed base stylesheet linked in the html head if page is greater than one', done => {
     buildPage(postsMock, { page: 2, total: 2 }, page => {
       expect(page).toContain(domService.minifyHTML(`
-        <link rel="stylesheet" href="../assets/triven-${getExpectedTrivenStylesheetHash()}.css">
+        <link rel="stylesheet" href="../../assets/triven-${getExpectedTrivenStylesheetHash()}.css">
       `));
       done();
     });
@@ -117,7 +117,7 @@ describe('Page Service', () => {
       expect(page).toContain(domService.minifyHTML(`
         <footer class="tn-footer">
           <nav>
-            <a href="../" class="tn-newer-link">Newer</a>
+            <a href="../../" class="tn-newer-link">Newer</a>
           </nav>
         </footer>
       `));
@@ -131,7 +131,7 @@ describe('Page Service', () => {
       expect(page).toContain(domService.minifyHTML(`
         <footer class="tn-footer">
           <nav>
-            <a href="2" class="tn-newer-link">Newer</a>
+            <a href="../2" class="tn-newer-link">Newer</a>
           </nav>
         </footer>
       `));
@@ -156,15 +156,15 @@ describe('Page Service', () => {
   it('should contain a link to newer and older posts if page is between the first and last one', done => {
     const [first, second] = postsMock;
     buildPage([first, second], { page: 3, total: 6 }, page => {
-      expect(page).toContain('<a href="2" class="tn-newer-link">Newer</a>');
-      expect(page).toContain('<a href="4" class="tn-older-link">Older</a>');
+      expect(page).toContain('<a href="../2" class="tn-newer-link">Newer</a>');
+      expect(page).toContain('<a href="../4" class="tn-older-link">Older</a>');
       done();
     });
   });
 
   it('should build apropriate post href on pages other than the first one', done => {
     const [first] = postsMock;
-    const expectedHref = `../${parsePostHref(first.url)}`;
+    const expectedHref = `../../${parsePostHref(first.url)}`;
     buildPage([first], { page: 2, total: 2 }, page => {
       expect(page).toContain(`<h2 class="tn-post-title"><a href="${expectedHref}">${first.title}</a></h2>`);
       expect(page).toContain(`<a href="${expectedHref}" class="tn-read-more-link">Read more</a>`);

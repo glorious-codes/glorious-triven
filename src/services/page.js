@@ -54,7 +54,7 @@ function buildPreviousPageLink(page){
 }
 
 function buildPreviousPageLinkHref(page){
-  return page === 2 ? '../' : `${page - 1}`;
+  return page === 2 ? '../../' : `../${page - 1}`;
 }
 
 function buildNextPageLink(page, total){
@@ -63,7 +63,7 @@ function buildNextPageLink(page, total){
 
 function buildNextPageLinkHref(page){
   const nextPageNumber = page + 1;
-  return page === 1 ? `p/${nextPageNumber}` : `${nextPageNumber}`;
+  return page === 1 ? `p/${nextPageNumber}` : `../${nextPageNumber}`;
 }
 
 function handleLinkAttrs({ external }){
@@ -71,7 +71,7 @@ function handleLinkAttrs({ external }){
 }
 
 function buildPostHref(href, page){
-  const prefix = page > 1 && !href.includes('http') ? '../' : '';
+  const prefix = page > 1 && !href.includes('http') ? '../../' : '';
   return `${prefix}${href.replace('.html', '')}`;
 }
 

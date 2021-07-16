@@ -14,7 +14,7 @@ _public.build = filepath => {
   const markdownText = fileService.readSync(filepath);
   const article = assetsService.handleRelativeAssets(
     markdownService.convert(removeMetadataLines(markdownText)),
-    { baseDir: path.dirname(filepath) }
+    { baseDir: path.dirname(filepath), assetsDirPrefix: '../' }
   );
   const summary = summaryService.build(markdownText, filepath);
   return {
@@ -56,7 +56,7 @@ function wrapArticle({ title, date, lang }, article){
         </header>
         ${article}
         <footer class="tn-footer">
-          <a href=".">See all posts</a>
+          <a href="../">See all posts</a>
         </footer>
       </article>
     </main>

@@ -25,7 +25,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>{{ triven:article }}</body>
       </html>
@@ -67,7 +67,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="ISO-8859-1">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>
           {{ triven:article }}
@@ -113,7 +113,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>
           <h1>My Custom Article Title</h1>
@@ -196,12 +196,12 @@ describe('Template Service', () => {
       }
     });
     const filenames = {
-      css: `${ASSETS_DIRNAME}/sample-971f848e8154ff6b2243ec1a1da4abc0.css`,
-      favicon: `${ASSETS_DIRNAME}/favicon-080d0123f0f5493629646d0921301dfa.png`,
-      appleFavicon: `${ASSETS_DIRNAME}/apple-favicon-fc5410abd7a0bafc18a9b40841869d97.png`,
-      openGraph: `${ASSETS_DIRNAME}/logo-6b9a255106bdd43bf460d7a8e484903b.png`,
-      image: `${ASSETS_DIRNAME}/varejao-a8774002d2f7fef27b27f665c7e7227c.jpeg`,
-      script: `${ASSETS_DIRNAME}/sample-20e917a9ac4a23e53b0a12f203a4a52c.js`
+      css: `../${ASSETS_DIRNAME}/sample-971f848e8154ff6b2243ec1a1da4abc0.css`,
+      favicon: `../${ASSETS_DIRNAME}/favicon-080d0123f0f5493629646d0921301dfa.png`,
+      appleFavicon: `../${ASSETS_DIRNAME}/apple-favicon-fc5410abd7a0bafc18a9b40841869d97.png`,
+      openGraph: `../${ASSETS_DIRNAME}/logo-6b9a255106bdd43bf460d7a8e484903b.png`,
+      image: `../${ASSETS_DIRNAME}/varejao-a8774002d2f7fef27b27f665c7e7227c.jpeg`,
+      script: `../${ASSETS_DIRNAME}/sample-20e917a9ac4a23e53b0a12f203a4a52c.js`
     };
     mount(() => {
       const template = templateService.getArticleTemplate();
@@ -241,7 +241,7 @@ describe('Template Service', () => {
     });
   });
 
-  it('should prefix local assets directory when handling assets for the second or more page of homepage', done => {
+  it('should prefix local assets directory when handling assets for the second or greater page of homepage', done => {
     mockCustomTemplates({
       templates: {
         homepage: './src/templates/custom-homepage-assets.html'
@@ -252,7 +252,7 @@ describe('Template Service', () => {
     };
     mount(() => {
       const template = templateService.getHomepageTemplate({ pageNumber: 2 });
-      expect(template).toContain(`<link href="../${filenames.css}" rel="stylesheet">`);
+      expect(template).toContain(`<link href="../../${filenames.css}" rel="stylesheet">`);
       done();
     });
   });
