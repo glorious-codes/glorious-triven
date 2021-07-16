@@ -1,6 +1,7 @@
 const md5 = require('md5');
 const path = require('path');
 const stylus = require('stylus');
+const { ASSETS_DIRECTORY_NAME } = require('../constants/assets');
 const domService = require('./dom');
 const { fileService } = require('./file');
 const minifyService = require('./minify');
@@ -36,7 +37,7 @@ function buildStylesheetHref(hrefPrefix){
 }
 
 function buildBaseFilename(baseStylesheet){
-  baseFilename = `assets/triven-${md5(baseStylesheet)}.css`;
+  baseFilename = `${ASSETS_DIRECTORY_NAME}/triven-${md5(baseStylesheet)}.css`;
   return baseFilename;
 }
 

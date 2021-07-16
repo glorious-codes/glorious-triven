@@ -37,7 +37,7 @@ describe('Page Service', () => {
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-            <link rel="stylesheet" href="assets/triven-${getExpectedTrivenStylesheetHash()}.css">
+            <link rel="stylesheet" href="a/triven-${getExpectedTrivenStylesheetHash()}.css">
             <title>Test Blog</title>
           </head>
           <body>
@@ -105,7 +105,7 @@ describe('Page Service', () => {
   it('should contain a prefixed base stylesheet linked in the html head if page is greater than one', done => {
     buildPage(postsMock, { page: 2, total: 2 }, page => {
       expect(page).toContain(domService.minifyHTML(`
-        <link rel="stylesheet" href="../../assets/triven-${getExpectedTrivenStylesheetHash()}.css">
+        <link rel="stylesheet" href="../../a/triven-${getExpectedTrivenStylesheetHash()}.css">
       `));
       done();
     });

@@ -17,7 +17,7 @@ describe('Styles Service', () => {
   it('should compile and copy base styles to the output directory', done => {
     const outputDirectory = 'some/output/dir';
     stylesService.buildBaseStyle(outputDirectory, () => {
-      const expectedFilepath = `${outputDirectory}/assets/triven-${getExpectedHash()}.css`;
+      const expectedFilepath = `${outputDirectory}/a/triven-${getExpectedHash()}.css`;
       expect(fileService.write).toHaveBeenCalledWith(expectedFilepath, expect.any(String));
       done();
     });
@@ -26,7 +26,7 @@ describe('Styles Service', () => {
   it('should add base stylesheet in a given html string', () => {
     const htmlString = mockHtmlString();
     expect(stylesService.includeBaseStylesheet(htmlString)).toContain(
-      `<link rel="stylesheet" href="assets/triven-${getExpectedHash()}.css">`
+      `<link rel="stylesheet" href="a/triven-${getExpectedHash()}.css">`
     );
   });
 
@@ -34,7 +34,7 @@ describe('Styles Service', () => {
     const exisitingStylesheet = '<link rel="stylesheet" href="some-stylesheet.css">';
     const htmlString = mockHtmlString(exisitingStylesheet);
     expect(stylesService.includeBaseStylesheet(htmlString)).toContain(
-      `<link rel="stylesheet" href="assets/triven-${getExpectedHash()}.css">` +
+      `<link rel="stylesheet" href="a/triven-${getExpectedHash()}.css">` +
       exisitingStylesheet
     );
   });
@@ -42,7 +42,7 @@ describe('Styles Service', () => {
   it('should optionally add base stylesheet with a prefix in a given html string', () => {
     const htmlString = mockHtmlString();
     expect(stylesService.includeBaseStylesheet(htmlString, { hrefPrefix: '../' })).toContain(
-      `<link rel="stylesheet" href="../assets/triven-${getExpectedHash()}.css">`
+      `<link rel="stylesheet" href="../a/triven-${getExpectedHash()}.css">`
     );
   });
 });

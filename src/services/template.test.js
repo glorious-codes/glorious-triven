@@ -5,7 +5,7 @@ const testingService = require('./testing');
 const templateService = require('./template');
 
 describe('Template Service', () => {
-  const ASSETS_DIRNAME = 'assets';
+  const ASSETS_DIRNAME = 'a';
   const { mockCustomTemplates } = testingService;
 
   function mount(act){
@@ -25,7 +25,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="../a/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>{{ triven:article }}</body>
       </html>
@@ -43,7 +43,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="a/triven-09bc413584c654bbd435f02cf242839d.css">
           <title>Triven</title>
         </head>
         <body>{{ triven:posts }}</body>
@@ -67,7 +67,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="ISO-8859-1">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="../a/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>
           {{ triven:article }}
@@ -92,7 +92,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="ISO-8859-1">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="a/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>
           {{ triven:posts }}
@@ -113,7 +113,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="../a/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>
           <h1>My Custom Article Title</h1>
@@ -135,7 +135,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="assets/triven-09bc413584c654bbd435f02cf242839d.css">
+          <link rel="stylesheet" href="a/triven-09bc413584c654bbd435f02cf242839d.css">
         </head>
         <body>
           <h1>My Custom Homepage Title</h1>

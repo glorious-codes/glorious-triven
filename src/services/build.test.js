@@ -45,7 +45,7 @@ describe('Build Service', () => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
+    <link rel="stylesheet" href="../a/triven-09bc413584c654bbd435f02cf242839d.css">
     <title>New year!</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -86,7 +86,7 @@ describe('Build Service', () => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <link rel="stylesheet" href="../assets/triven-09bc413584c654bbd435f02cf242839d.css">
+    <link rel="stylesheet" href="../a/triven-09bc413584c654bbd435f02cf242839d.css">
     <title>Untitled</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />

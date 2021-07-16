@@ -1,11 +1,12 @@
 const md5 = require('md5');
 const path = require('path');
+const { ASSETS_DIRECTORY_NAME } = require('../constants/assets');
 const domService = require('./dom');
 const configService = require('./config');
 const minifyService = require('./minify');
 const { fileService } = require('./file');
 
-const _public = {}, ASSETS_DIRNAME = 'assets';
+const _public = {};
 
 let cache = [];
 
@@ -19,7 +20,7 @@ _public.handleRelativeAssets = (htmlString, { baseDir, assetsDirPrefix }) => {
   markupData.forEach(({ selector, attr }) => {
     $(selector).filter((index, el) => isRelativeAsset($(el).attr(attr))).each((index, el) => {
       const filename = _public.copy(buildLocalAssetFilepath(baseDir, $(el).attr(attr)));
-      $(el).attr(attr, assetsDirPrefix + `${ASSETS_DIRNAME}/${filename}`);
+      $(el).attr(attr, assetsDirPrefix + `${ASSETS_DIRECTORY_NAME}/${filename}`);
     });
   });
   return $.html();
@@ -81,7 +82,7 @@ function getAssetsMarkupData(){
 
 function getAssetsDirectoryFilepath(){
   const { outputDirectory } = configService.get();
-  return `${outputDirectory}/${ASSETS_DIRNAME}`;
+  return `${outputDirectory}/${ASSETS_DIRECTORY_NAME}`;
 }
 
 function isRelativeAsset(assetFilepath){
