@@ -132,8 +132,10 @@ module.exports = {
 <!DOCTYPE html>
 <html>
   <head></head>
-  <body>{{ triven:posts }}</body>
-  <footer>{{ copywrite }}</footer>
+  <body>
+    {{ triven:posts }}
+    <footer>{{ copywrite }}</footer>
+  </body>
 </html>
 ```
 
