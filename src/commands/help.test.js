@@ -6,7 +6,7 @@ const HELP_DOC = `Usage: triven <args>
   { description }
 
 Commands:
-  build                 Process documentation and generates its site
+  build                 Process markdown files and generates a blog
 
 Options:
   -v  --version         Display current software version
