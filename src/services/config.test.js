@@ -11,6 +11,7 @@ describe('Config Service', () => {
 
   function buildCustomConfig(){
     return {
+      lang: 'pt-BR',
       sourceDirectory: './src',
       outputDirectory: './blog'
     };
@@ -28,6 +29,7 @@ describe('Config Service', () => {
     stubRequire();
     expect(configService.get()).toEqual({
       title: 'Triven',
+      lang: 'en-US',
       sourceDirectory: process.cwd(),
       outputDirectory: `${process.cwd()}/triven`
     });
@@ -41,6 +43,7 @@ describe('Config Service', () => {
     expect(console.log).toHaveBeenCalledWith('Config file not found. Using default config.');
     expect(config).toEqual({
       title: 'Triven',
+      lang: 'en-US',
       sourceDirectory: process.cwd(),
       outputDirectory: `${process.cwd()}/triven`
     });
@@ -49,6 +52,7 @@ describe('Config Service', () => {
   it('should get custom config', () => {
     stubRequire(buildCustomConfig());
     expect(configService.get()).toEqual({
+      lang: 'pt-BR',
       sourceDirectory: `${process.cwd()}/src`,
       outputDirectory: `${process.cwd()}/blog`
     });
@@ -57,6 +61,7 @@ describe('Config Service', () => {
   it('should fallback to default directories if custom config has no source and output directories set', () => {
     stubRequire('');
     expect(configService.get()).toEqual({
+      lang: 'en-US',
       sourceDirectory: process.cwd(),
       outputDirectory: `${process.cwd()}/triven`
     });

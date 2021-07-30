@@ -10,8 +10,8 @@ const _public = {};
 _public.getArticleTemplate = () => getTemplateByName('article', '../');
 
 _public.getHomepageTemplate = ({ pageNumber } = {}) => {
-  const { title } = configService.get();
-  const template = getTemplateByName('homepage', buildHomepageAssetsDirectoryPrefix(pageNumber));
+  const { title, lang } = configService.get();
+  const template = setLang(getTemplateByName('homepage', buildHomepageAssetsDirectoryPrefix(pageNumber)), lang);
   const $ = parseHTMLString(template);
   title && $('head').append(`<title>${title}</title>`);
   return $.html();
@@ -62,12 +62,18 @@ function buildBaseMetaTags(htmlString){
   return $.html();
 }
 
-function parseHTMLString(htmlString){
-  return domService.parseHTMLString(htmlString);
-}
-
 function includeBaseStylesheet(htmlString, hrefPrefix){
   return stylesService.includeBaseStylesheet(htmlString, { hrefPrefix });
+}
+
+function setLang(homepageTemplate, lang){
+  const $ = parseHTMLString(homepageTemplate);
+  $('html').attr('lang', lang);
+  return $.html();
+}
+
+function parseHTMLString(htmlString){
+  return domService.parseHTMLString(htmlString);
 }
 
 module.exports = _public;

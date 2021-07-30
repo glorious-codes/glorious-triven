@@ -3,19 +3,15 @@ const { fileService } = require('./file');
 
 const _public = {};
 
-_public.mockCustomTemplates = (config = {}) => {
+_public.mockTrivenConfig = customConfig => {
   configService.flush();
-  const filesMock = {
-    [`${process.cwd()}/triven.config`]: {
-      ...config,
-      templates: {
-        article: './src/templates/custom-article.html',
-        homepage: './src/templates/custom-homepage.html',
-        ...config.templates
-      }
-    }
-  };
-  fileService.require = jest.fn(filepath => filesMock[filepath]);
+  fileService.require = jest.fn(filepath => buildFilesMock(customConfig)[filepath]);
 };
+
+function buildFilesMock(customConfig){
+  return {
+    [`${process.cwd()}/triven.config`]: { ...customConfig }
+  };
+}
 
 module.exports = _public;

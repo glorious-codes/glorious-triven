@@ -1,9 +1,9 @@
 const postsMock = require('../mocks/posts');
-const configService = require('./config');
 const domService = require('./dom');
 const { fileService } = require('./file');
 const pageService = require('./page');
 const stylesService = require('./styles');
+const { mockTrivenConfig } = require('./testing');
 
 describe('Page Service', () => {
   function buildPage(posts, { page, total }, onBuild){
@@ -24,21 +24,21 @@ describe('Page Service', () => {
   beforeEach(() => {
     fileService.write = jest.fn();
     fileService.copySync = jest.fn();
-    console.log = jest.fn();
   });
 
   it('should build a page containing given posts', done => {
-    configService.get = jest.fn(() => ({ title: 'Test Blog' }));
+    const title = 'Test Blog';
+    mockTrivenConfig({ title });
     const [first, second, third] = postsMock;
     buildPage([first, second, third], { page: 1, total: 1 }, page => {
       expect(page).toEqual(domService.minifyHTML(`
         <!DOCTYPE html>
-        <html lang="en-US" dir="ltr">
+        <html lang="en-US">
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
             <link rel="stylesheet" href="a/triven-${getExpectedTrivenStylesheetHash()}.css">
-            <title>Test Blog</title>
+            <title>${title}</title>
           </head>
           <body>
             <main class="tn-main">
@@ -177,7 +177,16 @@ describe('Page Service', () => {
     buildPage([second], { page: 2, total: 2 }, page => {
       expect(page).toContain(`<h2 class="tn-post-title"><a href="${second.url}" rel="noopener noreferrer" target="_blank">${second.title}</a></h2>`);
       expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">Read more</a>`);
+      done();
     });
-    done();
+  });
+
+  it('should optionally set page language according to custom language', done => {
+    const lang = 'pt-BR';
+    mockTrivenConfig({ lang });
+    buildPage(postsMock, { page: 1, total: 1 }, page => {
+      expect(page).toContain(`<html lang="${lang}">`);
+      done();
+    });
   });
 });

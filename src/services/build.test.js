@@ -41,7 +41,7 @@ describe('Build Service', () => {
     fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock()]));
     const data = domService.minifyHTML(`
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
+<html lang="en-US">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -82,7 +82,7 @@ describe('Build Service', () => {
     fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([path.join(__dirname, '../mocks/no-metadata.md')]));
     const data = domService.minifyHTML(`
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
+<html lang="en-US">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">

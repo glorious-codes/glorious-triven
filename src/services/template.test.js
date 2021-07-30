@@ -1,12 +1,11 @@
 const domService = require('./dom');
 const { fileService } = require('./file');
 const stylesService = require('./styles');
-const testingService = require('./testing');
+const { mockTrivenConfig } = require('./testing');
 const templateService = require('./template');
 
 describe('Template Service', () => {
   const ASSETS_DIRNAME = 'a';
-  const { mockCustomTemplates } = testingService;
 
   function mount(act){
     stylesService.buildBaseStyle('', act);
@@ -21,7 +20,7 @@ describe('Template Service', () => {
   it('should get default article template if no custom template has been found', done => {
     const expectedMarkup = domService.minifyHTML(`
       <!DOCTYPE html>
-      <html dir="ltr">
+      <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -39,7 +38,7 @@ describe('Template Service', () => {
   it('should get default homepage template if no custom template has been found', done => {
     const expectedMarkup = domService.minifyHTML(`
       <!DOCTYPE html>
-      <html lang="en-US" dir="ltr">
+      <html lang="en-US">
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -56,7 +55,7 @@ describe('Template Service', () => {
   });
 
   it('should not include charset and viewport meta tags if they are present in custom article template', done => {
-    mockCustomTemplates({
+    mockTrivenConfig({
       templates: {
         article: './src/templates/custom-article-meta-tags.html'
       }
@@ -81,14 +80,14 @@ describe('Template Service', () => {
   });
 
   it('should not include charset and viewport meta tags if they are present in custom homepage template', done => {
-    mockCustomTemplates({
+    mockTrivenConfig({
       templates: {
         homepage: './src/templates/custom-homepage-meta-tags.html'
       }
     });
     const expectedMarkup = domService.minifyHTML(`
       <!DOCTYPE html>
-      <html dir="ltr">
+      <html dir="ltr" lang="en-US">
         <head>
           <meta charset="ISO-8859-1">
           <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -106,7 +105,11 @@ describe('Template Service', () => {
   });
 
   it('should get custom article template if template has been set', done => {
-    mockCustomTemplates();
+    mockTrivenConfig({
+      templates: {
+        article: './src/templates/custom-article.html'
+      }
+    });
     const expectedMarkup = domService.minifyHTML(`
       <!DOCTYPE html>
       <html dir="ltr">
@@ -128,7 +131,11 @@ describe('Template Service', () => {
   });
 
   it('should get custom homepage template if template has been set', done => {
-    mockCustomTemplates();
+    mockTrivenConfig({
+      templates: {
+        homepage: './src/templates/custom-homepage.html'
+      }
+    });
     const expectedMarkup = domService.minifyHTML(`
       <!DOCTYPE html>
       <html lang="en-US" dir="ltr">
@@ -150,7 +157,7 @@ describe('Template Service', () => {
   });
 
   it('should replace custom article template variables', done => {
-    mockCustomTemplates({
+    mockTrivenConfig({
       templates: {
         article: './src/templates/custom-article-vars.html',
         vars: {
@@ -170,7 +177,7 @@ describe('Template Service', () => {
   });
 
   it('should replace custom homepage template variables', done => {
-    mockCustomTemplates({
+    mockTrivenConfig({
       templates: {
         homepage: './src/templates/custom-homepage-vars.html',
         vars: {
@@ -190,7 +197,7 @@ describe('Template Service', () => {
   });
 
   it('should copy relative images to assets directory and update its source in custom article template', done => {
-    mockCustomTemplates({
+    mockTrivenConfig({
       templates: {
         article: './src/templates/custom-article-assets.html'
       }
@@ -216,7 +223,7 @@ describe('Template Service', () => {
   });
 
   it('should copy relative images to assets directory and update its source in custom homepage template', done => {
-    mockCustomTemplates({
+    mockTrivenConfig({
       templates: {
         homepage: './src/templates/custom-homepage-assets.html'
       }
@@ -242,7 +249,7 @@ describe('Template Service', () => {
   });
 
   it('should prefix local assets directory when handling assets for the second or greater page of homepage', done => {
-    mockCustomTemplates({
+    mockTrivenConfig({
       templates: {
         homepage: './src/templates/custom-homepage-assets.html'
       }

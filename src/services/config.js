@@ -31,18 +31,19 @@ function getConfig(){
 function requireConfigFile(){
   let config;
   try {
-    config = parseCustomConfigPaths(fileService.require(`${process.cwd()}/triven.config`));
+    config = parseCustomConfig(fileService.require(`${process.cwd()}/triven.config`));
   } catch(e) {
     console.log('Config file not found. Using default config.');
   }
   return config ? config : buildDefaultConfig();
 }
 
-function parseCustomConfigPaths(customConfig){
+function parseCustomConfig(customConfig){
   const customSourceDirectory = getCustomConfigPath(customConfig, 'sourceDirectory');
   const customOutputDirectory = getCustomConfigPath(customConfig, 'outputDirectory') || './triven';
   return {
     ...customConfig,
+    lang: customConfig.lang || getDefaultLanguage(),
     sourceDirectory: buildAbsoluteFilepath(customSourceDirectory),
     outputDirectory: buildAbsoluteFilepath(customOutputDirectory)
   };
@@ -56,6 +57,7 @@ function buildDefaultConfig(){
   const rootDirectory = getRootDirectory();
   return {
     title: 'Triven',
+    lang: getDefaultLanguage(),
     sourceDirectory: rootDirectory,
     outputDirectory: `${rootDirectory}/triven`
   };
@@ -67,6 +69,10 @@ function buildAbsoluteFilepath(relativeFilepath){
 
 function getRootDirectory(){
   return process.cwd();
+}
+
+function getDefaultLanguage(){
+  return 'en-US';
 }
 
 module.exports = _public;

@@ -1,11 +1,12 @@
 const path = require('path');
+const configService = require('./config');
 
 const _public = {};
 
 _public.build = (fileContent, filepath) => {
-  const baseSummary = { title: 'Untitled', lang: 'en-US' };
+  const baseSummary = { title: 'Untitled', lang: configService.get().lang };
   const customSummary = buildCustomSummary(fileContent.split('\n'));
-  return handleUrl({ ...baseSummary, ...customSummary }, filepath);
+  return appendUrl({ ...baseSummary, ...customSummary }, filepath);
 };
 
 function buildCustomSummary(lines){
@@ -34,7 +35,7 @@ function getCustomSummaryItemCrumb(line, startIndex, endIndex){
   if(crumb) return crumb;
 }
 
-function handleUrl({ externalUrl, ...rest }, filepath){
+function appendUrl({ externalUrl, ...rest }, filepath){
   return { ...buildUrl(externalUrl, filepath), ...rest };
 }
 

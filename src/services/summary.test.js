@@ -25,6 +25,10 @@ Here is the first article paragraph.
 `;
   }
 
+  beforeEach(() => {
+    console.log = jest.fn();
+  });
+
   it('should generate a JSON containing title, lang and url by default', () => {
     expect(summaryService.build('', 'blank.md')).toEqual({
       title: 'Untitled',

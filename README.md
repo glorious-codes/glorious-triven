@@ -31,6 +31,9 @@ module.exports = {
   title: 'Your Blog Title',
   // Used as browser window title on homepage.
   // Default: Triven.
+  lang: 'pt-BR',
+  // Used as default language for articles and homepage.
+  // Default: en-US.
   sourceDirectory: './posts',
   // Directory where triven will look for markdown files.
   // Default: Root directory of your project ('./').
@@ -59,7 +62,7 @@ You can prefix your Markdown articles with a header containing some metadata:
 | Name | Description | Default Value |
 |------|-------------|---------------|
 | title | Title for your post | Untitled |
-| lang | Language which your article is written in | en-US |
+| lang | Language which your article is written in | language set on `triven.config.js` or en-US |
 | date | Date expressed according to ISO 8601 (YYYY-MM-DD) |  |
 | description | A brief description of your post (used in HTML meta tags) |  |
 | keywords | Keywords for your post (used in HTML meta tags) |  |
