@@ -6,9 +6,9 @@ const stylesService = require('./styles');
 const { mockTrivenConfig } = require('./testing');
 
 describe('Page Service', () => {
-  function buildPage(posts, { page, total }, onBuild){
+  function buildPage(posts, { page, total, assetsDirPrefix, customLang }, onBuild){
     stylesService.buildBaseStyle('', () => {
-      const result = pageService.build(posts, { page, total });
+      const result = pageService.build(posts, { page, total, assetsDirPrefix, customLang });
       onBuild(result);
     });
   }
@@ -102,10 +102,10 @@ describe('Page Service', () => {
     });
   });
 
-  it('should contain a prefixed base stylesheet linked in the html head if page is greater than one', done => {
-    buildPage(postsMock, { page: 2, total: 2 }, page => {
+  it('should optionally prefix assets linked in the html', done => {
+    buildPage(postsMock, { page: 2, total: 2, assetsDirPrefix: '../../../../' }, page => {
       expect(page).toContain(domService.minifyHTML(`
-        <link rel="stylesheet" href="../../a/triven-${getExpectedTrivenStylesheetHash()}.css">
+        <link rel="stylesheet" href="../../../../a/triven-${getExpectedTrivenStylesheetHash()}.css">
       `));
       done();
     });
@@ -181,11 +181,21 @@ describe('Page Service', () => {
     });
   });
 
-  it('should optionally set page language according to custom language', done => {
+  it('should set page language according to the language set on triven config file by default', done => {
     const lang = 'pt-BR';
     mockTrivenConfig({ lang });
     buildPage(postsMock, { page: 1, total: 1 }, page => {
       expect(page).toContain(`<html lang="${lang}">`);
+      done();
+    });
+  });
+
+  it('should optionally set language other than language set on triven config file', done => {
+    const lang = 'pt-BR';
+    const customLang = 'es-ES';
+    mockTrivenConfig({ lang });
+    buildPage(postsMock, { page: 1, total: 1, customLang }, page => {
+      expect(page).toContain(`<html lang="${customLang}">`);
       done();
     });
   });

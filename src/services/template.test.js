@@ -17,6 +17,10 @@ describe('Template Service', () => {
     console.log = jest.fn();
   });
 
+  afterEach(() => {
+    mockTrivenConfig({});
+  });
+
   it('should get default article template if no custom template has been found', done => {
     const expectedMarkup = domService.minifyHTML(`
       <!DOCTYPE html>
@@ -92,6 +96,7 @@ describe('Template Service', () => {
           <meta charset="ISO-8859-1">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <link rel="stylesheet" href="a/triven-09bc413584c654bbd435f02cf242839d.css">
+          <title>Triven</title>
         </head>
         <body>
           {{ triven:posts }}
@@ -143,6 +148,7 @@ describe('Template Service', () => {
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
           <link rel="stylesheet" href="a/triven-09bc413584c654bbd435f02cf242839d.css">
+          <title>Triven</title>
         </head>
         <body>
           <h1>My Custom Homepage Title</h1>
@@ -258,8 +264,17 @@ describe('Template Service', () => {
       css: `${ASSETS_DIRNAME}/sample-971f848e8154ff6b2243ec1a1da4abc0.css`
     };
     mount(() => {
-      const template = templateService.getHomepageTemplate({ pageNumber: 2 });
+      const template = templateService.getHomepageTemplate({ assetsDirPrefix: '../../' });
       expect(template).toContain(`<link href="../../${filenames.css}" rel="stylesheet">`);
+      done();
+    });
+  });
+
+  it('should optionally set a custom language on homepage template', done => {
+    mount(() => {
+      const customLang = 'es-ES';
+      const template = templateService.getHomepageTemplate({ customLang });
+      expect(template).toContain('<html lang="es-ES">');
       done();
     });
   });

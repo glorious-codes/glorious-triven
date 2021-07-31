@@ -4,9 +4,9 @@ const templateService = require('./template');
 
 const _public = {};
 
-_public.build = (posts, { page, total }) => {
+_public.build = (posts, { page, total, assetsDirPrefix = '', customLang }) => {
   const body = buildPageBody(posts, page, total);
-  return domService.minifyHTML(buildPage(body, page));
+  return domService.minifyHTML(buildPage(body, assetsDirPrefix, customLang));
 };
 
 function buildPageBody(posts, page, total){
@@ -75,8 +75,8 @@ function buildPostHref(href, page){
   return `${prefix}${href.replace('.html', '')}`;
 }
 
-function buildPage(body, pageNumber){
-  const template = templateService.getHomepageTemplate({ pageNumber });
+function buildPage(body, assetsDirPrefix, customLang){
+  const template = templateService.getHomepageTemplate({ assetsDirPrefix, customLang });
   return templateService.replaceVar(template, 'triven:posts', body);
 }
 
