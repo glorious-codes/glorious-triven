@@ -6,15 +6,11 @@ const stylesService = require('./styles');
 const { mockTrivenConfig } = require('./testing');
 
 describe('Page Service', () => {
-  function buildPage(posts, { page, total, assetsDirPrefix, customLang }, onBuild){
+  function buildPage(posts, { page, total, hrefPrefixes, customLang }, onBuild){
     stylesService.buildBaseStyle('', () => {
-      const result = pageService.build(posts, { page, total, assetsDirPrefix, customLang });
+      const result = pageService.build(posts, { page, total, hrefPrefixes, customLang });
       onBuild(result);
     });
-  }
-
-  function parsePostHref(href){
-    return href.replace('.html', '');
   }
 
   function getExpectedTrivenStylesheetHash(){
@@ -102,10 +98,30 @@ describe('Page Service', () => {
     });
   });
 
-  it('should optionally prefix assets linked in the html', done => {
-    buildPage(postsMock, { page: 2, total: 2, assetsDirPrefix: '../../../../' }, page => {
+  it('should optionally prefix assets href in the html', done => {
+    const hrefPrefixes = { asset: '../../../../' };
+    buildPage(postsMock, { page: 2, total: 2, hrefPrefixes }, page => {
       expect(page).toContain(domService.minifyHTML(`
         <link rel="stylesheet" href="../../../../a/triven-${getExpectedTrivenStylesheetHash()}.css">
+      `));
+      done();
+    });
+  });
+
+  it('should optionally prefix post href in the html', done => {
+    const hrefPrefixes = { post: '../../../../' };
+    buildPage(postsMock, { page: 2, total: 2, hrefPrefixes }, page => {
+      expect(page).toContain(domService.minifyHTML(`
+        <h2 class="tn-post-title">
+          <a href="../../../../new-year">New year!</a>
+        </h2>
+      `));
+      expect(page).toContain(domService.minifyHTML(`
+        <footer class="tn-footer">
+          <a href="../../../../new-year" class="tn-read-more-link">
+            Read more
+          </a>
+        </footer>
       `));
       done();
     });
@@ -158,16 +174,6 @@ describe('Page Service', () => {
     buildPage([first, second], { page: 3, total: 6 }, page => {
       expect(page).toContain('<a href="../2" class="tn-newer-link">Newer</a>');
       expect(page).toContain('<a href="../4" class="tn-older-link">Older</a>');
-      done();
-    });
-  });
-
-  it('should build apropriate post href on pages other than the first one', done => {
-    const [first] = postsMock;
-    const expectedHref = `../../${parsePostHref(first.url)}`;
-    buildPage([first], { page: 2, total: 2 }, page => {
-      expect(page).toContain(`<h2 class="tn-post-title"><a href="${expectedHref}">${first.title}</a></h2>`);
-      expect(page).toContain(`<a href="${expectedHref}" class="tn-read-more-link">Read more</a>`);
       done();
     });
   });

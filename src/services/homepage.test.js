@@ -24,7 +24,7 @@ describe('Homepage Service', () => {
     const [first, second, third] = postsMock;
     const orderedPosts = [second, third, first];
     homepageService.build(postsMock, '');
-    expect(pageService.build).toHaveBeenCalledWith(orderedPosts, { page: 1, total: 1, assetsDirPrefix: '' });
+    expect(pageService.build).toHaveBeenCalledWith(orderedPosts, expect.any(Object));
   });
 
   it('should save home page files according to their page numbers', () => {
@@ -32,11 +32,11 @@ describe('Homepage Service', () => {
     const postsMock = new Array(25);
     const { html } = stubPageBuild();
     homepageService.build(postsMock.fill({ some: 'postSummary' }), outputDirectory);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 3, assetsDirPrefix: '' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 3, hrefPrefixes: { asset: '', post: '' }, customLang: undefined });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 3, assetsDirPrefix: '../../' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 3, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: undefined });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/2/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 3, total: 3, assetsDirPrefix: '../../' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 3, total: 3, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: undefined });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/3/index.html`, html);
   });
 
@@ -55,13 +55,21 @@ describe('Homepage Service', () => {
     const allPostsMock = [...englishPostsMock.fill({ lang: 'en-US' }), ...portuguesePostsMock.fill({ lang: 'pt-BR' })];
     const { html } = stubPageBuild();
     homepageService.build(allPostsMock, outputDirectory);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, assetsDirPrefix: '../../', customLang: 'en-US' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: 'en-US' });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/en-US/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, assetsDirPrefix: '../../../../', customLang: 'en-US' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, hrefPrefixes: { asset: '../../../../', post: '../../../../' }, customLang: 'en-US' });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/en-US/p/2/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, assetsDirPrefix: '../../', customLang: 'pt-BR' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: 'pt-BR' });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/pt-BR/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, assetsDirPrefix: '../../../../', customLang: 'pt-BR' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, hrefPrefixes: { asset: '../../../../', post: '../../../../' }, customLang: 'pt-BR' });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/pt-BR/p/2/index.html`, html);
+  });
+
+  it('should not save language-specific home page files if all posts are written in the same language', () => {
+    stubPageBuild();
+    const outputDirectory = buildFakeOutputDirectoryFilepath();
+    const [first, second] = postsMock;
+    homepageService.build([first, second], outputDirectory);
+    expect(fileService.write).not.toHaveBeenCalledWith(`${outputDirectory}/l/en-US/index.html`, expect.any(String));
   });
 });

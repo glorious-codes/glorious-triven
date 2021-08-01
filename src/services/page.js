@@ -4,23 +4,23 @@ const templateService = require('./template');
 
 const _public = {};
 
-_public.build = (posts, { page, total, assetsDirPrefix = '', customLang }) => {
-  const body = buildPageBody(posts, page, total);
-  return domService.minifyHTML(buildPage(body, assetsDirPrefix, customLang));
+_public.build = (posts, { page, total, hrefPrefixes = {}, customLang }) => {
+  const body = buildPageBody(posts, page, total, hrefPrefixes.post);
+  return domService.minifyHTML(buildPage(body, hrefPrefixes.asset, customLang));
 };
 
-function buildPageBody(posts, page, total){
+function buildPageBody(posts, page, total, postHrefPrefix){
   return `
     <main class="tn-main">
-      ${buildPostList(posts, page)}
+      ${buildPostList(posts, page, postHrefPrefix)}
       ${buildFooter(page, total)}
     </main>
   `;
 }
 
-function buildPostList(posts, page){
+function buildPostList(posts, page, postHrefPrefix = ''){
   const items = posts.map(post => {
-    const href = buildPostHref(post.url, page);
+    const href = buildPostHref(post.url, postHrefPrefix);
     return `
       <li>
         <section>
@@ -70,8 +70,8 @@ function handleLinkAttrs({ external }){
   return external ? 'rel="noopener noreferrer" target="_blank"' : '';
 }
 
-function buildPostHref(href, page){
-  const prefix = page > 1 && !href.includes('http') ? '../../' : '';
+function buildPostHref(href, postHrefPrefix){
+  const prefix = !href.includes('http') ? postHrefPrefix : '';
   return `${prefix}${href.replace('.html', '')}`;
 }
 

@@ -98,10 +98,19 @@ Here is the first article paragraph.
 
   it('should optionally contain a custom language', () => {
     const lang = 'pt-BR';
-    expect(summaryService.build(buildMarkdownFileMock({ lang }), 'sem-titulo.md')).toEqual({
+    expect(summaryService.build(buildMarkdownFileMock({ lang }), 'untitled.md')).toEqual({
       title: 'Untitled',
-      url: 'sem-titulo.html',
+      url: 'untitled.html',
       lang
+    });
+  });
+
+  it('should return a default summary if no metadata has been found on markdown file', () => {
+    const markdown = '![Valeska Soares Gallery](http://valeskasoares.net/wp-content/uploads/2009/10/DSC8218.jpg)';
+    expect(summaryService.build(markdown, 'untitled.md')).toEqual({
+      title: 'Untitled',
+      url: 'untitled.html',
+      lang: 'en-US'
     });
   });
 });

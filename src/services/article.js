@@ -3,50 +3,36 @@ const assetsService = require('./assets');
 const dateService = require('./date');
 const domService = require('./dom');
 const excerptService = require('./excerpt');
-const { fileService } = require('./file');
 const markdownService = require('./markdown');
-const summaryService = require('./summary');
 const templateService = require('./template');
 
 const _public = {};
 
-_public.build = filepath => {
-  const markdownText = fileService.readSync(filepath);
+_public.build = ({ filepath, summary, markdownText }, languages = []) => {
   const article = assetsService.handleRelativeAssets(
-    markdownService.convert(removeMetadataLines(markdownText)),
+    markdownService.convert(markdownText),
     { baseDir: path.dirname(filepath), assetsDirPrefix: '../' }
   );
-  const summary = summaryService.build(markdownText, filepath);
   return {
     summary: { ...summary, excerpt: excerptService.extract(article, summary) },
     article: fillTemplate(
       templateService.getArticleTemplate(),
       article,
       summary,
-    )
+      languages,
+    ),
+    filepath
   };
 };
 
-function removeMetadataLines(markdownLines){
-  return articleHasMetadata(markdownLines) ? splitArticle(markdownLines)[1] : markdownLines;
-}
-
-function articleHasMetadata(markdownLines){
-  return splitArticle(markdownLines).length > 1;
-}
-
-function splitArticle(markdownLines){
-  return markdownLines.split('---');
-}
-
-function fillTemplate(template, article, summary){
-  const $ = parseHTMLString(templateService.replaceVar(template, 'triven:article', wrapArticle(summary, article)));
+function fillTemplate(template, article, summary, languages){
+  const $ = parseHTMLString(templateService.replaceVar(template, 'triven:article', wrapArticle(summary, article, languages)));
   $('html').attr('lang', summary.lang);
   $('head').append(`<title>${summary.title}</title>`).append(buildMetaTags(summary));
   return $.html();
 }
 
-function wrapArticle({ title, date, lang }, article){
+function wrapArticle({ title, date, lang }, article, languages){
   return `
     <main class="tn-main">
       <article class="tn-article">
@@ -56,11 +42,16 @@ function wrapArticle({ title, date, lang }, article){
         </header>
         ${article}
         <footer class="tn-footer">
-          <a href="../">See all posts</a>
+          ${buildSeeAllPostsLink(languages, lang)}
         </footer>
       </article>
     </main>
   `;
+}
+
+function buildSeeAllPostsLink(languages, lang){
+  const href = languages.length > 1 ? `../l/${lang}` : '../';
+  return `<a href=${href}>See all posts</a>`;
 }
 
 function buildMetaTags({ description = '', keywords = '' }){
