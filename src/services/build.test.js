@@ -6,6 +6,7 @@ const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
 const homepageService = require('./homepage');
+const postsService = require('./posts');
 const buildService = require('./build');
 
 describe('Build Service', () => {
@@ -124,9 +125,11 @@ describe('Build Service', () => {
   });
 
   it('should build homepage', done => {
-    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock()]));
+    const filepaths = [buildPathToMarkdownMock()];
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess(filepaths));
     const { outputDirectory } = configService.get();
-    const { summary } = articleService.build(path.join(__dirname, '../mocks/new-year.md'));
+    const [postData] = postsService.buildData(filepaths);
+    const { summary } = articleService.build(postData);
     buildService.init(() => {
       expect(homepageService.build).toHaveBeenCalledWith([summary], outputDirectory);
       done();
@@ -134,9 +137,11 @@ describe('Build Service', () => {
   });
 
   it('should save a JSON containing all post summaries', done => {
-    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock()]));
+    const filepaths = [buildPathToMarkdownMock()];
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess(filepaths));
     const { outputDirectory } = configService.get();
-    const { summary } = articleService.build(path.join(__dirname, '../mocks/new-year.md'));
+    const [postData] = postsService.buildData(filepaths);
+    const { summary } = articleService.build(postData);
     buildService.init(() => {
       expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/posts.json`, JSON.stringify([summary]));
       done();

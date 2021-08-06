@@ -1,29 +1,33 @@
+const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
 const templateService = require('./template');
+const translationService = require('./translation');
 
 const _public = {};
 
-_public.build = (posts, { page, total }) => {
-  const body = buildPageBody(posts, page, total);
-  return domService.minifyHTML(buildPage(body, page));
+_public.build = (posts, { page, total, hrefPrefixes = {}, customLang }) => {
+  const pageLang = customLang || configService.get().lang;
+  const body = buildPageBody(posts, page, total, hrefPrefixes.post, pageLang);
+  return domService.minifyHTML(buildPage(body, hrefPrefixes.asset, pageLang));
 };
 
-function buildPageBody(posts, page, total){
+function buildPageBody(posts, page, total, postHrefPrefix, pageLang){
   return `
     <main class="tn-main">
-      ${buildPostList(posts, page)}
-      ${buildFooter(page, total)}
+      ${buildPostList(posts, page, postHrefPrefix, pageLang)}
+      ${handleFooter(page, total, getTranslations(pageLang))}
     </main>
   `;
 }
 
-function buildPostList(posts, page){
+function buildPostList(posts, page, postHrefPrefix = '', pageLang){
   const items = posts.map(post => {
-    const href = buildPostHref(post.url, page);
+    const translations = getTranslations(post.lang);
+    const href = buildPostHref(post.url, postHrefPrefix);
     return `
       <li>
-        <section>
+        <section ${handleSectionLangAttribute(pageLang, post.lang)}>
           <header class="tn-header">
             <h2 class="tn-post-title">
               <a href="${href}" ${handleLinkAttrs(post)}>${post.title}</a>
@@ -33,7 +37,7 @@ function buildPostList(posts, page){
           <p>${post.excerpt}</p>
           <footer class="tn-footer">
             <a href="${href}" ${handleLinkAttrs(post)} class="tn-read-more-link">
-              Read more
+              ${translations.readMore}
             </a>
           </footer>
         </section>
@@ -43,22 +47,30 @@ function buildPostList(posts, page){
   return `<ul class="tn-post-list">${items}</ul>`;
 }
 
-function buildFooter(page, total){
-  const prevLink = buildPreviousPageLink(page);
-  const nextLink = buildNextPageLink(page, total);
-  return prevLink || nextLink ? `<footer class="tn-footer"><nav>${prevLink}${nextLink}</nav></footer>` : '';
+function handleSectionLangAttribute(pageLang, postLang){
+  return pageLang !== postLang ? `lang="${postLang}"` : '';
 }
 
-function buildPreviousPageLink(page){
-  return page > 1 ? `<a href="${buildPreviousPageLinkHref(page)}" class="tn-newer-link">Newer</a>` : '';
+function handleFooter(page, total, translations){
+  const prevLink = buildPreviousPageLink(page, translations);
+  const nextLink = buildNextPageLink(page, total, translations);
+  return prevLink || nextLink ? buildFooter(prevLink, nextLink) : '';
+}
+
+function buildFooter(prevLink, nextLink){
+  return `<footer class="tn-footer"><nav>${prevLink}${nextLink}</nav></footer>`;
+}
+
+function buildPreviousPageLink(page, { newer }){
+  return page > 1 ? `<a href="${buildPreviousPageLinkHref(page)}" class="tn-newer-link">${newer}</a>` : '';
 }
 
 function buildPreviousPageLinkHref(page){
   return page === 2 ? '../../' : `../${page - 1}`;
 }
 
-function buildNextPageLink(page, total){
-  return page !== total ? `<a href="${buildNextPageLinkHref(page)}" class="tn-older-link">Older</a>` : '';
+function buildNextPageLink(page, total, { older }){
+  return page !== total ? `<a href="${buildNextPageLinkHref(page)}" class="tn-older-link">${older}</a>` : '';
 }
 
 function buildNextPageLinkHref(page){
@@ -70,14 +82,18 @@ function handleLinkAttrs({ external }){
   return external ? 'rel="noopener noreferrer" target="_blank"' : '';
 }
 
-function buildPostHref(href, page){
-  const prefix = page > 1 && !href.includes('http') ? '../../' : '';
+function buildPostHref(href, postHrefPrefix){
+  const prefix = !href.includes('http') ? postHrefPrefix : '';
   return `${prefix}${href.replace('.html', '')}`;
 }
 
-function buildPage(body, pageNumber){
-  const template = templateService.getHomepageTemplate({ pageNumber });
+function buildPage(body, assetsDirPrefix, customLang){
+  const template = templateService.getHomepageTemplate({ assetsDirPrefix, customLang });
   return templateService.replaceVar(template, 'triven:posts', body);
+}
+
+function getTranslations(lang){
+  return translationService.get(lang);
 }
 
 module.exports = _public;

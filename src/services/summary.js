@@ -5,9 +5,14 @@ const _public = {};
 
 _public.build = (fileContent, filepath) => {
   const baseSummary = { title: 'Untitled', lang: configService.get().lang };
-  const customSummary = buildCustomSummary(fileContent.split('\n'));
+  const customSummary = hasMetadata(fileContent) ? buildCustomSummary(fileContent.split('\n')) : {};
   return appendUrl({ ...baseSummary, ...customSummary }, filepath);
 };
+
+function hasMetadata(fileContent){
+  const containsMetadataDivider = new RegExp(/^---\n$/m);
+  return containsMetadataDivider.test(fileContent);
+}
 
 function buildCustomSummary(lines){
   const customSummary = {};

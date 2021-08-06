@@ -3,8 +3,8 @@ const marked = require('marked');
 
 const _public = {};
 
-_public.convert = htmlString => {
-  return marked(htmlString, { headerIds: false, highlight });
+_public.convert = markdownText => {
+  return marked(markdownText, { headerIds: false, highlight });
 };
 
 function highlight(code, lang){

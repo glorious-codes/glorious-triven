@@ -51,6 +51,19 @@ module.exports = {
       someVar: 'someValue',
       anotherVar: 'anotherValue'
     }
+  },
+  // You can optionally set custom translations for labels used by Triven:
+  translations: {
+    'en-US': {
+      newer: 'Previous page',           // Default: 'Newer'
+      older: 'Next page',               // Default: 'Older'
+      readMore: 'Keep reading',         // Default: 'Read more'
+      seeAllPosts: 'All publications'   // Default: 'See all posts'
+    },
+    // You can add specific-language dictionaries if you have a multi-language blog:
+    'pt-BR': {
+      // Portuguese translations
+    }
   }
 }
 ```

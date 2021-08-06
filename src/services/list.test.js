@@ -21,4 +21,11 @@ describe('List Service', () => {
     expect(pages[2]).toEqual([13,14,15,16,17,18]);
     expect(pages[3]).toEqual([19,20,21,22,23,24]);
   });
+
+  it('should reject repeated values in a list', () => {
+    const list = [1, 'a', 'a', '1', 2, 2, 3, true, 'true', true];
+    expect(listService.rejectRepeatedValues(list)).toEqual([
+      1, 'a', '1', 2, 3, true, 'true'
+    ]);
+  });
 });

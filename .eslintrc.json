@@ -21,7 +21,7 @@
     "semi": ["error", "always"],
     "complexity": ["error", { "max": 3 }],
     "max-lines": ["error", { "max": 100 }],
-    "max-statements": ["error", { "max": 5 },
+    "max-statements": ["error", { "max": 6 },
       { "ignoreTopLevelFunctions": true }
     ]
   },
@@ -31,7 +31,7 @@
       "rules": {
         "no-global-assign": 0,
         "max-lines": ["error", { "max": 300 }],
-        "max-statements": ["error", { "max": 10 },
+        "max-statements": ["error", { "max": 15 },
           { "ignoreTopLevelFunctions": true }
         ]
       }

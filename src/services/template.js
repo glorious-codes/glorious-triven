@@ -9,9 +9,9 @@ const _public = {};
 
 _public.getArticleTemplate = () => getTemplateByName('article', '../');
 
-_public.getHomepageTemplate = ({ pageNumber } = {}) => {
+_public.getHomepageTemplate = ({ assetsDirPrefix = '', customLang } = {}) => {
   const { title, lang } = configService.get();
-  const template = setLang(getTemplateByName('homepage', buildHomepageAssetsDirectoryPrefix(pageNumber)), lang);
+  const template = setLang(getTemplateByName('homepage', assetsDirPrefix), customLang || lang);
   const $ = parseHTMLString(template);
   title && $('head').append(`<title>${title}</title>`);
   return $.html();
@@ -30,10 +30,6 @@ function getTemplateByName(name, assetsDirPrefix){
     buildBaseMetaTags(parseTemplate(fileService.readSync(filepath), path.dirname(filepath), assetsDirPrefix)) :
     buildBaseMetaTags(getByFilename(`${name}.html`));
   return includeBaseStylesheet(template, assetsDirPrefix);
-}
-
-function buildHomepageAssetsDirectoryPrefix(pageNumber){
-  return pageNumber > 1 ? '../../' : '';
 }
 
 function parseTemplate(htmlString, baseDir, assetsDirPrefix){
