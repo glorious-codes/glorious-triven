@@ -72,7 +72,7 @@ describe('Page Service', () => {
                   </section>
                 </li>
                 <li>
-                  <section>
+                  <section lang="pt-BR">
                     <header class="tn-header">
                       <h2 class="tn-post-title">
                         <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
@@ -202,6 +202,35 @@ describe('Page Service', () => {
     mockTrivenConfig({ lang });
     buildPage(postsMock, { page: 1, total: 1, customLang }, page => {
       expect(page).toContain(`<html lang="${customLang}">`);
+      done();
+    });
+  });
+
+  it('should optionally use custom translations for labels', done => {
+    const lang = 'pt-BR';
+    const newer = 'Posteriores';
+    const older = 'Anteriores';
+    mockTrivenConfig({ translations: { [lang]: { newer, older } } });
+    buildPage(postsMock, { page: 3, total: 6, customLang: lang }, page => {
+      expect(page).toContain(`<a href="../2" class="tn-newer-link">${newer}</a>`);
+      expect(page).toContain(`<a href="../4" class="tn-older-link">${older}</a>`);
+      done();
+    });
+  });
+
+  it('should optionally use custom translations for "Read more" links', done => {
+    mockTrivenConfig({ translations: { 'pt-BR': { readMore: 'Continue lendo' } } });
+    buildPage(postsMock, { page: 1, total: 1 }, page => {
+      expect(page).toContain(domService.minifyHTML(`
+        <a href="new-year" class="tn-read-more-link">
+          Read more
+        </a>
+      `));
+      expect(page).toContain(domService.minifyHTML(`
+        <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
+          Continue lendo
+        </a>
+      `));
       done();
     });
   });

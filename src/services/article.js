@@ -5,6 +5,7 @@ const domService = require('./dom');
 const excerptService = require('./excerpt');
 const markdownService = require('./markdown');
 const templateService = require('./template');
+const translationService = require('./translation');
 
 const _public = {};
 
@@ -50,8 +51,9 @@ function wrapArticle({ title, date, lang }, article, languages){
 }
 
 function buildSeeAllPostsLink(languages, lang){
+  const { seeAllPosts } = translationService.get(lang);
   const href = languages.length > 1 ? `../l/${lang}` : '../';
-  return `<a href=${href}>See all posts</a>`;
+  return `<a href=${href}>${seeAllPosts}</a>`;
 }
 
 function buildMetaTags({ description = '', keywords = '' }){

@@ -2,6 +2,7 @@ const path = require('path');
 const configService = require('./config');
 const { fileService } = require('./file');
 const postsService = require('./posts');
+const { mockTrivenConfig } = require('./testing');
 const articleService = require('./article');
 
 describe('Articles Service', () => {
@@ -36,5 +37,13 @@ describe('Articles Service', () => {
     const [postData] = postsService.buildData(filepaths);
     const { article } = articleService.build(postData, ['en-US', 'pt-BR']);
     expect(article).toContain('<a href="../l/en-US">See all posts</a>');
+  });
+
+  it('should optionally use custom translation for labels', () => {
+    mockTrivenConfig({ translations: { 'pt-BR': { seeAllPosts: 'Todas as publicações' } } });
+    const filepaths = [path.join(__dirname, '../mocks/portuguese.md')];
+    const [postData] = postsService.buildData(filepaths);
+    const { article } = articleService.build(postData, ['en-US', 'pt-BR']);
+    expect(article).toContain('<a href="../l/pt-BR">Todas as publicações</a>');
   });
 });
