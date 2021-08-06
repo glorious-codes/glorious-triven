@@ -1,3 +1,8 @@
+title: Images
+date: 2021-08-06
+
+---
+
 ![Adriana Varejão Gallery](./varejao.jpeg)
 
 _Adriana Varejão Gallery_

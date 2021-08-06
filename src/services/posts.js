@@ -1,5 +1,4 @@
 const { fileService } = require('./file');
-const metadataService = require('./metadata');
 const summaryService = require('./summary');
 
 const _public = {};
@@ -13,7 +12,6 @@ _public.buildData = filepaths => {
 };
 
 function removeMetadataLines(fileContent){
-  if(!metadataService.hasMetadata(fileContent)) return fileContent;
   return fileContent.slice(fileContent.indexOf('---')+3).trim();
 }
 

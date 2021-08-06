@@ -1,3 +1,5 @@
+const path = require('path');
+const { fileService } = require('./file');
 const summaryService = require('./summary');
 
 describe('Summary Service', () => {
@@ -105,12 +107,13 @@ Here is the first article paragraph.
     });
   });
 
-  it('should return a default summary if no metadata has been found on markdown file', () => {
-    const markdown = '![Valeska Soares Gallery](http://valeskasoares.net/wp-content/uploads/2009/10/DSC8218.jpg)';
-    expect(summaryService.build(markdown, 'untitled.md')).toEqual({
+  it('should use default language and title on summary if they have not been found on markdown file content', () => {
+    const fileContent = fileService.readSync(path.join(__dirname, '../mocks/incomplete-metadata.md'));
+    expect(summaryService.build(fileContent, 'incomplete-metadata.md')).toEqual({
       title: 'Untitled',
-      url: 'untitled.html',
-      lang: 'en-US'
+      lang: 'en-US',
+      date: '2021-08-06',
+      url: 'incomplete-metadata.html'
     });
   });
 });

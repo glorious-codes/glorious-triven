@@ -79,42 +79,6 @@ describe('Build Service', () => {
     });
   });
 
-  it('should convert markdown files to html files even if no metada has been found', done => {
-    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([path.join(__dirname, '../mocks/no-metadata.md')]));
-    const data = domService.minifyHTML(`
-<!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <link rel="stylesheet" href="../a/triven-09bc413584c654bbd435f02cf242839d.css">
-    <title>Untitled</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-  </head>
-  <body>
-    <main class="tn-main">
-      <article class="tn-article">
-        <header class="tn-header">
-          <h1 class="tn-post-title">Untitled</h1>
-          <p class="tn-date"></p>
-        </header>
-        <p>This is a paragraph.</p>
-        <footer class="tn-footer">
-          <a href="../">See all posts</a>
-        </footer>
-      </article>
-    </main>
-  </body>
-</html>
-`.trim());
-    const { outputDirectory } = configService.get();
-    buildService.init(() => {
-      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/no-metadata/index.html`, data);
-      done();
-    });
-  });
-
   it('should not save an html file to article if it is an external article', done => {
     fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([path.join(__dirname, '../mocks/external-article.md')]));
     const { outputDirectory } = configService.get();
