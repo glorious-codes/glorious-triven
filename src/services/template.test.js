@@ -61,7 +61,7 @@ describe('Template Service', () => {
   it('should not include charset and viewport meta tags if they are present in custom article template', done => {
     mockTrivenConfig({
       templates: {
-        article: './src/templates/custom-article-meta-tags.html'
+        article: './src/mocks/custom-article-meta-tags.html'
       }
     });
     const expectedMarkup = domService.minifyHTML(`
@@ -86,7 +86,7 @@ describe('Template Service', () => {
   it('should not include charset and viewport meta tags if they are present in custom homepage template', done => {
     mockTrivenConfig({
       templates: {
-        homepage: './src/templates/custom-homepage-meta-tags.html'
+        homepage: './src/mocks/custom-homepage-meta-tags.html'
       }
     });
     const expectedMarkup = domService.minifyHTML(`
@@ -112,7 +112,7 @@ describe('Template Service', () => {
   it('should get custom article template if template has been set', done => {
     mockTrivenConfig({
       templates: {
-        article: './src/templates/custom-article.html'
+        article: './src/mocks/custom-article.html'
       }
     });
     const expectedMarkup = domService.minifyHTML(`
@@ -138,7 +138,7 @@ describe('Template Service', () => {
   it('should get custom homepage template if template has been set', done => {
     mockTrivenConfig({
       templates: {
-        homepage: './src/templates/custom-homepage.html'
+        homepage: './src/mocks/custom-homepage.html'
       }
     });
     const expectedMarkup = domService.minifyHTML(`
@@ -165,7 +165,7 @@ describe('Template Service', () => {
   it('should replace custom article template variables', done => {
     mockTrivenConfig({
       templates: {
-        article: './src/templates/custom-article-vars.html',
+        article: './src/mocks/custom-article-vars.html',
         vars: {
           regularVar: '123',
           extraSpacedVar: '456',
@@ -185,7 +185,7 @@ describe('Template Service', () => {
   it('should replace custom homepage template variables', done => {
     mockTrivenConfig({
       templates: {
-        homepage: './src/templates/custom-homepage-vars.html',
+        homepage: './src/mocks/custom-homepage-vars.html',
         vars: {
           regularVar: '123',
           extraSpacedVar: '456',
@@ -205,7 +205,7 @@ describe('Template Service', () => {
   it('should copy relative images to assets directory and update its source in custom article template', done => {
     mockTrivenConfig({
       templates: {
-        article: './src/templates/custom-article-assets.html'
+        article: './src/mocks/custom-article-assets.html'
       }
     });
     const filenames = {
@@ -231,7 +231,7 @@ describe('Template Service', () => {
   it('should copy relative images to assets directory and update its source in custom homepage template', done => {
     mockTrivenConfig({
       templates: {
-        homepage: './src/templates/custom-homepage-assets.html'
+        homepage: './src/mocks/custom-homepage-assets.html'
       }
     });
     const filenames = {
@@ -257,7 +257,7 @@ describe('Template Service', () => {
   it('should prefix local assets directory when handling assets for the second or greater page of homepage', done => {
     mockTrivenConfig({
       templates: {
-        homepage: './src/templates/custom-homepage-assets.html'
+        homepage: './src/mocks/custom-homepage-assets.html'
       }
     });
     const filenames = {
