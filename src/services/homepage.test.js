@@ -31,12 +31,12 @@ describe('Homepage Service', () => {
     const outputDirectory = buildFakeOutputDirectoryFilepath();
     const postsMock = new Array(25);
     const { html } = stubPageBuild();
-    homepageService.build(postsMock.fill({ some: 'postSummary' }), outputDirectory);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 3, hrefPrefixes: { asset: '', post: '' }, customLang: undefined });
+    homepageService.build(postsMock.fill({ some: 'postSummary', lang: 'en-US' }), outputDirectory);
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 3, hrefPrefixes: { asset: '', post: '' }, lang: undefined, availableLanguages: ['en-US'] });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 3, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: undefined });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 3, hrefPrefixes: { asset: '../../', post: '../../' }, lang: undefined, availableLanguages: ['en-US'] });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/2/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 3, total: 3, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: undefined });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 3, total: 3, hrefPrefixes: { asset: '../../', post: '../../' }, lang: undefined, availableLanguages: ['en-US'] });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/p/3/index.html`, html);
   });
 
@@ -55,13 +55,13 @@ describe('Homepage Service', () => {
     const allPostsMock = [...englishPostsMock.fill({ lang: 'en-US' }), ...portuguesePostsMock.fill({ lang: 'pt-BR' })];
     const { html } = stubPageBuild();
     homepageService.build(allPostsMock, outputDirectory);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: 'en-US' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, hrefPrefixes: { asset: '../../', post: '../../' }, lang: 'en-US', availableLanguages: ['en-US', 'pt-BR'] });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/en-US/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, hrefPrefixes: { asset: '../../../../', post: '../../../../' }, customLang: 'en-US' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, hrefPrefixes: { asset: '../../../../', post: '../../../../' }, lang: 'en-US', availableLanguages: ['en-US', 'pt-BR'] });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/en-US/p/2/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, hrefPrefixes: { asset: '../../', post: '../../' }, customLang: 'pt-BR' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 1, total: 2, hrefPrefixes: { asset: '../../', post: '../../' }, lang: 'pt-BR', availableLanguages: ['en-US', 'pt-BR'] });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/pt-BR/index.html`, html);
-    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, hrefPrefixes: { asset: '../../../../', post: '../../../../' }, customLang: 'pt-BR' });
+    expect(pageService.build).toHaveBeenCalledWith(expect.any(Array), { page: 2, total: 2, hrefPrefixes: { asset: '../../../../', post: '../../../../' }, lang: 'pt-BR', availableLanguages: ['en-US', 'pt-BR'] });
     expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/l/pt-BR/p/2/index.html`, html);
   });
 

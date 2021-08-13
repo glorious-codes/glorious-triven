@@ -2,8 +2,8 @@ const _public = {};
 const TWO_DIRECTORIES_UP = '../../';
 const FOUR_DIRECTORIES_UP = '../../../../';
 
-_public.buildHrefPrefixes = ({ pageNumber, customLang }) => {
-  if(customLang) return buildPrefixesForSpecificLangHomepage(pageNumber);
+_public.buildHrefPrefixes = ({ pageNumber, lang }) => {
+  if(lang) return buildPrefixesForSpecificLangHomepage(pageNumber);
   return buildPrefixesForMultiLangHomepage(pageNumber);
 };
 

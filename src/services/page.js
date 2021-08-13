@@ -1,33 +1,35 @@
 const configService = require('./config');
 const dateService = require('./date');
 const domService = require('./dom');
+const settingsService = require('./settings');
 const templateService = require('./template');
 const translationService = require('./translation');
 
 const _public = {};
 
-_public.build = (posts, { page, total, hrefPrefixes = {}, customLang }) => {
-  const pageLang = customLang || configService.get().lang;
-  const body = buildPageBody(posts, page, total, hrefPrefixes.post, pageLang);
-  return domService.minifyHTML(buildPage(body, hrefPrefixes.asset, pageLang));
+_public.build = (posts, { page, total, hrefPrefixes = {}, lang, availableLanguages }) => {
+  const body = buildPageBody(posts, page, total, hrefPrefixes.post, lang, availableLanguages);
+  return domService.minifyHTML(buildPage(body, hrefPrefixes.asset, lang));
 };
 
-function buildPageBody(posts, page, total, postHrefPrefix, pageLang){
+function buildPageBody(posts, page, total, postHrefPrefix, lang, availableLanguages){
   return `
     <main class="tn-main">
-      ${buildPostList(posts, page, postHrefPrefix, pageLang)}
-      ${handleFooter(page, total, getTranslations(pageLang))}
+      ${buildPostList(posts, page, postHrefPrefix, lang)}
+      ${handleFooter(page, total, translationService.get(lang))}
     </main>
+    ${settingsService.build(availableLanguages, { selectedLanguage: lang, hrefPrefix: postHrefPrefix })}
   `;
 }
 
-function buildPostList(posts, page, postHrefPrefix = '', pageLang){
+function buildPostList(posts, page, postHrefPrefix = '', lang){
+  const language = lang || configService.get().lang;
   const items = posts.map(post => {
-    const translations = getTranslations(post.lang);
+    const translations = translationService.get(post.lang);
     const href = buildPostHref(post.url, postHrefPrefix);
     return `
       <li>
-        <section ${handleSectionLangAttribute(pageLang, post.lang)}>
+        <section ${handleSectionLangAttribute(language, post.lang)}>
           <header class="tn-header">
             <h2 class="tn-post-title">
               <a href="${href}" ${handleLinkAttrs(post)}>${post.title}</a>
@@ -47,8 +49,8 @@ function buildPostList(posts, page, postHrefPrefix = '', pageLang){
   return `<ul class="tn-post-list">${items}</ul>`;
 }
 
-function handleSectionLangAttribute(pageLang, postLang){
-  return pageLang !== postLang ? `lang="${postLang}"` : '';
+function handleSectionLangAttribute(language, postLang){
+  return language !== postLang ? `lang="${postLang}"` : '';
 }
 
 function handleFooter(page, total, translations){
@@ -87,13 +89,9 @@ function buildPostHref(href, postHrefPrefix){
   return `${prefix}${href.replace('.html', '')}`;
 }
 
-function buildPage(body, assetsDirPrefix, customLang){
-  const template = templateService.getHomepageTemplate({ assetsDirPrefix, customLang });
+function buildPage(body, assetsDirPrefix, language){
+  const template = templateService.getHomepageTemplate({ assetsDirPrefix, language });
   return templateService.replaceVar(template, 'triven:posts', body);
-}
-
-function getTranslations(lang){
-  return translationService.get(lang);
 }
 
 module.exports = _public;

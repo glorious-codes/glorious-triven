@@ -6,9 +6,9 @@ const stylesService = require('./styles');
 const { mockTrivenConfig } = require('./testing');
 
 describe('Page Service', () => {
-  function buildPage(posts, { page, total, hrefPrefixes, customLang }, onBuild){
+  function buildPage(posts, { page, total, hrefPrefixes, lang, availableLanguages }, onBuild){
     stylesService.buildBaseStyle('', () => {
-      const result = pageService.build(posts, { page, total, hrefPrefixes, customLang });
+      const result = pageService.build(posts, { page, total, hrefPrefixes, lang, availableLanguages });
       onBuild(result);
     });
   }
@@ -200,8 +200,8 @@ describe('Page Service', () => {
     const lang = 'pt-BR';
     const customLang = 'es-ES';
     mockTrivenConfig({ lang });
-    buildPage(postsMock, { page: 1, total: 1, customLang }, page => {
-      expect(page).toContain(`<html lang="${customLang}">`);
+    buildPage(postsMock, { page: 1, total: 1, lang: customLang }, page => {
+      expect(page).toContain(`<html lang="${lang}">`);
       done();
     });
   });
@@ -211,7 +211,7 @@ describe('Page Service', () => {
     const newer = 'Posteriores';
     const older = 'Anteriores';
     mockTrivenConfig({ translations: { [lang]: { newer, older } } });
-    buildPage(postsMock, { page: 3, total: 6, customLang: lang }, page => {
+    buildPage(postsMock, { page: 3, total: 6, lang }, page => {
       expect(page).toContain(`<a href="../2" class="tn-newer-link">${newer}</a>`);
       expect(page).toContain(`<a href="../4" class="tn-older-link">${older}</a>`);
       done();
@@ -230,6 +230,38 @@ describe('Page Service', () => {
         <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
           Continue lendo
         </a>
+      `));
+      done();
+    });
+  });
+
+  it('should build language settings menu if more than one language is available', done => {
+    const hrefPrefixes = { post: '../../../../' };
+    const availableLanguages = ['en-US', 'es-ES'];
+    buildPage(postsMock, { page: 2, total: 2, hrefPrefixes, availableLanguages }, page => {
+      expect(page).toContain(domService.minifyHTML(`
+        <div class="tn-settings">
+          <div class="tn-settings-content">
+            <nav class="tn-settings-language">
+              <div class="tn-screen-reader-only">Current language: Multi-language</div>
+              <button class="tn-settings-list-trigger" aria-hidden="true">
+                Multi-language
+              </button>
+              <div class="tn-screen-reader-only">Available languages:</div>
+              <ul class="tn-settings-list">
+                <li>
+                  <a href="../../../../">Multi-language</a>
+                </li>
+                <li>
+                  <a href="../../../../l/en-US">English US</a>
+                </li>
+                <li>
+                  <a href="../../../../l/es-ES">Español ES</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
       `));
       done();
     });

@@ -9,7 +9,7 @@ const _public = {};
 _public.build = ([...postSummaries], outputDirectory) => {
   const languages = identifyPostLanguages(postSummaries);
   const postSummariesOrderedByDescDate = orderByDateDesc(postSummaries);
-  buildHomepages(postSummariesOrderedByDescDate, outputDirectory);
+  buildHomepages(postSummariesOrderedByDescDate, outputDirectory, { availableLanguages: languages });
   buildLanguageSpecificHomepages(postSummariesOrderedByDescDate, outputDirectory, languages);
 };
 
@@ -27,7 +27,7 @@ function buildLanguageSpecificHomepages(postSummaries, outputDirectory, language
       buildHomepages(
         filterPostSummariesByLang(postSummaries, lang),
         `${outputDirectory}/l/${lang}`,
-        lang
+        { lang, availableLanguages: languages }
       );
     });
   }
@@ -37,15 +37,16 @@ function filterPostSummariesByLang(summaries, lang){
   return summaries.filter(summary => summary.lang === lang);
 }
 
-function buildHomepages(postSummaries, outputDirectory, customLang){
+function buildHomepages(postSummaries, outputDirectory, { lang, availableLanguages }){
   const postSummaryPages = listService.divideByNumberOfItems(postSummaries);
   postSummaryPages.forEach((postSummaries, index) => {
     const pageNumber = index + 1;
     const html = pageService.build(postSummaries, {
       page: pageNumber,
       total: postSummaryPages.length,
-      hrefPrefixes: buildHrefPrefixes({ pageNumber, customLang }),
-      customLang
+      hrefPrefixes: buildHrefPrefixes({ pageNumber, lang }),
+      lang,
+      availableLanguages
     });
     fileService.write(buildFilepath(outputDirectory, pageNumber), html);
   });
