@@ -7,6 +7,7 @@ const dateService = require('./date');
 const domService = require('./dom');
 const homepageService = require('./homepage');
 const postsService = require('./posts');
+const { getExpectedTrivenStylesheetHash } = require('./testing');
 const buildService = require('./build');
 
 describe('Build Service', () => {
@@ -46,7 +47,7 @@ describe('Build Service', () => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <link rel="stylesheet" href="../a/triven-dae25b1d252923eff2af458404e045dd.css">
+    <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
     <title>New year!</title>
     <meta name="description" content="" />
     <meta name="keywords" content="" />

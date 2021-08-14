@@ -8,6 +8,10 @@ _public.mockTrivenConfig = customConfig => {
   fileService.require = jest.fn(filepath => buildFilesMock(customConfig)[filepath]);
 };
 
+_public.getExpectedTrivenStylesheetHash = () => {
+  return '99d5180fd53f2cbfd9106f622d4e7738';
+};
+
 function buildFilesMock(customConfig){
   return {
     [`${process.cwd()}/triven.config`]: { ...customConfig }

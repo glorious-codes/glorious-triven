@@ -3,7 +3,7 @@ const domService = require('./dom');
 const { fileService } = require('./file');
 const pageService = require('./page');
 const stylesService = require('./styles');
-const { mockTrivenConfig } = require('./testing');
+const { mockTrivenConfig, getExpectedTrivenStylesheetHash } = require('./testing');
 
 describe('Page Service', () => {
   function buildPage(posts, { page, total, hrefPrefixes, lang, availableLanguages }, onBuild){
@@ -11,10 +11,6 @@ describe('Page Service', () => {
       const result = pageService.build(posts, { page, total, hrefPrefixes, lang, availableLanguages });
       onBuild(result);
     });
-  }
-
-  function getExpectedTrivenStylesheetHash(){
-    return 'dae25b1d252923eff2af458404e045dd';
   }
 
   beforeEach(() => {
@@ -243,21 +239,24 @@ describe('Page Service', () => {
         <div class="tn-settings">
           <div class="tn-settings-content">
             <nav class="tn-settings-language">
-              <div class="tn-settings-list-container" tabindex="0">
-                <span class="tn-screen-reader-only">Current language: Multi-language</span>
-                <span class="tn-settings-list-trigger" aria-hidden="true">Multi-language</span>
-                <span class="tn-screen-reader-only">Available languages:</span>
-                <ul class="tn-settings-list">
-                  <li>
-                    <a href="../../../../">Multi-language</a>
-                  </li>
-                  <li>
-                    <a href="../../../../l/en-US">English US</a>
-                  </li>
-                  <li>
-                    <a href="../../../../l/es-ES">Español ES</a>
-                  </li>
-                </ul>
+              <div class="tn-settings-list-wrapper">
+                <div class="tn-settings-list-container" tabindex="0">
+                  <span class="tn-screen-reader-only">Current language: Multi-language</span>
+                  <span class="tn-settings-list-showing-trigger" aria-hidden="true">Multi-language</span>
+                  <span class="tn-screen-reader-only">Available languages:</span>
+                  <ul class="tn-settings-list">
+                    <li>
+                      <a href="../../../../">Multi-language</a>
+                    </li>
+                    <li>
+                      <a href="../../../../l/en-US">English US</a>
+                    </li>
+                    <li>
+                      <a href="../../../../l/es-ES">Español ES</a>
+                    </li>
+                  </ul>
+                </div>
+                <button class="tn-settings-list-hiding-trigger" aria-hidden="true" tabindex="0">Close</button>
               </div>
             </nav>
           </div>

@@ -1,7 +1,7 @@
 const domService = require('./dom');
 const { fileService } = require('./file');
 const stylesService = require('./styles');
-const { mockTrivenConfig } = require('./testing');
+const { mockTrivenConfig, getExpectedTrivenStylesheetHash } = require('./testing');
 const templateService = require('./template');
 
 describe('Template Service', () => {
@@ -9,10 +9,6 @@ describe('Template Service', () => {
 
   function mount(act){
     stylesService.buildBaseStyle('', act);
-  }
-
-  function getExpectedHash(){
-    return 'dae25b1d252923eff2af458404e045dd';
   }
 
   beforeEach(() => {
@@ -32,7 +28,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="../a/triven-${getExpectedHash()}.css">
+          <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
         </head>
         <body>{{ triven:article }}</body>
       </html>
@@ -50,7 +46,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="a/triven-${getExpectedHash()}.css">
+          <link rel="stylesheet" href="a/triven-${getExpectedTrivenStylesheetHash()}.css">
           <title>Triven</title>
         </head>
         <body>{{ triven:posts }}</body>
@@ -74,7 +70,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="ISO-8859-1">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <link rel="stylesheet" href="../a/triven-${getExpectedHash()}.css">
+          <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
         </head>
         <body>
           {{ triven:article }}
@@ -99,7 +95,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="ISO-8859-1">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <link rel="stylesheet" href="a/triven-${getExpectedHash()}.css">
+          <link rel="stylesheet" href="a/triven-${getExpectedTrivenStylesheetHash()}.css">
           <title>Triven</title>
         </head>
         <body>
@@ -125,7 +121,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="../a/triven-${getExpectedHash()}.css">
+          <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
         </head>
         <body>
           <h1>My Custom Article Title</h1>
@@ -151,7 +147,7 @@ describe('Template Service', () => {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-          <link rel="stylesheet" href="a/triven-${getExpectedHash()}.css">
+          <link rel="stylesheet" href="a/triven-${getExpectedTrivenStylesheetHash()}.css">
           <title>Triven</title>
         </head>
         <body>

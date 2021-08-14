@@ -134,22 +134,31 @@ p > code
   max-width $main-width + $main-padding * 2
   box-sizing border-box
 
+.tn-settings-list-wrapper,
 .tn-settings-list-container
   display inline-block
   position relative
+
+.tn-settings-list-container
   user-select none
   &:focus-within
-    .tn-settings-list-trigger
+    outline 0
+    .tn-settings-list-showing-trigger
+      padding 16px 42px 16px 15px
+      background-color $color-grey-light
       color $color-darkest
       &:after
+        right 15px
         border-color $color-darkest
         transform rotate(-135deg)
     .tn-settings-list
-      top 0
+      top -5px
       opacity 1
       visibility visible
+    & + .tn-settings-list-hiding-trigger
+      display block
 
-.tn-settings-list-trigger
+.tn-settings-list-showing-trigger
   display inline-block
   position relative
   padding 16px 32px 16px 5px
@@ -157,7 +166,9 @@ p > code
   color $color-grey-dark
   font-size 0.777777777777778rem
   border 0
+  border-radius 4px
   cursor pointer
+  transition padding .25s ease-out
   &:after
     position absolute
     content ''
@@ -171,6 +182,25 @@ p > code
     transform-origin 5px 5px
     transform rotate(45deg)
     transition all .5s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+
+.tn-settings-list-hiding-trigger
+  display none
+  position absolute
+  top 0
+  left 0
+  bottom 0
+  width 100%
+  background-color transparent
+  opacity 0
+  appearance none
+  cursor pointer
+  appearance none
+  -moz-appearance none
+  -webkit-appearance none
+  &:hover,
+  &:active,
+  &:focus
+    background-color transparent
 
 .tn-settings-list
   position absolute
