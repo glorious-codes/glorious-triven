@@ -14,7 +14,7 @@ describe('Page Service', () => {
   }
 
   function getExpectedTrivenStylesheetHash(){
-    return '09bc413584c654bbd435f02cf242839d';
+    return 'dae25b1d252923eff2af458404e045dd';
   }
 
   beforeEach(() => {
@@ -243,22 +243,22 @@ describe('Page Service', () => {
         <div class="tn-settings">
           <div class="tn-settings-content">
             <nav class="tn-settings-language">
-              <div class="tn-screen-reader-only">Current language: Multi-language</div>
-              <button class="tn-settings-list-trigger" aria-hidden="true">
-                Multi-language
-              </button>
-              <div class="tn-screen-reader-only">Available languages:</div>
-              <ul class="tn-settings-list">
-                <li>
-                  <a href="../../../../">Multi-language</a>
-                </li>
-                <li>
-                  <a href="../../../../l/en-US">English US</a>
-                </li>
-                <li>
-                  <a href="../../../../l/es-ES">Español ES</a>
-                </li>
-              </ul>
+              <div class="tn-settings-list-container" tabindex="0">
+                <span class="tn-screen-reader-only">Current language: Multi-language</span>
+                <span class="tn-settings-list-trigger" aria-hidden="true">Multi-language</span>
+                <span class="tn-screen-reader-only">Available languages:</span>
+                <ul class="tn-settings-list">
+                  <li>
+                    <a href="../../../../">Multi-language</a>
+                  </li>
+                  <li>
+                    <a href="../../../../l/en-US">English US</a>
+                  </li>
+                  <li>
+                    <a href="../../../../l/es-ES">Español ES</a>
+                  </li>
+                </ul>
+              </div>
             </nav>
           </div>
         </div>

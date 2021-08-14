@@ -18,10 +18,12 @@ function buildLanguageMenu(languages, { selectedLanguage, hrefPrefix }){
   const label = buildLanguageTriggerLabel(selectedLanguage);
   return `
     <nav class="tn-settings-language">
-      <div class="tn-screen-reader-only">Current language: ${label}</div>
-      <button class="tn-settings-list-trigger" aria-hidden="true">${label}</button>
-      <div class="tn-screen-reader-only">Available languages:</div>
-      ${buildLanguageMenuItems(languages, hrefPrefix)}
+      <div class="tn-settings-list-container" tabindex="0">
+        <span class="tn-screen-reader-only">Current language: ${label}</span>
+        <span class="tn-settings-list-trigger" aria-hidden="true">${label}</span>
+        <span class="tn-screen-reader-only">Available languages:</span>
+        ${buildLanguageMenuItems(languages, hrefPrefix)}
+      </div>
     </nav>
   `;
 }

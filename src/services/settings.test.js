@@ -12,22 +12,22 @@ describe('Settings Service', () => {
       <div class="tn-settings">
         <div class="tn-settings-content">
           <nav class="tn-settings-language">
-            <div class="tn-screen-reader-only">Current language: Multi-language</div>
-            <button class="tn-settings-list-trigger" aria-hidden="true">
-              Multi-language
-            </button>
-            <div class="tn-screen-reader-only">Available languages:</div>
-            <ul class="tn-settings-list">
-              <li>
-                <a href="./">Multi-language</a>
-              </li>
-              <li>
-                <a href="./l/en-US">English US</a>
-              </li>
-              <li>
-                <a href="./l/pt-BR">Português BR</a>
-              </li>
-            </ul>
+            <div class="tn-settings-list-container" tabindex="0">
+              <span class="tn-screen-reader-only">Current language: Multi-language</span>
+              <span class="tn-settings-list-trigger" aria-hidden="true">Multi-language</span>
+              <span class="tn-screen-reader-only">Available languages:</span>
+              <ul class="tn-settings-list">
+                <li>
+                  <a href="./">Multi-language</a>
+                </li>
+                <li>
+                  <a href="./l/en-US">English US</a>
+                </li>
+                <li>
+                  <a href="./l/pt-BR">Português BR</a>
+                </li>
+              </ul>
+            </div>
           </nav>
         </div>
       </div>
@@ -37,9 +37,9 @@ describe('Settings Service', () => {
   it('should optionally show language trigger label according to selected language', () => {
     const languages = ['en-US', 'pt-BR'];
     expect(settingsService.build(languages, { selectedLanguage: 'pt-BR' })).toContain(domService.minifyHTML(`
-      <button class="tn-settings-list-trigger" aria-hidden="true">
+      <span class="tn-settings-list-trigger" aria-hidden="true">
         Português BR
-      </button>
+      </span>
     `));
   });
 
@@ -47,9 +47,9 @@ describe('Settings Service', () => {
     const languages = ['en-US', 'pt'];
     const html = settingsService.build(languages, { selectedLanguage: 'pt' });
     expect(html).toContain(domService.minifyHTML(`
-      <button class="tn-settings-list-trigger" aria-hidden="true">
+      <span class="tn-settings-list-trigger" aria-hidden="true">
         Português
-      </button>
+      </span>
     `));
     expect(html).toContain(domService.minifyHTML(`
       <li>

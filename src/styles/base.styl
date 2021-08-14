@@ -1,8 +1,9 @@
 // Colors
-$color-grey-lighter = #f6f8fA
+$color-grey-lighter = #F6F8FA
 $color-grey-light   = #DFE3E8
 $color-grey         = #C4CDD5
 $color-grey-dark    = #627380
+$color-blue-lighter = #E6EFFF
 $color-blue         = #3377FF
 $color-darkest      = #231C33
 
@@ -122,3 +123,80 @@ p > code
 
 .tn-post-title, .tn-date
   text-align center
+
+.tn-settings
+  background-color $color-grey-lighter
+  border-top 1px solid alpha($color-grey-light, .5)
+
+.tn-settings-content
+  margin 0 auto
+  padding 20px $main-padding
+  max-width $main-width + $main-padding * 2
+  box-sizing border-box
+
+.tn-settings-list-container
+  display inline-block
+  position relative
+  user-select none
+  &:focus-within
+    .tn-settings-list-trigger
+      color $color-darkest
+      &:after
+        border-color $color-darkest
+        transform rotate(-135deg)
+    .tn-settings-list
+      top 0
+      opacity 1
+      visibility visible
+
+.tn-settings-list-trigger
+  display inline-block
+  position relative
+  padding 16px 32px 16px 5px
+  background-color transparent
+  color $color-grey-dark
+  font-size 0.777777777777778rem
+  border 0
+  cursor pointer
+  &:after
+    position absolute
+    content ''
+    top calc(50% - 6px)
+    right 5px
+    width 6px
+    height 6px
+    border-style solid
+    border-color $color-grey-dark
+    border-width 0 1px 1px 0
+    transform-origin 5px 5px
+    transform rotate(45deg)
+    transition all .5s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+
+.tn-settings-list
+  position absolute
+  top 15px
+  margin 0
+  padding 0
+  list-style-type none
+  background-color #FFF
+  border 1px solid $color-grey-light
+  border-radius 4px
+  opacity 0
+  visibility hidden
+  transform translateY(-100%)
+  transition opacity .2s ease-out, top .2s ease-out
+  li
+    &:not(:first-child)
+      border-top 1px solid $color-grey-light
+  a
+    padding 18px 10px
+    min-width 160px
+    font-size 0.777777777777778rem
+    box-sizing border-box
+    border 0
+    &:hover,
+    &:focus
+      background-color $color-blue-lighter
+
+.tn-screen-reader-only
+  display none

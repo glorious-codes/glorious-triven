@@ -7,7 +7,7 @@ describe('Styles Service', () => {
   }
 
   function getExpectedHash(){
-    return '09bc413584c654bbd435f02cf242839d';
+    return 'dae25b1d252923eff2af458404e045dd';
   }
 
   beforeEach(() => {
