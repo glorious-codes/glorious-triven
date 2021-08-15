@@ -11,6 +11,10 @@ _public.format = (isoDateString, lang) => {
   return lang == 'en-US' ? `${parseInt(month)}/${parseInt(day)}/${year}` : `${day}/${month}/${year}`;
 };
 
+_public.removeSecondsFractionFromISOString = isoDateString => {
+  return isoDateString.replace(/\.[0-9]+Z/, 'Z');
+};
+
 function appendLeadingZero(number){
   return number >= 10 ? number : `0${number}`;
 }
