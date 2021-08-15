@@ -1,4 +1,5 @@
 const postsMock = require('../mocks/posts');
+const feedService = require('./feed');
 const { fileService } = require('./file');
 const pageService = require('./page');
 const homepageService = require('./homepage');
@@ -18,6 +19,7 @@ describe('Homepage Service', () => {
     fileService.write = jest.fn();
     fileService.copySync = jest.fn();
     pageService.build = jest.fn();
+    feedService.build = jest.fn();
   });
 
   it('should build pages ordered by descending date', () => {
@@ -71,5 +73,23 @@ describe('Homepage Service', () => {
     const [first, second] = postsMock;
     homepageService.build([first, second], outputDirectory);
     expect(fileService.write).not.toHaveBeenCalledWith(`${outputDirectory}/l/en-US/index.html`, expect.any(String));
+  });
+
+  it('should write an atom feed file', () => {
+    stubPageBuild();
+    const [first] = postsMock;
+    homepageService.build([first], '');
+    expect(feedService.build).toHaveBeenCalledWith([first], undefined);
+    expect(feedService.build).toHaveBeenCalledTimes(1);
+  });
+
+  it('should write language-specific atom feed files if posts have been written in more than one language', () => {
+    stubPageBuild();
+    const [first, second, third] = postsMock;
+    homepageService.build(postsMock, '');
+    expect(feedService.build).toHaveBeenCalledWith([second, third, first], undefined);
+    expect(feedService.build).toHaveBeenCalledWith([second, first], 'en-US');
+    expect(feedService.build).toHaveBeenCalledWith([third], 'pt-BR');
+    expect(feedService.build).toHaveBeenCalledTimes(3);
   });
 });

@@ -1,4 +1,5 @@
 const path = require('path');
+const feedService = require('./feed');
 const listService = require('./list');
 const { fileService } = require('./file');
 const { buildHrefPrefixes } = require('./homepage-href');
@@ -50,6 +51,7 @@ function buildHomepages(postSummaries, outputDirectory, { lang, availableLanguag
     });
     fileService.write(buildFilepath(outputDirectory, pageNumber), html);
   });
+  feedService.build(postSummaryPages[0], lang);
 }
 
 function buildFilepath(outputDirectory, pageNumber){
