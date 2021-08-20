@@ -87,6 +87,13 @@ describe('Page Service', () => {
                 </li>
               </ul>
             </main>
+            <div class="tn-settings">
+              <div class="tn-settings-content">
+                <div class="tn-settings-rss-feed">
+                  <a href="./feed.atom">RSS Feed</a>
+                </div>
+              </div>
+            </div>
           </body>
         </html>
       `));
@@ -249,16 +256,32 @@ describe('Page Service', () => {
                       <a href="../../../../">Multi-language</a>
                     </li>
                     <li>
-                      <a href="../../../../l/en-US">English US</a>
+                      <a href="../../../../l/en-US/">English US</a>
                     </li>
                     <li>
-                      <a href="../../../../l/es-ES">Español ES</a>
+                      <a href="../../../../l/es-ES/">Español ES</a>
                     </li>
                   </ul>
                 </div>
                 <button class="tn-settings-list-hiding-trigger" aria-hidden="true" tabindex="0">Close</button>
               </div>
             </nav>
+            <div class="tn-settings-rss-feed">
+              <div class="tn-settings-list-wrapper">
+                <div class="tn-settings-list-container" tabindex="0">
+                  <span class="tn-settings-list-showing-trigger" aria-hidden="true">RSS Feeds</span>
+                  <span class="tn-screen-reader-only">Available RSS Feeds:</span>
+                  <ul class="tn-settings-list">
+                    <li><a href="../../../../feed.atom">Multi-language</a></li>
+                    <li><a href="../../../../l/en-US/feed.atom">English US</a></li>
+                    <li><a href="../../../../l/es-ES/feed.atom">Español ES</a></li>
+                  </ul>
+                </div>
+                <button class="tn-settings-list-hiding-trigger" aria-hidden="true" tabindex="0">
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       `));

@@ -129,6 +129,8 @@ p > code
   border-top 1px solid alpha($color-grey-light, .5)
 
 .tn-settings-content
+  display flex
+  justify-content space-between
   margin 0 auto
   padding 20px $main-padding
   max-width $main-width + $main-padding * 2
@@ -227,6 +229,10 @@ p > code
     &:hover,
     &:focus
       background-color $color-blue-lighter
+
+.tn-settings-rss-feed
+  .tn-settings-list
+    right 0
 
 .tn-screen-reader-only
   display none
