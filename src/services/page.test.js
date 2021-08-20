@@ -197,7 +197,7 @@ describe('Page Service', () => {
     const customLang = 'es-ES';
     mockTrivenConfig({ lang });
     buildPage(postsMock, { page: 1, total: 1, lang: customLang }, page => {
-      expect(page).toContain(`<html lang="${lang}">`);
+      expect(page).toContain(`<html lang="${customLang}">`);
       done();
     });
   });

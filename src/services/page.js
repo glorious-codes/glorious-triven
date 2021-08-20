@@ -89,8 +89,8 @@ function buildPostHref(href, postHrefPrefix){
   return `${prefix}${href.replace('.html', '')}`;
 }
 
-function buildPage(body, assetsDirPrefix, language){
-  const template = templateService.getHomepageTemplate({ assetsDirPrefix, language });
+function buildPage(body, assetsDirPrefix, customLang){
+  const template = templateService.getHomepageTemplate({ assetsDirPrefix, customLang });
   return templateService.replaceVar(template, 'triven:posts', body);
 }
 
