@@ -55,10 +55,16 @@ module.exports = {
   // You can optionally set custom translations for labels used by Triven:
   translations: {
     'en-US': {
-      newer: 'Previous page',           // Default: 'Newer'
-      older: 'Next page',               // Default: 'Older'
-      readMore: 'Keep reading',         // Default: 'Read more'
-      seeAllPosts: 'All publications'   // Default: 'See all posts'
+      availableRSSFeeds: 'RSS Feed options',      // Default: 'Available RSS Feeds'
+      availableLanguages: 'Language options',     // Default: 'Available languages'
+      currentLanguage: 'Selected language',       // Default: 'Current language'
+      multiLanguage: 'All languages',             // Default: 'Multi-language'
+      newer: 'Previous page',                     // Default: 'Newer'
+      older: 'Next page',                         // Default: 'Older'
+      readMore: 'Keep reading',                   // Default: 'Read more'
+      rssFeed: 'Feed',                            // Default: 'RSS Feed'
+      rssFeeds: 'Feeds',                          // Default: 'RSS Feeds'
+      seeAllPosts: 'All publications'             // Default: 'See all posts'
     },
     // You can add specific-language dictionaries if you have a multi-language blog:
     'pt-BR': {
