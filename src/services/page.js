@@ -8,17 +8,18 @@ const translationService = require('./translation');
 const _public = {};
 
 _public.build = (posts, { page, total, hrefPrefixes = {}, lang, availableLanguages }) => {
-  const body = buildPageBody(posts, page, total, hrefPrefixes.post, lang, availableLanguages);
-  return domService.minifyHTML(buildPage(body, hrefPrefixes.asset, lang));
+  const body = buildPageBody(posts, page, total, hrefPrefixes.post, lang);
+  const settings = settingsService.build(availableLanguages, { selectedLanguage: lang, hrefPrefix: hrefPrefixes.post });
+  const html = templateService.replaceVar(buildPage(body, hrefPrefixes.asset, lang), 'triven:settings', settings);
+  return domService.minifyHTML(html);
 };
 
-function buildPageBody(posts, page, total, postHrefPrefix, lang, availableLanguages){
+function buildPageBody(posts, page, total, postHrefPrefix, lang){
   return `
     <main class="tn-main">
       ${buildPostList(posts, page, postHrefPrefix, lang)}
       ${handleFooter(page, total, translationService.get(lang))}
     </main>
-    ${settingsService.build(availableLanguages, { selectedLanguage: lang, hrefPrefix: postHrefPrefix })}
   `;
 }
 

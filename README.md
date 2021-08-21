@@ -1,5 +1,5 @@
 # Triven
-> A markdown-based blog generator
+> A multi-language markdown-based blog generator.
 
 [![CircleCI](https://circleci.com/gh/glorious-codes/glorious-triven/tree/master.svg?style=svg)](https://circleci.com/gh/glorious-codes/glorious-triven/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/glorious-codes/glorious-triven/badge.svg?branch=master)](https://coveralls.io/github/glorious-codes/glorious-triven?branch=master)
@@ -22,7 +22,9 @@ After running this command, a directory called `triven` and a demo post will be 
 
 ### Setup
 
-To override the default values used to build your blog, you can write a file called `triven.config.js` in the root directory of your project containing the following options:
+You don't need to setup anything to see Triven in action. By default, Triven will look for markdown files in the project directory (and sub-directories) and will generate a blog - ready to be published - inside a directory called *triven*.
+
+However, you can override the default configuration values used to build your blog creating a file called `triven.config.js` in the root directory of your project containing the following options:
 
 ``` javascript
 // triven.config.js
@@ -34,6 +36,9 @@ module.exports = {
   lang: 'pt-BR',
   // Used as default language for articles and homepage.
   // Default: en-US.
+  url: 'https://rafaelcamargo.com/blog',
+  // Production URL where the blog will be deployed to.
+  // Used to build absolute URLs on RSS Feeds.
   sourceDirectory: './posts',
   // Directory where triven will look for markdown files.
   // Default: Root directory of your project ('./').
@@ -49,7 +54,9 @@ module.exports = {
       // You can optionally set variables in your templates
       // to be replaced with custom values in build time:
       someVar: 'someValue',
-      anotherVar: 'anotherValue'
+      // If a variable depends on the page language,
+      // you can set a function as value to handle any custom logic:
+      greet: lang => lang == 'pt-BR' ? 'Olá' : 'Hello!'
     }
   },
   // You can optionally set custom translations for labels used by Triven:
@@ -93,19 +100,16 @@ You can prefix your Markdown articles with a header containing some metadata:
 #### Markdown Example
 
 ```
-title: Unconditional Inhotim
-date: 2020-06-28
-description: Inhotim is a wonderful mix of contemporary art museum and botanical garden located in Minas Gerais, Brasil. This article explores a bit of my experience in there and reflects about what the are is.
-keywords: Inhotim, contemporary art, garden
-externalUrl: https://rafaelcamargo.com/unconditional-inhotim
-excerpt: We all can recognize beauty at the right moment we stand before it. That was the certainty that I had the day I visited the world's largest open-air contemporary art museum.
-lang: en-US
+// hello-world.md
+
+title: Hello World!
+date: 2021-08-20
+description: Saying hello to the world.
+keywords: hello, world
 
 ---
 
-We all can recognize beauty at the right moment we stand before it. That was the certainty that I had the day I visited the world's largest open-air contemporary art museum. It's a garden that could be called paradise. Inhotim.
-
-...
+It's very easy to get started with Triven.
 ```
 
 ### Custom Templates
@@ -118,7 +122,10 @@ You can define your own HTML to be used as template for homepage and article. Ju
 <!DOCTYPE html>
 <html>
   <head></head>
-  <body>{{ triven:posts }}</body>
+  <body>
+    {{ triven:posts }}
+    {{ triven:settings }}
+  </body>
 </html>
 ```
 
@@ -128,7 +135,9 @@ You can define your own HTML to be used as template for homepage and article. Ju
 <!DOCTYPE html>
 <html>
   <head></head>
-  <body>{{ triven:article }}</body>
+  <body>
+    {{ triven:article }}
+  </body>
 </html>
 ```
 
@@ -140,9 +149,7 @@ You can optionally set variables in your templates to be replaced in build time.
 const date = new Date();
 
 module.exports = {
-  ...
-  template: {
-    ...
+  templates: {
     vars: {
       copywrite: `©${date.getFullYear()} Triven`
     }
@@ -156,7 +163,10 @@ module.exports = {
   <head></head>
   <body>
     {{ triven:posts }}
-    <footer>{{ copywrite }}</footer>
+    {{ triven:settings }}
+    <footer>
+      {{ copywrite }}
+    </footer>
   </body>
 </html>
 ```

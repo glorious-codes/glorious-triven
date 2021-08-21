@@ -17,7 +17,7 @@ _public.build = ({ filepath, summary, markdownText }, languages = []) => {
   return {
     summary: { ...summary, excerpt: excerptService.extract(article, summary) },
     article: fillTemplate(
-      templateService.getArticleTemplate(),
+      templateService.getArticleTemplate({ lang: summary.lang }),
       article,
       summary,
       languages,

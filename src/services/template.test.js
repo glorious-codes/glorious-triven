@@ -49,7 +49,10 @@ describe('Template Service', () => {
           <link rel="stylesheet" href="a/triven-${getExpectedTrivenStylesheetHash()}.css">
           <title>Triven</title>
         </head>
-        <body>{{ triven:posts }}</body>
+        <body>
+          {{ triven:posts }}
+          {{ triven:settings }}
+        </body>
       </html>
     `);
     mount(() => {
@@ -182,6 +185,24 @@ describe('Template Service', () => {
     });
   });
 
+  it('should replace language-dependent custom article variables', done => {
+    mockTrivenConfig({
+      templates: {
+        article: './src/mocks/custom-lang-dependent-article-vars.html',
+        vars: {
+          other: 'var',
+          greet: lang => lang == 'pt-BR' ? '<p>Olá!</p>' : '<p>Hello!</p>',
+          another: 'var'
+        }
+      }
+    });
+    mount(() => {
+      expect(templateService.getArticleTemplate()).toContain('<p>Hello!</p>');
+      expect(templateService.getArticleTemplate({ lang: 'pt-BR' })).toContain('<p>Olá!</p>');
+      done();
+    });
+  });
+
   it('should replace custom homepage template variables', done => {
     mockTrivenConfig({
       templates: {
@@ -198,6 +219,24 @@ describe('Template Service', () => {
       expect(template).toContain('<script>123</script>');
       expect(template).toContain('<script>456</script>');
       expect(template).toContain('<script>789</script>');
+      done();
+    });
+  });
+
+  it('should replace language-dependent custom homepage variables', done => {
+    mockTrivenConfig({
+      templates: {
+        homepage: './src/mocks/custom-lang-dependent-homepage-vars.html',
+        vars: {
+          other: 'var',
+          bye: lang => lang == 'pt-BR' ? '<p>Tchau!</p>' : '<p>Bye!</p>',
+          another: 'var'
+        }
+      }
+    });
+    mount(() => {
+      expect(templateService.getHomepageTemplate()).toContain('<p>Bye!</p>');
+      expect(templateService.getHomepageTemplate({ customLang: 'pt-BR' })).toContain('<p>Tchau!</p>');
       done();
     });
   });

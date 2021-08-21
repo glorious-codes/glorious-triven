@@ -7,14 +7,12 @@ const stylesService = require('./styles');
 
 const _public = {};
 
-_public.getArticleTemplate = () => getTemplateByName('article', '../');
+_public.getArticleTemplate = ({ lang } = {}) => getTemplateByName('article', '../', lang);
 
 _public.getHomepageTemplate = ({ assetsDirPrefix = '', customLang } = {}) => {
-  const { title, lang } = configService.get();
-  const template = setLang(getTemplateByName('homepage', assetsDirPrefix), customLang || lang);
-  const $ = parseHTMLString(template);
-  title && $('head').append(`<title>${title}</title>`);
-  return $.html();
+  const language = customLang || configService.get().lang;
+  const template = setLang(getTemplateByName('homepage', assetsDirPrefix, language), language);
+  return handleHomepageTitle(template);
 };
 
 _public.getDemoPostTemplate = () => getByFilename('introducing-triven.md');
@@ -24,31 +22,43 @@ _public.replaceVar = (htmlString, key, value) => {
   return htmlString.replace(regex, value);
 };
 
-function getTemplateByName(name, assetsDirPrefix){
+function handleHomepageTitle(template){
+  const { title } = configService.get();
+  const $ = parseHTMLString(template);
+  title && $('head').append(`<title>${title}</title>`);
+  return $.html();
+}
+
+function getTemplateByName(name, assetsDirPrefix, lang){
   const filepath = configService.getCustomTemplateFilepath(name);
   const template = filepath ?
-    buildBaseMetaTags(parseTemplate(fileService.readSync(filepath), path.dirname(filepath), assetsDirPrefix)) :
+    buildBaseMetaTags(parseTemplate(fileService.readSync(filepath), path.dirname(filepath), assetsDirPrefix, lang)) :
     buildBaseMetaTags(getByFilename(`${name}.html`));
   return includeBaseStylesheet(template, assetsDirPrefix);
 }
 
-function parseTemplate(htmlString, baseDir, assetsDirPrefix){
-  return assetsService.handleRelativeAssets(handleCustomVars(htmlString), { baseDir, assetsDirPrefix });
+function parseTemplate(htmlString, baseDir, assetsDirPrefix, lang){
+  return assetsService.handleRelativeAssets(handleCustomVars(htmlString, lang), { baseDir, assetsDirPrefix });
 }
 
 function getByFilename(filename){
   return fileService.readSync(path.join(__dirname, `../templates/${filename}`));
 }
 
-function handleCustomVars(template){
+function handleCustomVars(template, lang){
   const vars = configService.getCustomTemplateVars();
-  return vars ? replaceTemplateVars(template, vars) : template;
+  return vars ? replaceTemplateVars(template, vars, lang) : template;
 }
 
-function replaceTemplateVars(template, vars){
-  const { key, value } = vars.shift();
-  if(vars.length) return replaceTemplateVars(_public.replaceVar(template, key, value), vars);
+function replaceTemplateVars(template, vars, lang){
+  const { key, value: rawValue } = vars.shift();
+  const value = parseTemplateVarValue(rawValue, lang);
+  if(vars.length) return replaceTemplateVars(_public.replaceVar(template, key, value), vars, lang);
   return _public.replaceVar(template, key, value);
+}
+
+function parseTemplateVarValue(value, lang){
+  return typeof value == 'function' ? value(lang) : value;
 }
 
 function buildBaseMetaTags(htmlString){
