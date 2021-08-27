@@ -49,8 +49,10 @@ describe('Build Service', () => {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
     <title>New year!</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
+    <meta name="description" content="This is a simple description." />
+    <meta name="keywords" content="new year, réveillon" />
+    <meta property="og:title" content="New year!" />
+    <meta property="og:description" content="This is a simple description." />
   </head>
   <body>
     <main class="tn-main">

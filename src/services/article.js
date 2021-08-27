@@ -56,10 +56,12 @@ function buildSeeAllPostsLink(languages, lang){
   return `<a href=${href}>${seeAllPosts}</a>`;
 }
 
-function buildMetaTags({ description = '', keywords = '' }){
+function buildMetaTags({ title, description = '', keywords = '' }){
   return `
     <meta name="description" content="${description}" />
     <meta name="keywords" content="${keywords}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
   `;
 }
 
