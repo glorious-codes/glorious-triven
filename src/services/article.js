@@ -60,6 +60,7 @@ function buildMetaTags({ title, description = '', keywords = '' }){
   return `
     <meta name="description" content="${description}" />
     <meta name="keywords" content="${keywords}" />
+    <meta name="twitter:card" content="summary">
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${description}" />
   `;

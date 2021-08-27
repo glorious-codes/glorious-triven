@@ -51,6 +51,7 @@ describe('Build Service', () => {
     <title>New year!</title>
     <meta name="description" content="This is a simple description." />
     <meta name="keywords" content="new year, réveillon" />
+    <meta name="twitter:card" content="summary">
     <meta property="og:title" content="New year!" />
     <meta property="og:description" content="This is a simple description." />
   </head>
