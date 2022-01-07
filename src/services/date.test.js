@@ -1,16 +1,31 @@
 const dateService = require('./date');
 
 describe('Date Service', () => {
+  let originalDateNowMethod = Date.now;
+
   function appendLeadingZero(number){
     return number < 10 ? `0${number}` : number;
   }
 
-  it('should build today ISO date', () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = appendLeadingZero(date.getMonth() + 1);
-    const day = appendLeadingZero(date.getDate());
-    expect(dateService.buildTodayISODate()).toEqual(`${year}-${month}-${day}`);
+  function mockDate(year, month, day){
+    Date.now = jest.fn(() => {
+      const date = new Date(year, month, day);
+      return date.getTime();
+    });
+  }
+
+  afterAll(() => {
+    Date.now = originalDateNowMethod;
+  });
+
+  it('should build today ISO date not appending leading zero to month or day by default', () => {
+    mockDate(2021, 9, 15);
+    expect(dateService.buildTodayISODate()).toEqual('2021-10-15');
+  });
+
+  it('should build today ISO date appending leading zero to month and day if they are lower than 10', () => {
+    mockDate(2021, 7, 2);
+    expect(dateService.buildTodayISODate()).toEqual('2021-08-02');
   });
 
   it('should format date as day/month/year as default', () => {

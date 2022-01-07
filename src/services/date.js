@@ -1,7 +1,7 @@
 const _public = {};
 
 _public.buildTodayISODate = () => {
-  const date = new Date();
+  const date = new Date(Date.now());
   return [date.getFullYear(), appendLeadingZero(date.getMonth() + 1), appendLeadingZero(date.getDate())].join('-');
 };
 
