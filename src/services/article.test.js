@@ -46,4 +46,11 @@ describe('Articles Service', () => {
     const { article } = articleService.build(postData, ['en-US', 'pt-BR']);
     expect(article).toContain('<a href="../l/pt-BR">Todas as publicações</a>');
   });
+
+  it('should add meta tags to avoid indexation and link-following for unlisted posts', () => {
+    const filepaths = [path.join(__dirname, '../mocks/unlisted.md')];
+    const [postData] = postsService.buildData(filepaths);
+    const { article } = articleService.build(postData, ['en-US']);
+    expect(article).toContain('<meta name="robots" content="noindex, nofollow">');
+  });
 });

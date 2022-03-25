@@ -107,6 +107,23 @@ Here is the first article paragraph.
     });
   });
 
+  it('should parse to boolean any summary value set as "true"', () => {
+    const markdownFileMock = `
+title: Unlisted
+unlisted: true
+
+---
+
+This will generate a boolean value in the summary.
+`;
+    expect(summaryService.build(markdownFileMock, 'untitled.md')).toEqual({
+      title: 'Unlisted',
+      lang: 'en-US',
+      url: 'untitled.html',
+      unlisted: true
+    });
+  });
+
   it('should use default language and title on summary if they have not been found on markdown file content', () => {
     const fileContent = fileService.readSync(path.join(__dirname, '../mocks/incomplete-metadata.md'));
     expect(summaryService.build(fileContent, 'incomplete-metadata.md')).toEqual({

@@ -22,11 +22,27 @@ describe('Homepage Service', () => {
     feedService.build = jest.fn();
   });
 
-  it('should build pages ordered by descending date', () => {
+  it('should build home pages ordered by descending post date', () => {
     const [first, second, third] = postsMock;
     const orderedPosts = [second, third, first];
     homepageService.build(postsMock, '');
     expect(pageService.build).toHaveBeenCalledWith(orderedPosts, expect.any(Object));
+  });
+
+  it('should posts set as unlisted not be included in home pages or feeds', () => {
+    const [first, second, third] = postsMock;
+    const four = {
+      title: 'Unlisted',
+      date: '2022-03-25',
+      url: 'unlisted.html',
+      lang: 'en-US',
+      excerpt: 'This is an unlisted post',
+      unlisted: true
+    };
+    homepageService.build([first, four, second, third], '');
+    expect(pageService.build).toHaveBeenCalledWith([second, third, first], expect.any(Object));
+    expect(feedService.build).toHaveBeenCalledWith([second, first], 'en-US');
+    expect(feedService.build).toHaveBeenCalledWith([third], 'pt-BR');
   });
 
   it('should save home page files according to their page numbers', () => {

@@ -27,7 +27,7 @@ function buildCustomSummaryItem(line){
   const dividerIndex = line.indexOf(':');
   const key = getCustomSummaryItemCrumb(line, 0, dividerIndex);
   const value = getCustomSummaryItemCrumb(line, dividerIndex+1);
-  return value ? { key, value } : { key };
+  return value ? { key, value: parseValue(value) } : { key };
 }
 
 function getCustomSummaryItemCrumb(line, startIndex, endIndex){
@@ -42,6 +42,10 @@ function appendUrl({ externalUrl, ...rest }, filepath){
 function buildUrl(externalUrl, filepath){
   if(externalUrl) return { url: externalUrl, external: true };
   return { url: path.basename(filepath).replace('.md', '.html') };
+}
+
+function parseValue(value){
+  return value === 'true' ? true : value;
 }
 
 module.exports = _public;

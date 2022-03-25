@@ -92,6 +92,7 @@ You can prefix your Markdown articles with a header containing some metadata:
 | date | Date expressed according to ISO 8601 (YYYY-MM-DD) |  |
 | description | A brief description of your post (used in HTML meta tags) |  |
 | keywords | Keywords for your post (used in HTML meta tags) |  |
+| unlisted | Set as `true` to keep the post out of homepages |  |
 | externalUrl | URL for a post published in an external website |  |
 | excerpt | An optional text representing the first paragraphs of your post | First 340 chars of your post |
 

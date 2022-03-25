@@ -9,7 +9,7 @@ const _public = {};
 
 _public.build = ([...postSummaries], outputDirectory) => {
   const languages = identifyPostLanguages(postSummaries);
-  const postSummariesOrderedByDescDate = orderByDateDesc(postSummaries);
+  const postSummariesOrderedByDescDate = removeUnlistedPosts(orderByDateDesc(postSummaries));
   buildHomepages(postSummariesOrderedByDescDate, outputDirectory, { availableLanguages: languages });
   buildLanguageSpecificHomepages(postSummariesOrderedByDescDate, outputDirectory, languages);
 };
@@ -20,6 +20,10 @@ function identifyPostLanguages(postSummaries){
 
 function orderByDateDesc(postSummaries){
   return [...postSummaries].sort((a, b) => a.date > b.date ? -1 : 1);
+}
+
+function removeUnlistedPosts(postSummaries){
+  return postSummaries.filter(summary => !summary.unlisted);
 }
 
 function buildLanguageSpecificHomepages(postSummaries, outputDirectory, languages){
