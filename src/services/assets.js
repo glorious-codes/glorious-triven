@@ -15,9 +15,9 @@ _public.save = filepath => handle(filepath, () => saveAsset(filepath));
 _public.copy = filepath => handle(filepath, () => copyAsset(filepath));
 
 _public.handleRelativeAssets = (htmlString, { baseDir, assetsDirPrefix }) => {
-  const markupData =  getAssetsMarkupData();
+  const elements =  getElementsToParseRelativePathFor();
   const $ = domService.parseHTMLString(htmlString);
-  markupData.forEach(({ selector, attr }) => {
+  elements.forEach(({ selector, attr }) => {
     $(selector).filter((index, el) => isRelativeAsset($(el).attr(attr))).each((index, el) => {
       const filename = _public.copy(buildLocalAssetFilepath(baseDir, $(el).attr(attr)));
       $(el).attr(attr, assetsDirPrefix + `${ASSETS_DIRECTORY_NAME}/${filename}`);
@@ -69,7 +69,7 @@ function identifyFile(filepath){
   return { filename, file, extension };
 }
 
-function getAssetsMarkupData(){
+function getElementsToParseRelativePathFor(){
   return [
     { selector: 'img', attr: 'src' },
     { selector: 'link[rel="stylesheet"]', attr: 'href' },
