@@ -1,6 +1,6 @@
 const path = require('path');
 const assetsService = require('./assets');
-const dateService = require('./date');
+const articleDateService = require('./article-date');
 const domService = require('./dom');
 const excerptService = require('./excerpt');
 const markdownService = require('./markdown');
@@ -39,7 +39,7 @@ function wrapArticle({ title, date, lang }, article, languages){
       <article class="tn-article">
         <header class="tn-header">
           <h1 class="tn-post-title">${title}</h1>
-          <p class="tn-date">${dateService.format(date, lang)}</p>
+          <p class="tn-date">${articleDateService.format(date, lang)}</p>
         </header>
         ${article}
         <footer class="tn-footer">

@@ -18,6 +18,11 @@ _public.getCustomTemplateVars = () => {
   });
 };
 
+_public.getDateFormatter = () => {
+  const { formatters } = getConfig();
+  return formatters && formatters.date;
+};
+
 _public.flush = () => {
   config = null;
 };

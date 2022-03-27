@@ -47,6 +47,14 @@ describe('Articles Service', () => {
     expect(article).toContain('<a href="../l/pt-BR">Todas as publicações</a>');
   });
 
+  it('should optionally use custom date formatter', () => {
+    mockTrivenConfig({ formatters: { date: (isoDateString, lang) => `${isoDateString} ${lang}` } });
+    const filepaths = [path.join(__dirname, '../mocks/new-year.md')];
+    const [postData] = postsService.buildData(filepaths);
+    const { article } = articleService.build(postData, ['en-US']);
+    expect(article).toContain('<p class="tn-date">2022-01-01 en-US</p>');
+  });
+
   it('should add meta tags to avoid indexation and link-following for unlisted posts', () => {
     const filepaths = [path.join(__dirname, '../mocks/unlisted.md')];
     const [postData] = postsService.buildData(filepaths);

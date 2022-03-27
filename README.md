@@ -77,6 +77,22 @@ module.exports = {
     'pt-BR': {
       // Portuguese translations
     }
+  },
+  formatters: {
+    // You can optionally set a custom date formatter.
+    // Formatter will receive the date string and the language set on the
+    // respective post markdown file.
+    // By default, date format will be month/day/year for US English posts and
+    // day/month/year for any other language.
+    date: (isoDateString, lang) => {
+      const months = {
+        'en-US': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        'pt-BR': ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+      }
+      const [year, month, day] = isoDateString.split('-');
+      const monthName = months[lang][parseInt(month)-1];
+      return lang == 'en-US' ? `${monthName} ${parseInt(day)}, ${year}` : `${day} de ${monthName} de ${year}`;
+    }
   }
 }
 ```

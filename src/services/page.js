@@ -1,5 +1,5 @@
 const configService = require('./config');
-const dateService = require('./date');
+const articleDateService = require('./article-date');
 const domService = require('./dom');
 const settingsService = require('./settings');
 const templateService = require('./template');
@@ -35,7 +35,7 @@ function buildPostList(posts, page, postHrefPrefix = '', lang){
             <h2 class="tn-post-title">
               <a href="${href}" ${handleLinkAttrs(post)}>${post.title}</a>
             </h2>
-            <p class="tn-date">${dateService.format(post.date, post.lang)}</p>
+            <p class="tn-date">${articleDateService.format(post.date, post.lang)}</p>
           </header>
           <p>${post.excerpt}</p>
           <footer class="tn-footer">

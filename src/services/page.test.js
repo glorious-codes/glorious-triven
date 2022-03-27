@@ -238,6 +238,14 @@ describe('Page Service', () => {
     });
   });
 
+  it('should optionally use custom date formatter', done => {
+    mockTrivenConfig({ formatters: { date: (isoDateString, lang) => `${isoDateString} ${lang}` } });
+    buildPage(postsMock, { page: 1, total: 1 }, page => {
+      expect(page).toContain('<p class="tn-date">2020-01-01 en-US</p>');
+      done();
+    });
+  });
+
   it('should build language settings menu if more than one language is available', done => {
     const hrefPrefixes = { post: '../../../../' };
     const availableLanguages = ['en-US', 'es-ES'];
