@@ -1,6 +1,8 @@
 module.exports = [
   {
     title: 'New year!',
+    description: 'It is a new year.',
+    keywords: 'new, year',
     date: '2020-01-01',
     url: 'new-year.html',
     lang: 'en-US',

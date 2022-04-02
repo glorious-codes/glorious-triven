@@ -1,5 +1,6 @@
 const configService = require('./config');
 const dateService = require('./date');
+const timeService = require('./time');
 const { fileService } = require('./file');
 
 const _public = {};
@@ -39,9 +40,9 @@ function buildFileContent(posts, { url, title }, fileDetails){
 }
 
 function buildEntry(postSummary, blogBaseUrl){
-  const { url, title, date, external, excerpt } = postSummary;
-  const uri = external ? url : `${blogBaseUrl}/${url.replace('.html', '')}`;
-  const isoDateString = formatFeedDate(parsePostDate(date));
+  const { date, title, description, keywords, excerpt, url, external } = postSummary;
+  const uri = buildEntryURI({ url, external }, blogBaseUrl);
+  const isoDateString = formatFeedPublicationDate({ date, title, description, keywords });
   return `
   <entry>
     <id>${uri}</id>
@@ -55,19 +56,18 @@ function buildEntry(postSummary, blogBaseUrl){
   </entry>`;
 }
 
+function buildEntryURI({ url, external }, blogBaseUrl){
+  return external ? url : `${blogBaseUrl}/${url.replace('.html', '')}`;
+}
+
 function buildNowFeedDate(){
   const date = new Date();
-  return formatFeedDate(date.toISOString());
+  return dateService.removeSecondsFractionFromISOString(date.toISOString());
 }
 
-function parsePostDate(dateString){
-  const [year, month, day] = dateString.split('-').map(part => parseInt(part));
-  const date = new Date(year, month - 1, day);
-  return date.toISOString();
-}
-
-function formatFeedDate(isoDateString){
-  return dateService.removeSecondsFractionFromISOString(isoDateString);
+function formatFeedPublicationDate({ date, title, description = '', keywords = '' }){
+  const time = timeService.convertTextLengthToTime(`${title}${description}${keywords}`);
+  return `${date}T${time}Z`;
 }
 
 module.exports = _public;

@@ -18,12 +18,6 @@ describe('Feed Service', () => {
     return dateService.removeSecondsFractionFromISOString(date.toISOString());
   }
 
-  function formatFeedDate(dateString){
-    const [year, month, day] = dateString.split('-').map(part => parseInt(part));
-    const date = new Date(year, month - 1, day);
-    return dateService.removeSecondsFractionFromISOString(date.toISOString());
-  }
-
   beforeEach(() => {
     fileService.write = jest.fn();
   });
@@ -53,8 +47,8 @@ describe('Feed Service', () => {
     <id>${config.url}/new-year</id>
     <title>New year!</title>
     <link rel="alternate" type="text/html" href="${config.url}/new-year"/>
-    <published>${formatFeedDate(postsMock[0].date)}</published>
-    <updated>${formatFeedDate(postsMock[0].date)}</updated>
+    <published>2020-01-01T00:00:35Z</published>
+    <updated>2020-01-01T00:00:35Z</updated>
     <summary>
       This is an excerpt for the first post
     </summary>
@@ -63,8 +57,8 @@ describe('Feed Service', () => {
     <id>https://rafaelcamargo.com/the-pearl-and-the-mussels</id>
     <title>The pearl and the mussels</title>
     <link rel="alternate" type="text/html" href="https://rafaelcamargo.com/the-pearl-and-the-mussels"/>
-    <published>${formatFeedDate(postsMock[1].date)}</published>
-    <updated>${formatFeedDate(postsMock[1].date)}</updated>
+    <published>2021-06-21T00:00:25Z</published>
+    <updated>2021-06-21T00:00:25Z</updated>
     <summary>
       This is an excerpt for the second post
     </summary>
@@ -73,8 +67,8 @@ describe('Feed Service', () => {
     <id>https://rafaelcamargo.com/incondicional-inhotim</id>
     <title>Incondicional Inhotim</title>
     <link rel="alternate" type="text/html" href="https://rafaelcamargo.com/incondicional-inhotim"/>
-    <published>${formatFeedDate(postsMock[2].date)}</published>
-    <updated>${formatFeedDate(postsMock[2].date)}</updated>
+    <published>2020-06-28T00:00:21Z</published>
+    <updated>2020-06-28T00:00:21Z</updated>
     <summary>
       Esse é um excerto para o terceiro artigo.
     </summary>
@@ -110,8 +104,8 @@ describe('Feed Service', () => {
     <id>${config.url}/perolas-e-mariscos</id>
     <title>Pérolas e mariscos</title>
     <link rel="alternate" type="text/html" href="${config.url}/perolas-e-mariscos"/>
-    <published>${formatFeedDate(postSummaryMock.date)}</published>
-    <updated>${formatFeedDate(postSummaryMock.date)}</updated>
+    <published>2020-05-31T00:00:18Z</published>
+    <updated>2020-05-31T00:00:18Z</updated>
     <summary>
       Excerto.
     </summary>
