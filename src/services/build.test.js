@@ -57,10 +57,12 @@ describe('Build Service', () => {
   </head>
   <body>
     <main class="tn-main">
-      <article class="tn-article">
+      <article class="tn-article" itemscope itemtype="http://schema.org/BlogPosting">
         <header class="tn-header">
           <h1 class="tn-post-title">New year!</h1>
-          <p class="tn-date">1/1/2022</p>
+          <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2022-01-01">
+            1/1/2022
+          </time>
         </header>
         <p>Happy new year!</p>
         <h2>What to do next</h2>

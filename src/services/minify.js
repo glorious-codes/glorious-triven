@@ -13,7 +13,10 @@ _public.minifyByFilepath = filepath => {
 };
 
 _public.minifyHTML = htmlString => {
-  return htmlMinifier.minify(htmlString, { collapseWhitespace: true });
+  return htmlMinifier.minify(htmlString, {
+    collapseWhitespace: true,
+    collapseBooleanAttributes: true
+  });
 };
 
 _public.minifyCSS = cssString => {

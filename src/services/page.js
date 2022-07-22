@@ -30,12 +30,12 @@ function buildPostList(posts, page, postHrefPrefix = '', lang){
     const href = buildPostHref(post.url, postHrefPrefix);
     return `
       <li>
-        <section ${handleSectionLangAttribute(language, post.lang)}>
+        <article itemscope itemtype="http://schema.org/BlogPosting" ${handleSectionLangAttribute(language, post.lang)}>
           <header class="tn-header">
             <h2 class="tn-post-title">
               <a href="${href}" ${handleLinkAttrs(post)}>${post.title}</a>
             </h2>
-            <p class="tn-date">${articleDateService.format(post.date, post.lang)}</p>
+            ${articleDateService.buildMarkup(post.date, post.lang)}
           </header>
           <p>${post.excerpt}</p>
           <footer class="tn-footer">
@@ -43,7 +43,7 @@ function buildPostList(posts, page, postHrefPrefix = '', lang){
               ${translations.readMore}
             </a>
           </footer>
-        </section>
+        </article>
       </li>
     `;
   }).join('');
