@@ -11,16 +11,24 @@ describe('Article Date Service', () => {
     configService.flush();
   });
 
-  it('should return an empty string if no date has been given', () => {
-    expect(articleDateService.format()).toEqual('');
+  it('should not build article date markup if no params have been given', () => {
+    expect(articleDateService.buildMarkup()).toEqual('');
   });
 
-  it('should format a date containing day, month and year separated by slash by default', () => {
-    expect(articleDateService.format('2022-03-27')).toEqual('27/03/2022');
+  it('should build article date markup', () => {
+    expect(articleDateService.buildMarkup('2022-03-27')).toEqual([
+      '<time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2022-03-27">',
+      '27/03/2022',
+      '</time>'
+    ].join(''));
   });
 
   it('should optionally format a date containing month, day, and year separated by slash for american english language', () => {
-    expect(articleDateService.format('2022-03-27', 'en-US')).toEqual('3/27/2022');
+    expect(articleDateService.buildMarkup('2022-03-27', 'en-US')).toEqual([
+      '<time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2022-03-27">',
+      '3/27/2022',
+      '</time>'
+    ].join(''));
   });
 
   it('should optionally format a date according formatter passed on triven config file', () => {
@@ -31,6 +39,10 @@ describe('Article Date Service', () => {
         date: (isoDateString, lang) => `${isoDateString} ${lang}`
       }
     });
-    expect(articleDateService.format(isoDateString, lang)).toEqual(`${isoDateString} ${lang}`);
+    expect(articleDateService.buildMarkup(isoDateString, lang)).toEqual([
+      '<time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2022-03-27">',
+      '2022-03-27 en-US',
+      '</time>'
+    ].join(''));
   });
 });
