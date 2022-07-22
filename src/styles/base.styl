@@ -152,8 +152,9 @@ p > code
         transform rotate(-135deg)
     .tn-settings-list
       top -5px
+      width auto
+      height auto
       opacity 1
-      visibility visible
     & + .tn-settings-list-hiding-trigger
       display block
 
@@ -206,14 +207,16 @@ p > code
   top 15px
   margin 0
   padding 0
+  width 0
+  height 0
   list-style-type none
   background-color #FFF
   border 1px solid $color-grey-light
   border-radius 4px
   opacity 0
-  visibility hidden
   transform translateY(-100%)
   transition opacity .2s ease-out, top .2s ease-out
+  overflow hidden
   li
     &:not(:first-child)
       border-top 1px solid $color-grey-light
@@ -234,4 +237,6 @@ p > code
     right 0
 
 .tn-screen-reader-only
-  display none
+  display inline-block
+  height 0
+  text-indent -9999px
