@@ -44,7 +44,7 @@ describe('Page Service', () => {
                     <p>This is an excerpt for the first post</p>
                     <footer class="tn-footer">
                       <a href="new-year" class="tn-read-more-link">
-                        Read more
+                        Read more<span class="tn-screen-reader-only">: New year!</span>
                       </a>
                     </footer>
                   </article>
@@ -62,7 +62,7 @@ describe('Page Service', () => {
                     <p>This is an excerpt for the second post</p>
                     <footer class="tn-footer">
                       <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
-                        Read more
+                        Read more<span class="tn-screen-reader-only">: The pearl and the mussels</span>
                       </a>
                     </footer>
                   </article>
@@ -80,7 +80,7 @@ describe('Page Service', () => {
                     <p>Esse é um excerto para o terceiro artigo.</p>
                     <footer class="tn-footer">
                       <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
-                        Read more
+                        Read more<span class="tn-screen-reader-only">: Incondicional Inhotim</span>
                       </a>
                     </footer>
                   </article>
@@ -122,7 +122,7 @@ describe('Page Service', () => {
       expect(page).toContain(domService.minifyHTML(`
         <footer class="tn-footer">
           <a href="../../../../new-year" class="tn-read-more-link">
-            Read more
+            Read more<span class="tn-screen-reader-only">: New year!</span>
           </a>
         </footer>
       `));
@@ -185,7 +185,11 @@ describe('Page Service', () => {
     const second = postsMock[1];
     buildPage([second], { page: 2, total: 2 }, page => {
       expect(page).toContain(`<h2 class="tn-post-title"><a href="${second.url}" rel="noopener noreferrer" target="_blank">${second.title}</a></h2>`);
-      expect(page).toContain(`<a href="${second.url}" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">Read more</a>`);
+      expect(page).toContain([
+        `<a href="${second.url}" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">`,
+        `Read more<span class="tn-screen-reader-only">: ${second.title}</span>`,
+        '</a>'
+      ].join(''));
       done();
     });
   });
@@ -226,12 +230,12 @@ describe('Page Service', () => {
     buildPage(postsMock, { page: 1, total: 1 }, page => {
       expect(page).toContain(domService.minifyHTML(`
         <a href="new-year" class="tn-read-more-link">
-          Read more
+          Read more<span class="tn-screen-reader-only">: New year!</span>
         </a>
       `));
       expect(page).toContain(domService.minifyHTML(`
         <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
-          Continue lendo
+          Continue lendo<span class="tn-screen-reader-only">: Incondicional Inhotim</span>
         </a>
       `));
       done();
