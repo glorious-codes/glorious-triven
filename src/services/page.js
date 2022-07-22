@@ -40,7 +40,7 @@ function buildPostList(posts, page, postHrefPrefix = '', lang){
           <p>${post.excerpt}</p>
           <footer class="tn-footer">
             <a href="${href}" ${handleLinkAttrs(post)} class="tn-read-more-link">
-              ${translations.readMore}
+              ${translations.readMore}<span class="tn-screen-reader-only">: ${post.title}</span>
             </a>
           </footer>
         </article>

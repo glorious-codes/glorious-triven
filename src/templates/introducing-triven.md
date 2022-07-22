@@ -15,14 +15,14 @@ Before getting started with Triven, you need to install it in your project as fo
 npm install -D @glorious/triven
 ```
 
-After installing it, you can see Triven in action just running:
+After installing it, you can see Triven in action by running the following command:
 ```
 npx triven build
 ```
 It will create a blog ready to be published in a directory called `triven` in the root of your project.
 You can optionally customize some build details as the source directory for Markdown files, the output directory for the final files generated, among other things.
 
-Refer to [Triven's Docmentation](https://github.com/glorious-codes/glorious-triven#triven) to learn more.
+Refer to [Triven's Documentation](https://github.com/glorious-codes/glorious-triven#triven) to learn more.
 
 ## Contributing
 
