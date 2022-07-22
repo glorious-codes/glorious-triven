@@ -52,7 +52,11 @@ describe('Articles Service', () => {
     const filepaths = [path.join(__dirname, '../mocks/new-year.md')];
     const [postData] = postsService.buildData(filepaths);
     const { article } = articleService.build(postData, ['en-US']);
-    expect(article).toContain('<p class="tn-date">2022-01-01 en-US</p>');
+    expect(article).toContain([
+      '<time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2022-01-01">',
+      '2022-01-01 en-US',
+      '</time>'
+    ].join(''));
   });
 
   it('should add meta tags to avoid indexation and link-following for unlisted posts', () => {

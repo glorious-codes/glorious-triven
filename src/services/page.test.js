@@ -36,10 +36,10 @@ describe('Page Service', () => {
             <main class="tn-main">
               <ul class="tn-post-list">
                 <li>
-                  <section>
+                  <article itemscope itemtype="http://schema.org/BlogPosting">
                     <header class="tn-header">
                       <h2 class="tn-post-title"><a href="new-year">New year!</a></h2>
-                      <p class="tn-date">1/1/2020</p>
+                      <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2020-01-01">1/1/2020</time>
                     </header>
                     <p>This is an excerpt for the first post</p>
                     <footer class="tn-footer">
@@ -47,35 +47,35 @@ describe('Page Service', () => {
                         Read more
                       </a>
                     </footer>
-                  </section>
+                  </article>
                 </li>
                 <li>
-                  <section>
+                  <article itemscope itemtype="http://schema.org/BlogPosting">
                     <header class="tn-header">
                       <h2 class="tn-post-title">
                         <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank">
                           The pearl and the mussels
                         </a>
                       </h2>
-                      <p class="tn-date">6/21/2021</p>
+                      <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2021-06-21">6/21/2021</time>
                     </header>
                     <p>This is an excerpt for the second post</p>
                     <footer class="tn-footer">
-                    <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
-                      Read more
-                    </a>
+                      <a href="https://rafaelcamargo.com/the-pearl-and-the-mussels" rel="noopener noreferrer" target="_blank" class="tn-read-more-link">
+                        Read more
+                      </a>
                     </footer>
-                  </section>
+                  </article>
                 </li>
                 <li>
-                  <section lang="pt-BR">
+                  <article itemscope itemtype="http://schema.org/BlogPosting" lang="pt-BR">
                     <header class="tn-header">
                       <h2 class="tn-post-title">
                         <a href="https://rafaelcamargo.com/incondicional-inhotim" rel="noopener noreferrer" target="_blank">
                           Incondicional Inhotim
                         </a>
                       </h2>
-                      <p class="tn-date">28/06/2020</p>
+                      <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2020-06-28">28/06/2020</time>
                     </header>
                     <p>Esse é um excerto para o terceiro artigo.</p>
                     <footer class="tn-footer">
@@ -83,7 +83,7 @@ describe('Page Service', () => {
                         Read more
                       </a>
                     </footer>
-                  </section>
+                  </article>
                 </li>
               </ul>
             </main>
@@ -241,7 +241,11 @@ describe('Page Service', () => {
   it('should optionally use custom date formatter', done => {
     mockTrivenConfig({ formatters: { date: (isoDateString, lang) => `${isoDateString} ${lang}` } });
     buildPage(postsMock, { page: 1, total: 1 }, page => {
-      expect(page).toContain('<p class="tn-date">2020-01-01 en-US</p>');
+      expect(page).toContain([
+        '<time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2020-01-01">',
+        '2020-01-01 en-US',
+        '</time>'
+      ].join(''));
       done();
     });
   });

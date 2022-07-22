@@ -36,10 +36,10 @@ function fillTemplate(template, article, summary, languages){
 function wrapArticle({ title, date, lang }, article, languages){
   return `
     <main class="tn-main">
-      <article class="tn-article">
+      <article class="tn-article" itemscope itemtype="http://schema.org/BlogPosting">
         <header class="tn-header">
           <h1 class="tn-post-title">${title}</h1>
-          <p class="tn-date">${articleDateService.format(date, lang)}</p>
+          ${articleDateService.buildMarkup(date, lang)}
         </header>
         ${article}
         <footer class="tn-footer">
