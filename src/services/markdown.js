@@ -1,5 +1,5 @@
 const hljs = require('highlight.js');
-const marked = require('marked');
+const { marked } = require('marked');
 
 const _public = {};
 
