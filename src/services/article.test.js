@@ -25,6 +25,25 @@ describe('Articles Service', () => {
     );
   });
 
+  it('should copy relative videos to assets directory and update its source in markup', () => {
+    const filepaths = [path.join(__dirname, '../mocks/videos.md')];
+    const { outputDirectory } = configService.get();
+    const [postData] = postsService.buildData(filepaths);
+    const { article } = articleService.build(postData);
+    const expectedFilename1 = 'commit-drop_720-09a0ccc709a17980d75d18010411d100.mp4';
+    const expectedFilename2 = 'commit-rename_720-4b4c472f211eefbafeb0d04ad0314476.mp4';
+    expect(article).toContain(`<source src="../a/${expectedFilename1}" type="video/mp4">`);
+    expect(article).toContain(`<video src="../a/${expectedFilename2}" width="720" height="498">`);
+    expect(fileService.copySync).toHaveBeenCalledWith(
+      `${path.join(__dirname, '../mocks/commit-drop_720.mp4')}`,
+      `${outputDirectory}/a/${expectedFilename1}`
+    );
+    expect(fileService.copySync).toHaveBeenCalledWith(
+      `${path.join(__dirname, '../mocks/commit-rename_720.mp4')}`,
+      `${outputDirectory}/a/${expectedFilename2}`
+    );
+  });
+
   it('should See All Posts link point to root if blog contains just one language', () => {
     const filepaths = [path.join(__dirname, '../mocks/images.md')];
     const [postData] = postsService.buildData(filepaths);

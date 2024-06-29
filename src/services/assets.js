@@ -1,6 +1,6 @@
 const md5 = require('md5');
 const path = require('path');
-const { ASSETS_DIRECTORY_NAME } = require('../constants/assets');
+const { ASSETS_DIRECTORY_NAME, ELEMENTS_TO_PARSE } = require('../constants/assets');
 const domService = require('./dom');
 const configService = require('./config');
 const minifyService = require('./minify');
@@ -15,9 +15,8 @@ _public.save = filepath => handle(filepath, () => saveAsset(filepath));
 _public.copy = filepath => handle(filepath, () => copyAsset(filepath));
 
 _public.handleRelativeAssets = (htmlString, { baseDir, assetsDirPrefix }) => {
-  const elements =  getElementsToParseRelativePathFor();
   const $ = domService.parseHTMLString(htmlString);
-  elements.forEach(({ selector, attr }) => {
+  ELEMENTS_TO_PARSE.forEach(({ selector, attr }) => {
     $(selector).filter((index, el) => isRelativeAsset($(el).attr(attr))).each((index, el) => {
       const filename = _public.copy(buildLocalAssetFilepath(baseDir, $(el).attr(attr)));
       $(el).attr(attr, assetsDirPrefix + `${ASSETS_DIRECTORY_NAME}/${filename}`);
@@ -67,17 +66,6 @@ function identifyFile(filepath){
   const file = minifyService.minifyByFilepath(filepath);
   const filename = `${name}-${md5(file)}.${extension}`;
   return { filename, file, extension };
-}
-
-function getElementsToParseRelativePathFor(){
-  return [
-    { selector: 'img', attr: 'src' },
-    { selector: 'link[rel="stylesheet"]', attr: 'href' },
-    { selector: 'link[rel="icon"]', attr: 'href' },
-    { selector: 'link[rel="apple-touch-icon"]', attr: 'href' },
-    { selector: 'meta[property="og:image"]', attr: 'content' },
-    { selector: 'script', attr: 'src' }
-  ];
 }
 
 function getAssetsDirectoryFilepath(){
