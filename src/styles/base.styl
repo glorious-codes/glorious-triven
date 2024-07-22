@@ -41,21 +41,29 @@ blockquote
   border-left 1px solid $color-grey
   box-sizing border-box
 
+code,
 pre,
 p > code
   background-color $color-grey-lighter
   font-size 0.777777777777778rem
   border-radius 6px
 
-pre
-  padding 16px
-  overflow auto
-
+code,
 p > code
   position relative
   top -1px
   padding 3px 6px
   border 1px solid $color-grey-light
+
+pre
+  padding 16px
+  overflow auto
+  code
+    top 0
+    padding 0
+    background-color transparent
+    border 0
+    border-radius 0
 
 .tn-main
   margin 100px auto
