@@ -10,19 +10,19 @@
   --tn-color-darkest          : #231C33;
   --tn-color-lightest         : #FFFFFF;
   /* CODE COLORS */
-  --tn-color-code-keyword     : #D73A49;
+  --tn-color-code-keyword     : #D53040;
   --tn-color-code-entity      : #6F42C1;
   --tn-color-code-constant    : #005CC5;
   --tn-color-code-string      : #032F62;
-  --tn-color-code-variable    : #E36209;
+  --tn-color-code-variable    : #BA4F08;
   --tn-color-code-comment     : #6A737D;
-  --tn-color-code-tag         : #22863A;
+  --tn-color-code-tag         : #218337;
   --tn-color-code-import      : #24292E;
   --tn-color-code-heading     : #005CC5;
   --tn-color-code-list        : #735C0F;
   --tn-color-code-italic      : #24292E;
   --tn-color-code-bold        : #24292E;
-  --tn-color-code-inserted    : #22863A;
+  --tn-color-code-inserted    : #218337;
   --tn-color-code-inserted-bg : #F0FFF4;
   --tn-color-code-deleted     : #B31D28;
   --tn-color-code-deleted-bg  : #FFEEF0;
