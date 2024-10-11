@@ -31,13 +31,10 @@ However, you can override the default configuration values used to build your bl
 
 module.exports = {
   title: 'Your Blog Title',
-  // Used as browser window title on homepage.
+  // [Required] Used as browser window title on homepage.
   // Default: Triven.
-  lang: 'pt-BR',
-  // Used as default language for articles and homepage.
-  // Default: en-US.
   url: 'https://rafaelcamargo.com/blog',
-  // Production URL where the blog will be deployed to.
+  // [Required ]Production URL where the blog will be deployed to.
   // Used to build absolute URLs on RSS Feeds.
   sourceDirectory: './posts',
   // Directory where triven will look for markdown files.
@@ -45,6 +42,17 @@ module.exports = {
   outputDirectory: './dist',
   // Directory where the final files will be saved.
   // Default: './triven'.
+  lang: 'pt-BR',
+  // Used as default language for articles and homepage.
+  // Default: en-US.
+  homepagePostIntroType: 'description'
+  // Content to be used as post introduction on homepage.
+  // Options:
+  // 1. Post Excerpt: 'excerpt'
+  // 2. Post Description: 'description'
+  // Default: 'excerpt'.
+  // Note: Excerpts are automatically generated using
+  // the first 340 characters of the post body.
   templates: {
     article: './some/path/to/article/template.html',
     // You can optionally set an HTML file as template for articles

@@ -65,7 +65,8 @@ function buildDefaultConfig(){
     title: 'Triven',
     lang: 'en-US',
     sourceDirectory: rootDirectory,
-    outputDirectory: `${rootDirectory}/triven`
+    outputDirectory: `${rootDirectory}/triven`,
+    homepagePostIntroType: 'excerpt'
   };
 }
 

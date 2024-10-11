@@ -1,3 +1,4 @@
+const { EXCERPT, DESCRIPTION } = require('../constants/postIntroTypes');
 const configService = require('./config');
 const articleDateService = require('./article-date');
 const domService = require('./dom');
@@ -37,7 +38,7 @@ function buildPostList(posts, page, postHrefPrefix = '', lang){
             </h2>
             ${articleDateService.buildMarkup(post.date, post.lang)}
           </header>
-          <p>${post.excerpt}</p>
+          <p>${buildPostIntroduction(post)}</p>
           <footer class="tn-footer">
             <a href="${href}" ${handleLinkAttrs(post)} class="tn-read-more-link">
               ${translations.readMore}<span class="tn-screen-reader-only">: ${post.title}</span>
@@ -52,6 +53,11 @@ function buildPostList(posts, page, postHrefPrefix = '', lang){
 
 function handleSectionLangAttribute(language, postLang){
   return language !== postLang ? `lang="${postLang}"` : '';
+}
+
+function buildPostIntroduction(post){
+  const type = configService.get().homepagePostIntroType;
+  return type == DESCRIPTION ? post[DESCRIPTION] : post[EXCERPT];
 }
 
 function handleFooter(page, total, translations){

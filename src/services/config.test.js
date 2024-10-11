@@ -32,7 +32,8 @@ describe('Config Service', () => {
       title: 'Triven',
       lang: 'en-US',
       sourceDirectory: process.cwd(),
-      outputDirectory: `${process.cwd()}/triven`
+      outputDirectory: `${process.cwd()}/triven`,
+      homepagePostIntroType: 'excerpt'
     });
   });
 
@@ -46,7 +47,8 @@ describe('Config Service', () => {
       title: 'Triven',
       lang: 'en-US',
       sourceDirectory: process.cwd(),
-      outputDirectory: `${process.cwd()}/triven`
+      outputDirectory: `${process.cwd()}/triven`,
+      homepagePostIntroType: 'excerpt'
     });
   });
 
@@ -56,7 +58,8 @@ describe('Config Service', () => {
       title: 'My Title',
       lang: 'pt-BR',
       sourceDirectory: `${process.cwd()}/src`,
-      outputDirectory: `${process.cwd()}/blog`
+      outputDirectory: `${process.cwd()}/blog`,
+      homepagePostIntroType: 'excerpt'
     });
   });
 
@@ -66,7 +69,8 @@ describe('Config Service', () => {
       title: 'Triven',
       lang: 'en-US',
       sourceDirectory: process.cwd(),
-      outputDirectory: `${process.cwd()}/triven`
+      outputDirectory: `${process.cwd()}/triven`,
+      homepagePostIntroType: 'excerpt'
     });
   });
 

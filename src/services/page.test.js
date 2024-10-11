@@ -101,6 +101,60 @@ describe('Page Service', () => {
     });
   });
 
+  it('should optionally build a page using the description of the given posts', done => {
+    const title = 'Test Blog';
+    mockTrivenConfig({ title, homepagePostIntroType: 'description' });
+    const postSumary = {
+      title: 'Debouncing requests with React Query',
+      date: '2023-02-24',
+      url: 'https://rafaelcamargo.com/deboucing-requests-with-react-query',
+      lang: 'en-US',
+      description: 'Sooner or later, every application ends up needing to implement a debouncing strategy in some parts of its code to avoid noisy events. Learn how to prevent unnecessary requests with one of the most popular libraries of the React ecosystem.',
+      excerpt: 'Unnecessary requests generate an overload that charges a high price from those who serve data as well as from those who consume them, since both parts waste resources transmitting data that won\'t be used. One of the most popular strategies to avoid unnecessary requests is called debouncing. According to the Wiktionary, the term joins de + bounce bounce and means: to discard events or signals that should not be processed because they occurred too close together.'
+    };
+    buildPage([postSumary], { page: 1, total: 1 }, page => {
+      expect(page).toEqual(domService.minifyHTML(`
+        <!DOCTYPE html>
+        <html lang="en-US">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+            <link rel="stylesheet" href="a/triven-${getExpectedTrivenStylesheetHash()}.css">
+            <title>${title}</title>
+          </head>
+          <body>
+            <main class="tn-main">
+              <ul class="tn-post-list">
+                <li>
+                  <article itemscope itemtype="http://schema.org/BlogPosting">
+                    <header class="tn-header">
+                      <h2 class="tn-post-title"><a href="https://rafaelcamargo.com/deboucing-requests-with-react-query">Debouncing requests with React Query</a></h2>
+                      <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2023-02-24">2/24/2023</time>
+                    </header>
+                    <p>Sooner or later, every application ends up needing to implement a debouncing strategy in some parts of its code to avoid noisy events. Learn how to prevent unnecessary requests with one of the most popular libraries of the React ecosystem.</p>
+                    <footer class="tn-footer">
+                      <a href="https://rafaelcamargo.com/deboucing-requests-with-react-query" class="tn-read-more-link">
+                        Read more<span class="tn-screen-reader-only">: Debouncing requests with React Query</span>
+                      </a>
+                    </footer>
+                  </article>
+                </li>
+              </ul>
+            </main>
+            <div class="tn-settings">
+              <div class="tn-settings-content">
+                <div class="tn-settings-rss-feed">
+                  <a href="./feed.atom">RSS Feed</a>
+                </div>
+              </div>
+            </div>
+          </body>
+        </html>
+      `));
+      done();
+    });
+  });
+
   it('should optionally prefix assets href in the html', done => {
     const hrefPrefixes = { asset: '../../../../' };
     buildPage(postsMock, { page: 2, total: 2, hrefPrefixes }, page => {
