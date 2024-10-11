@@ -11,10 +11,11 @@ const _public = {};
 let baseFilename;
 
 _public.buildBaseStyle = (outputDirectory, onComplete) => {
+  const cssVars = fileService.readSync(path.join(__dirname, '../styles/vars.css'));
   const hljsStyles = fileService.readSync(path.join(__dirname, '../styles/hljs.css'));
   const styles = fileService.readSync(path.join(__dirname, '../styles/base.styl'));
   stylus(styles).render((err, css) => {
-    const data = minifyService.minifyCSS(`${hljsStyles}\n${css}`);
+    const data = minifyService.minifyCSS([cssVars, hljsStyles, css].join('\n'));
     fileService.write(`${outputDirectory}/${buildBaseFilename(data)}`, data);
     onComplete && onComplete();
   });

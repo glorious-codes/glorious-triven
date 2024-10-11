@@ -9,7 +9,7 @@ _public.mockTrivenConfig = customConfig => {
 };
 
 _public.getExpectedTrivenStylesheetHash = () => {
-  return '806e3ebccb3737bcb574e481b48f2400';
+  return '10eb31b94e6b8ce543161b888214ebb7';
 };
 
 function buildFilesMock(customConfig){

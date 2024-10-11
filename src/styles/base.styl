@@ -1,13 +1,3 @@
-// Colors
-$color-grey-lighter = #F6F8FA
-$color-grey-light   = #DFE3E8
-$color-grey         = #C4CDD5
-$color-grey-dark    = #627380
-$color-blue-lighter = #E6EFFF
-$color-blue         = #1F69FF
-$color-darkest      = #231C33
-
-// Spacing
 $main-padding = 30px
 $main-width = 600px
 
@@ -17,7 +7,7 @@ body
   padding 0
   font-size 18px
   font-family Helvetica, Arial, sans-serif
-  color $color-darkest
+  color var(--tn-color-darkest)
   line-height 1.4
 
 h1, h2, h3, h4, h5, h6
@@ -31,20 +21,20 @@ p
    margin-top 30px
 
 a
- color $color-blue
+ color var(--tn-color-blue)
 
 blockquote
   margin 60px 0
   padding-left 30px
   font-family Georgia, serif
   font-style italic
-  border-left 1px solid $color-grey
+  border-left 1px solid var(--tn-color-gray)
   box-sizing border-box
 
 code,
 pre,
 p > code
-  background-color $color-grey-lighter
+  background-color var(--tn-color-gray-lightest)
   font-size 0.777777777777778rem
   border-radius 6px
 
@@ -53,7 +43,7 @@ p > code
   position relative
   top -1px
   padding 3px 6px
-  border 1px solid $color-grey-light
+  border 1px solid var(--tn-color-gray-light)
 
 pre
   padding 16px
@@ -110,7 +100,7 @@ pre
   letter-spacing -1px
   line-height 1
   a
-    color $color-darkest
+    color var(--tn-color-darkest)
     text-decoration none
     line-height 1
     border-bottom 0
@@ -119,20 +109,20 @@ pre
     &:focus,
     &:active,
     &:visited
-      color $color-darkest
+      color var(--tn-color-darkest)
 
 .tn-date
   display block
   margin-top 10px
-  color $color-grey-dark
+  color var(--tn-color-gray-dark)
   font-size 0.833333333333333rem
 
 .tn-post-title, .tn-date
   text-align center
 
 .tn-settings
-  background-color $color-grey-lighter
-  border-top 1px solid alpha($color-grey-light, .5)
+  background-color var(--tn-color-gray-lightest)
+  border-top 1px solid var(--tn-color-gray-lighter)
 
 .tn-settings-content
   display flex
@@ -153,11 +143,11 @@ pre
     outline 0
     .tn-settings-list-showing-trigger
       padding 16px 42px 16px 15px
-      background-color $color-grey-light
-      color $color-darkest
+      background-color var(--tn-color-gray-light)
+      color var(--tn-color-darkest)
       &:after
         right 15px
-        border-color $color-darkest
+        border-color var(--tn-color-darkest)
         transform rotate(-135deg)
     .tn-settings-list
       top -5px
@@ -172,7 +162,7 @@ pre
   position relative
   padding 16px 32px 16px 5px
   background-color transparent
-  color $color-grey-dark
+  color var(--tn-color-gray-dark)
   font-size 0.777777777777778rem
   border 0
   border-radius 4px
@@ -186,7 +176,7 @@ pre
     width 6px
     height 6px
     border-style solid
-    border-color $color-grey-dark
+    border-color var(--tn-color-gray-dark)
     border-width 0 1px 1px 0
     transform-origin 5px 5px
     transform rotate(45deg)
@@ -220,7 +210,7 @@ pre
   height 0
   list-style-type none
   background-color #FFF
-  border 1px solid $color-grey-light
+  border 1px solid var(--tn-color-gray-light)
   border-radius 4px
   opacity 0
   transform translateY(-100%)
@@ -228,7 +218,7 @@ pre
   overflow hidden
   li
     &:not(:first-child)
-      border-top 1px solid $color-grey-light
+      border-top 1px solid var(--tn-color-gray-light)
   a
     display inline-block
     padding 18px 10px
@@ -239,7 +229,7 @@ pre
     border 0
     &:hover,
     &:focus
-      background-color $color-blue-lighter
+      background-color var(--tn-color-blue-lighter)
 
 .tn-settings-rss-feed
   .tn-settings-list
