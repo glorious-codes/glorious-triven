@@ -8,6 +8,7 @@ module.exports = {
     { selector: 'meta[property="og:image"]', attr: 'content' },
     { selector: 'script', attr: 'src' },
     { selector: 'video', attr: 'src' },
-    { selector: 'source', attr: 'src' }
+    { selector: 'source', attr: 'src' },
+    { selector: 'source', attr: 'srcset' }
   ]
 };

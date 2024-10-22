@@ -44,6 +44,26 @@ describe('Articles Service', () => {
     );
   });
 
+  it('should copy relative webp images to assets directory and update its source in markup', () => {
+    const filepaths = [path.join(__dirname, '../mocks/webp.md')];
+    const { outputDirectory } = configService.get();
+    const [postData] = postsService.buildData(filepaths);
+    const { article } = articleService.build(postData);
+    const expectedFilename1 = 'recherchez-085e95e66df37411335e9f1cc8b74ed3.webp';
+    const expectedFilename2 = 'recherchez-ca5536576fd5b8542f84af0a32ad8821.png';
+    expect(article).toContain(`<source srcset="../a/${expectedFilename1}" type="image/webp">`);
+    expect(article).toContain(`<source srcset="../a/${expectedFilename2}" type="image/png">`);
+    expect(article).toContain(`<img alt="alt" src="../a/${expectedFilename2}">`);
+    expect(fileService.copySync).toHaveBeenCalledWith(
+      `${path.join(__dirname, '../mocks/recherchez.webp')}`,
+      `${outputDirectory}/a/${expectedFilename1}`
+    );
+    expect(fileService.copySync).toHaveBeenCalledWith(
+      `${path.join(__dirname, '../mocks/recherchez.png')}`,
+      `${outputDirectory}/a/${expectedFilename2}`
+    );
+  });
+
   it('should See All Posts link point to root if blog contains just one language', () => {
     const filepaths = [path.join(__dirname, '../mocks/images.md')];
     const [postData] = postsService.buildData(filepaths);
