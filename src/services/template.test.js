@@ -127,7 +127,7 @@ describe('Template Service', () => {
           <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
         </head>
         <body>
-          <h1>My Custom Article Title</h1>
+          <header>Custom Article Header</header>
           {{ triven:article }}
         </body>
       </html>

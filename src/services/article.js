@@ -7,6 +7,9 @@ const markdownService = require('./markdown');
 const templateService = require('./template');
 const translationService = require('./translation');
 
+const ARTICLE_VAR_NAME = 'triven:article';
+const FOOTER_VAR_NAME = 'triven:footer';
+
 const _public = {};
 
 _public.build = ({ filepath, summary, markdownText }, languages = []) => {
@@ -27,13 +30,22 @@ _public.build = ({ filepath, summary, markdownText }, languages = []) => {
 };
 
 function fillTemplate(template, article, summary, languages){
-  const $ = parseHTMLString(templateService.replaceVar(template, 'triven:article', wrapArticle(summary, article, languages)));
+  const htmlString = replaceTemplateVars(template, article, summary, languages);
+  const $ = parseHTMLString(htmlString);
   $('html').attr('lang', summary.lang);
   $('head').append(`<title>${summary.title}</title>`).append(buildMetaTags(summary));
   return $.html();
 }
 
-function wrapArticle({ title, date, lang }, article, languages){
+function replaceTemplateVars(template, article, summary, languages){
+  const htmlString = templateService.replaceVar(template, ARTICLE_VAR_NAME, wrapArticle(summary, article));
+  const footerHtmlString = buildFooter(languages, summary.lang);
+  return template.includes(FOOTER_VAR_NAME) ?
+    templateService.replaceVar(htmlString, FOOTER_VAR_NAME, footerHtmlString) :
+    htmlString.replace('</article>', `${footerHtmlString}</article>`);
+}
+
+function wrapArticle({ title, date, lang }, article){
   return `
     <main class="tn-main">
       <article class="tn-article" itemscope itemtype="http://schema.org/BlogPosting">
@@ -42,11 +54,16 @@ function wrapArticle({ title, date, lang }, article, languages){
           ${articleDateService.buildMarkup(date, lang)}
         </header>
         ${article}
-        <footer class="tn-footer">
-          ${buildSeeAllPostsLink(languages, lang)}
-        </footer>
       </article>
     </main>
+  `;
+}
+
+function buildFooter(languages, lang){
+  return `
+    <footer class="tn-footer">
+      ${buildSeeAllPostsLink(languages, lang)}
+    </footer>
   `;
 }
 

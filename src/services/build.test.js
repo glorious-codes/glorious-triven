@@ -7,7 +7,7 @@ const dateService = require('./date');
 const domService = require('./dom');
 const homepageService = require('./homepage');
 const postsService = require('./posts');
-const { getExpectedTrivenStylesheetHash } = require('./testing');
+const { mockTrivenConfig, getExpectedTrivenStylesheetHash } = require('./testing');
 const buildService = require('./build');
 
 describe('Build Service', () => {
@@ -80,6 +80,111 @@ describe('Build Service', () => {
     const { sourceDirectory, outputDirectory } = configService.get();
     buildService.init(() => {
       expect(fileService.write).not.toHaveBeenCalledWith(`${sourceDirectory}/hello-world.md`, expect.any(String));
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year/index.html`, data);
+      done();
+    });
+  });
+
+  it('should optionally use a custom article template', done => {
+    mockTrivenConfig({
+      templates: {
+        article: './src/mocks/custom-article.html'
+      }
+    });
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock()]));
+    const data = domService.minifyHTML(`
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+    <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
+    <title>New year!</title>
+    <meta name="description" content="This is a simple description.">
+    <meta name="keywords" content="new year, réveillon">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:title" content="New year!">
+    <meta property="og:description" content="This is a simple description.">
+  </head>
+  <body>
+    <header>Custom Article Header</header>
+    <main class="tn-main">
+      <article class="tn-article" itemscope itemtype="http://schema.org/BlogPosting">
+        <header class="tn-header">
+          <h1 class="tn-post-title">New year!</h1>
+          <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2022-01-01">
+            1/1/2022
+          </time>
+        </header>
+        <p>Happy new year!</p>
+        <h2>What to do next</h2>
+        <p>I don't know</p>
+        <h3>Really?</h3>
+        <p>Yes.</p>
+        <footer class="tn-footer">
+          <a href="../">See all posts</a>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
+`.trim());
+    const { outputDirectory } = configService.get();
+    buildService.init(() => {
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year/index.html`, data);
+      done();
+    });
+  });
+
+  it('should optionally customize article footer', done => {
+    mockTrivenConfig({
+      templates: {
+        article: './src/mocks/custom-footer-article.html'
+      }
+    });
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock()]));
+    const data = domService.minifyHTML(`
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+    <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
+    <title>New year!</title>
+    <meta name="description" content="This is a simple description.">
+    <meta name="keywords" content="new year, réveillon">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:title" content="New year!">
+    <meta property="og:description" content="This is a simple description.">
+  </head>
+  <body>
+    <header>Wrapping footer</header>
+    <main class="tn-main">
+      <article class="tn-article" itemscope itemtype="http://schema.org/BlogPosting">
+        <header class="tn-header">
+          <h1 class="tn-post-title">New year!</h1>
+          <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2022-01-01">
+            1/1/2022
+          </time>
+        </header>
+        <p>Happy new year!</p>
+        <h2>What to do next</h2>
+        <p>I don't know</p>
+        <h3>Really?</h3>
+        <p>Yes.</p>
+      </article>
+    </main>
+    <div>Content between post and navigation</div>
+    <div class="custom-footer">
+      <footer class="tn-footer">
+        <a href="../">See all posts</a>
+      </footer>
+    </div>
+  </body>
+</html>
+`.trim());
+    const { outputDirectory } = configService.get();
+    buildService.init(() => {
       expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year/index.html`, data);
       done();
     });

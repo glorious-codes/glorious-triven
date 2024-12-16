@@ -151,6 +151,9 @@ You can define your own HTML to be used as template for homepage and article. Ju
 </html>
 ```
 
+- `triven:posts`: List of posts.
+- `triven:settings`: Language and RSS selectors (for multi-language blogs).
+
 #### Article
 
 ``` html
@@ -159,9 +162,13 @@ You can define your own HTML to be used as template for homepage and article. Ju
   <head></head>
   <body>
     {{ triven:article }}
+    {{ triven:footer }}
   </body>
 </html>
 ```
+
+- `triven:article`: Post content.
+- `triven:footer`: Container for the "See all posts" link.
 
 You can optionally set variables in your templates to be replaced in build time. To do so, you need define them as key/value pairs in your `triven.config.js`, and reference them in your template HTML file as follow:
 
