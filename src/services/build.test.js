@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const articleService = require('./article');
+const assetsService = require('./assets');
 const { fileService } = require('./file');
 const configService = require('./config');
 const dateService = require('./date');
@@ -11,8 +12,8 @@ const { mockTrivenConfig, getExpectedTrivenStylesheetHash } = require('./testing
 const buildService = require('./build');
 
 describe('Build Service', () => {
-  function buildPathToMarkdownMock(){
-    return path.join(__dirname, '../mocks/new-year.md');
+  function buildPathToMarkdownMock(filename = 'new-year.md'){
+    return path.join(__dirname, `../mocks/${filename}`);
   }
 
   beforeEach(() => {
@@ -20,6 +21,10 @@ describe('Build Service', () => {
     fileService.write = jest.fn((path, data, onSuccess) => onSuccess && onSuccess());
     fileService.copySync = jest.fn();
     homepageService.build = jest.fn();
+  });
+
+  afterEach(() => {
+    assetsService.flushCache();
   });
 
   it('should create a demo post if no markdown files have been found on source directory', done => {
@@ -81,6 +86,99 @@ describe('Build Service', () => {
     buildService.init(() => {
       expect(fileService.write).not.toHaveBeenCalledWith(`${sourceDirectory}/hello-world.md`, expect.any(String));
       expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/new-year/index.html`, data);
+      done();
+    });
+  });
+
+  it('should optionally set an image for the article', done => {
+    mockTrivenConfig({ url: 'https://rafaelcamargo.com/blog' });
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock('social-image-article.md')]));
+    const data = domService.minifyHTML(`
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
+    <title>Social Image Article</title>
+    <meta name="description" content="This is a sample article featuring a social image." />
+    <meta name="keywords" content="article, social, image" />
+    <meta name="twitter:card" content="summary">
+    <meta property="og:title" content="Social Image Article" />
+    <meta property="og:description" content="This is a sample article featuring a social image." />
+    <meta name="twitter:image" content="https://rafaelcamargo.com/blog/a/social-image-3c01781393bb06e25f224a87d0d3dbb7.png" />
+    <meta property="og:image" content="https://rafaelcamargo.com/blog/a/social-image-3c01781393bb06e25f224a87d0d3dbb7.png" />
+  </head>
+  <body>
+    <main class="tn-main">
+      <article class="tn-article" itemscope itemtype="http://schema.org/BlogPosting">
+        <header class="tn-header">
+          <h1 class="tn-post-title">Social Image Article</h1>
+          <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2025-01-17">
+            1/17/2025
+          </time>
+        </header>
+        <p>Trying out an optional social image.</p>
+        <p>
+          <img src="../a/social-image-3c01781393bb06e25f224a87d0d3dbb7.png" alt="social image" />
+        </p>
+        <footer class="tn-footer">
+          <a href="../">See all posts</a>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
+`).trim();
+    const { outputDirectory } = configService.get();
+    buildService.init(() => {
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/social-image-article/index.html`, data);
+      done();
+    });
+  });
+
+  it('should optionally set an image alt for the article', done => {
+    mockTrivenConfig({ url: 'https://rafaelcamargo.com/blog' });
+    fileService.collect = jest.fn((pattern, onSuccess) => onSuccess([buildPathToMarkdownMock('social-image-alt-article.md')]));
+    const data = domService.minifyHTML(`
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <link rel="stylesheet" href="../a/triven-${getExpectedTrivenStylesheetHash()}.css">
+    <title>Social Image Alt Article</title>
+    <meta name="description" content="This is a sample article featuring a social alt image." />
+    <meta name="keywords" content="article, social, alt image" />
+    <meta name="twitter:card" content="summary">
+    <meta property="og:title" content="Social Image Alt Article" />
+    <meta property="og:description" content="This is a sample article featuring a social alt image." />
+    <meta name="twitter:image" content="https://rafaelcamargo.com/blog/a/social-image-3c01781393bb06e25f224a87d0d3dbb7.png" />
+    <meta property="og:image" content="https://rafaelcamargo.com/blog/a/social-image-3c01781393bb06e25f224a87d0d3dbb7.png" />
+    <meta property="og:image:alt" content="The text social image in white on a black background" />
+  </head>
+  <body>
+    <main class="tn-main">
+      <article class="tn-article" itemscope itemtype="http://schema.org/BlogPosting">
+        <header class="tn-header">
+          <h1 class="tn-post-title">Social Image Alt Article</h1>
+          <time class="tn-date" itemprop="dateCreated pubdate datePublished" datetime="2025-01-17">
+            1/17/2025
+          </time>
+        </header>
+        <p>Trying out an optional social alt image.</p>
+        <footer class="tn-footer">
+          <a href="../">See all posts</a>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
+`).trim();
+    const { outputDirectory } = configService.get();
+    buildService.init(() => {
+      expect(fileService.copySync).toHaveBeenCalledWith(path.join(__dirname, '../mocks/social-image.png'), `${outputDirectory}/a/social-image-3c01781393bb06e25f224a87d0d3dbb7.png`);
+      expect(fileService.write).toHaveBeenCalledWith(`${outputDirectory}/social-image-alt-article/index.html`, data);
       done();
     });
   });

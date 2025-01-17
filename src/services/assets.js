@@ -18,11 +18,16 @@ _public.handleRelativeAssets = (htmlString, { baseDir, assetsDirPrefix }) => {
   const $ = domService.parseHTMLString(htmlString);
   ELEMENTS_TO_PARSE.forEach(({ selector, attr }) => {
     $(selector).filter((index, el) => isRelativeAsset($(el).attr(attr))).each((index, el) => {
-      const filename = _public.copy(buildLocalAssetFilepath(baseDir, $(el).attr(attr)));
-      $(el).attr(attr, assetsDirPrefix + `${ASSETS_DIRECTORY_NAME}/${filename}`);
+      const filepath = _public.handleRelativeAsset({ baseDir, filename: $(el).attr(attr) });
+      $(el).attr(attr, assetsDirPrefix + filepath);
     });
   });
   return $.html();
+};
+
+_public.handleRelativeAsset = ({ baseDir, filename }) => {
+  const hashedFilename = _public.copy(buildLocalAssetFilepath(baseDir, filename));
+  return `${ASSETS_DIRECTORY_NAME}/${hashedFilename}`;
 };
 
 _public.flushCache = () => {

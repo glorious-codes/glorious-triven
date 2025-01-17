@@ -110,11 +110,13 @@ You can prefix your Markdown articles with a header containing some metadata:
 |------|-------------|---------------|
 | title | Title for your post | Untitled |
 | lang | Language which your article is written in | language set on `triven.config.js` or en-US |
-| date | Date expressed according to ISO 8601 (YYYY-MM-DD) |  |
-| description | A brief description of your post (used in HTML meta tags) |  |
-| keywords | Keywords for your post (used in HTML meta tags) |  |
-| unlisted | Set as `true` to keep the post out of homepages |  |
-| externalUrl | URL for a post published in an external website |  |
+| date | Date expressed according to ISO 8601 (YYYY-MM-DD) | None |
+| description | A brief description of your post (used in HTML meta tags) | None |
+| keywords | Keywords for your post (used in HTML meta tags) | None |
+| image | Relative path to an image to be used on social media | None |
+| imageAlt | Description for the image to be used on social media | None |
+| unlisted | Set as `true` to keep the post out of homepages | None |
+| externalUrl | URL for a post published in an external website | None |
 | excerpt | An optional text representing the first paragraphs of your post | First 340 chars of your post |
 
 **Important:** Do not forget to separate your article from its metadata with three dashes.
@@ -128,6 +130,8 @@ title: Hello World!
 date: 2021-08-20
 description: Saying hello to the world.
 keywords: hello, world
+image: ./greeting.png
+imageAlt: A person waving hands
 
 ---
 

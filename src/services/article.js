@@ -78,13 +78,22 @@ function buildMetaTags({ unlisted, ...rest }){
   return unlisted ? `${baseMetaTags} ${buildRobotsMetaTags()}` : baseMetaTags;
 }
 
-function buildBaseMetaTags({ title, description = '', keywords = '' }){
-  return `
+function buildBaseMetaTags({ title, description = '', keywords = '', image, imageAlt }){
+  const tags = `
     <meta name="description" content="${description}">
     <meta name="keywords" content="${keywords}">
     <meta name="twitter:card" content="summary">
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${description}">`;
+  return image ? appendImageMetaTags(tags, image, imageAlt) : tags;
+}
+
+function appendImageMetaTags(tags, imageUrl, imageAlt){
+  const baseImageTag = `
+    ${tags}
+    <meta name="twitter:image" content="${imageUrl}" />
+    <meta property="og:image" content="${imageUrl}" />`;
+  return imageAlt ? `${baseImageTag} <meta property="og:image:alt" content="${imageAlt}" />` : baseImageTag;
 }
 
 function buildRobotsMetaTags(){
